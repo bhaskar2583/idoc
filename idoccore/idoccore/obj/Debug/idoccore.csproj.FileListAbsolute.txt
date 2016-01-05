@@ -1,0 +1,5 @@
+F:\Vijay_F_Drive\idoc\idoccore\idoccore\bin\Debug\idoccore.dll
+F:\Vijay_F_Drive\idoc\idoccore\idoccore\bin\Debug\idoccore.pdb
+F:\Vijay_F_Drive\idoc\idoccore\idoccore\obj\Debug\idoccore.csprojResolveAssemblyReference.cache
+F:\Vijay_F_Drive\idoc\idoccore\idoccore\obj\Debug\idoccore.dll
+F:\Vijay_F_Drive\idoc\idoccore\idoccore\obj\Debug\idoccore.pdb

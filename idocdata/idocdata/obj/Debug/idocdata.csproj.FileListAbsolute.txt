@@ -1,0 +1,7 @@
+F:\Vijay_F_Drive\idoc\idocdata\idocdata\bin\Debug\idocdata.dll
+F:\Vijay_F_Drive\idoc\idocdata\idocdata\bin\Debug\idocdata.pdb
+F:\Vijay_F_Drive\idoc\idocdata\idocdata\obj\Debug\idocdata.dll
+F:\Vijay_F_Drive\idoc\idocdata\idocdata\obj\Debug\idocdata.pdb
+F:\Vijay_F_Drive\idoc\idocdata\idocdata\bin\Debug\idoccore.dll
+F:\Vijay_F_Drive\idoc\idocdata\idocdata\bin\Debug\idoccore.pdb
+F:\Vijay_F_Drive\idoc\idocdata\idocdata\obj\Debug\idocdata.csprojResolveAssemblyReference.cache
