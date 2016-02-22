@@ -5,3 +5,10 @@ F:\Vijay_F_Drive\idoc\idocdata\idocdata\obj\Debug\idocdata.pdb
 F:\Vijay_F_Drive\idoc\idocdata\idocdata\bin\Debug\idoccore.dll
 F:\Vijay_F_Drive\idoc\idocdata\idocdata\bin\Debug\idoccore.pdb
 F:\Vijay_F_Drive\idoc\idocdata\idocdata\obj\Debug\idocdata.csprojResolveAssemblyReference.cache
+E:\Projects\idoc\idocdata\idocdata\bin\Debug\idocdata.dll
+E:\Projects\idoc\idocdata\idocdata\bin\Debug\idocdata.pdb
+E:\Projects\idoc\idocdata\idocdata\bin\Debug\idoccore.dll
+E:\Projects\idoc\idocdata\idocdata\bin\Debug\idoccore.pdb
+E:\Projects\idoc\idocdata\idocdata\obj\Debug\idocdata.csprojResolveAssemblyReference.cache
+E:\Projects\idoc\idocdata\idocdata\obj\Debug\idocdata.dll
+E:\Projects\idoc\idocdata\idocdata\obj\Debug\idocdata.pdb
