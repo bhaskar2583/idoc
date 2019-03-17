@@ -34,6 +34,9 @@ namespace HanysProductManagement.Web.DependencyResolution {
 
             For<ICarrierRepository>().Use<CarrierRepository>();
             For<ICarrierService>().Use<CarrierService>();
+
+            For<IPolicyRepository>().Use<PolicyRepository>();
+            For<IPolicyService>().Use<PolicyService>();
         }
 
         #endregion

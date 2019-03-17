@@ -64,9 +64,8 @@ namespace HanysProductManagement.Web.Controllers
         public ActionResult EditCareerDetails(int id, CarrierModel obj)
         {
             try
-            {
-                //EmpRepository EmpRepo = new EmpRepository();
-                //EmpRepo.UpdateEmployee(obj);
+            {               
+                _carrierService.ModifyCarrier(obj);
                 return RedirectToAction("Index");
             }
             catch

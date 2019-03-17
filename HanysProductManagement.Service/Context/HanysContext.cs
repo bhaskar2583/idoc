@@ -20,6 +20,7 @@ namespace HanysProductManagement.Service.Context
         }
 
         public virtual DbSet<Carriers> Carriers { get; set; }
+        public virtual DbSet<Policy> Policies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,6 +35,15 @@ namespace HanysProductManagement.Service.Context
             modelBuilder.HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity<Carriers>(entity =>
+            {
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<Policy>(entity =>
             {
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 

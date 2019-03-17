@@ -4,3 +4,9 @@ C:\stash\work\Krishna\HanysProductManagement.Web\HanysProductManagement.Core\obj
 C:\stash\work\Krishna\HanysProductManagement.Web\HanysProductManagement.Core\obj\Debug\HanysProductManagement.Core.dll
 C:\stash\work\Krishna\HanysProductManagement.Web\HanysProductManagement.Core\obj\Debug\HanysProductManagement.Core.pdb
 C:\stash\work\Krishna\HanysProductManagement.Web\HanysProductManagement.Core\obj\Debug\HanysProductManagement.Core.csprojAssemblyReference.cache
+C:\stash\work\Krishna\idoc\HanysProductManagement.Core\bin\Debug\HanysProductManagement.Core.dll
+C:\stash\work\Krishna\idoc\HanysProductManagement.Core\bin\Debug\HanysProductManagement.Core.pdb
+C:\stash\work\Krishna\idoc\HanysProductManagement.Core\obj\Debug\HanysProductManagement.Core.csprojAssemblyReference.cache
+C:\stash\work\Krishna\idoc\HanysProductManagement.Core\obj\Debug\HanysProductManagement.Core.csproj.CoreCompileInputs.cache
+C:\stash\work\Krishna\idoc\HanysProductManagement.Core\obj\Debug\HanysProductManagement.Core.dll
+C:\stash\work\Krishna\idoc\HanysProductManagement.Core\obj\Debug\HanysProductManagement.Core.pdb

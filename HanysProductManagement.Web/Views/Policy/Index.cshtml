@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HanysProductManagement.Service.Models.CarrierModel>
+﻿@model IEnumerable<HanysProductManagement.Service.Models.PolicyModel>
 
 @{
     ViewBag.Title = "Index";
@@ -6,7 +6,7 @@
 
 <div class="padding-top-10">
     <p>
-        @Html.ActionLink("Add Carrier", "AddCarrier")
+        @Html.ActionLink("Add Policy", "AddPolicy")
     </p>
 </div>
 
@@ -45,8 +45,8 @@
                 @Html.DisplayFor(modelItem => item.Data.IsActive)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditCareerDetails", new { id = item.Data.Id }) |
-                @Html.ActionLink("Delete", "DeleteCareer", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+                @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
+                @Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
             </td>
         </tr>
     }
