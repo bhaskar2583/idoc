@@ -1,0 +1,53 @@
+﻿@model IEnumerable<IBS.Core.Models.CarrierModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="padding-top-10">
+    <p>
+        @Html.ActionLink("Add Carrier", "AddCarrier")
+    </p>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10" style="color:green">
+        @ViewBag.AlertMsg
+    </div>
+</div>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                S.No
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Is Active
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+        @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+        {
+            @Html.HiddenFor(modelItem => item.Data.Id)
+            <tr>
+                <td>
+                    @( ((Int32)1) + @item.Index )
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.IsActive)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditCarrierDetails", new { id = item.Data.Id }) |
+                    @Html.ActionLink("Delete", "DeleteCarrierr", new { id = item.Data.Id }, new { onclick = "return confirm('Are you sure to delete?');" })
+                </td>
+            </tr>
+        }
+</table>
+

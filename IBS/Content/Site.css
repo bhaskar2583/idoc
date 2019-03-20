@@ -1,0 +1,122 @@
+﻿body {
+    padding-top: 140px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*Brand*/
+#brand-image {
+    float: left;
+    width: 260px;
+    height: 117px;
+    margin-right: 20px;
+}
+
+/*Navigation Bar*/
+.navbar-custom {
+    color: #FFFFFF;
+    background-color: white;
+    border-color: #eaeaea;
+    border-bottom: 1px solid;
+    padding: 10px;
+    box-shadow: 2px 2px #eaeaea;
+    margin-bottom: 15px;
+}
+
+
+.navbar-list {
+    margin-top: 5%;
+}
+
+ul.nav.navbar-nav.navbar-list > li > a {
+    color: #678fc2;
+    font-family: Tahoma;
+    font-size: 11pt;
+}
+
+    ul.nav.navbar-nav.navbar-list > li > a:hover {
+        color: #002e61;
+        font-weight: bold;
+    }
+
+    ul.nav.navbar-nav.navbar-list > li > a:focus {
+        color: #002e61;
+        background-color: white;
+    }
+
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: black;
+}
+
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    background-color: white;
+}
+
+/*Report Header*/
+.report-header {
+    color: #002e61;
+    display: inline-block;
+    text-align: left;
+    margin-top: 0.5em;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 2.4em;
+    font-display: block;
+}
+
+/*Report Filters*/
+.report-filters {
+    margin-top: 2%
+}
+
+/*Report Content Area*/
+.report-content {
+    margin-top: 3%;
+}
+
+/*Table properties*/
+.thead-dark {
+    background: #a8d1f7; /* Old browsers */
+    background: -moz-linear-gradient(top, #a8d1f7 0%, #83abd3 56%, #5d88b7 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #a8d1f7 0%,#83abd3 56%,#5d88b7 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #a8d1f7 0%,#83abd3 56%,#5d88b7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8d1f7', endColorstr='#5d88b7',GradientType=0 ); /* IE6-9 */
+}
+
+    .thead-dark th {
+        color: white;
+    }
+
+table {
+    margin-top: 2%;
+    border-radius: 0.5em;
+    border-color: #002e61;
+    overflow: hidden;
+}
+
+
+.chekcbox-width-32 {
+    width: 32px;
+}
+
+.padding-top-10 {
+    padding-top: 10px;
+}
