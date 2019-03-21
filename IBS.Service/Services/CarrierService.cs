@@ -1,6 +1,7 @@
 ﻿using IBS.Core.Entities;
 using IBS.Core.Models;
 using IBS.Service.Repositories;
+using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,12 @@ namespace IBS.Service.Services
             var entity = new Carrier()
             {
                 Name = carrier.Name,
-                IsActive = carrier.IsActive
+                Address=carrier.Address,
+                Email=carrier.Email,
+                Phone=carrier.Phone,
+                IsActive=true,
+                AddUser= LoginUserDetails.GetWindowsLoginUserName(),
+                AddDate= DateUtil.GetCurrentDate()
             };
 
             return _carrierRepository.Add(entity);
@@ -42,7 +48,14 @@ namespace IBS.Service.Services
                 {
                     Id = entity.Id,
                     IsActive = (bool)entity.IsActive,
-                    Name = entity.Name
+                    Name = entity.Name,
+                    Address=entity.Address,
+                    Email=entity.Email,
+                    AddDate=entity.AddDate,
+                    AddUser=entity.AddUser,
+                    Phone=entity.Phone,
+                    RevDate=entity.RevDate,
+                    RevUser=entity.RevUser
                 };
             }
 
@@ -61,13 +74,20 @@ namespace IBS.Service.Services
                 return carriers;
             }
 
-            carriersData.ForEach(c =>
+            carriersData.ForEach(entity =>
             {
                 var carrier = new CarrierModel()
                 {
-                    Id = c.Id,
-                    IsActive = (bool)c.IsActive,
-                    Name = c.Name
+                    Id = entity.Id,
+                    IsActive = (bool)entity.IsActive,
+                    Name = entity.Name,
+                    Address = entity.Address,
+                    Email = entity.Email,
+                    AddDate = entity.AddDate,
+                    AddUser = entity.AddUser,
+                    Phone = entity.Phone,
+                    RevDate = entity.RevDate,
+                    RevUser = entity.RevUser
                 };
 
                 carriers.Add(carrier);
@@ -81,8 +101,15 @@ namespace IBS.Service.Services
             var entity = new Carrier()
             {
                 Id = carrier.Id,
+                IsActive = (bool)carrier.IsActive,
                 Name = carrier.Name,
-                IsActive = carrier.IsActive
+                Address = carrier.Address,
+                Email = carrier.Email,
+                AddDate = carrier.AddDate,
+                AddUser = carrier.AddUser,
+                Phone = carrier.Phone,
+                RevDate = DateUtil.GetCurrentDate(),
+                RevUser = LoginUserDetails.GetWindowsLoginUserName()
             };
 
             return _carrierRepository.Update(entity);

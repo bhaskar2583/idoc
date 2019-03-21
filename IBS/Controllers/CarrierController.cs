@@ -45,7 +45,7 @@ namespace IBS.Controllers
 
                 return View();
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }

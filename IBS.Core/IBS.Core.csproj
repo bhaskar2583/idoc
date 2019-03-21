@@ -45,14 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Carrier.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Hospital.cs" />
     <Compile Include="Entities\Policy.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\HospitalModel.cs" />
     <Compile Include="Models\PolicyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\IBSDataBaseSchema.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

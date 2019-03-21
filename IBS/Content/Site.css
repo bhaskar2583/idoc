@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 140px;
+    padding-top: 87px;
     padding-bottom: 20px;
 }
 
@@ -20,7 +20,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 70%;
 }
 
 /*Brand*/
@@ -119,4 +119,30 @@ table {
 
 .padding-top-10 {
     padding-top: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    min-width: 100px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.hash-redcolor{
+    color:red;
 }

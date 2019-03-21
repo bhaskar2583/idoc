@@ -54,7 +54,12 @@ namespace IBS.Service.Repositories
             if (data != null)
             {
                 data.Name = carrier.Name;
-                data.IsActive = carrier.IsActive;
+                data.Email = carrier.Email;
+                data.Phone = carrier.Phone;
+                data.Address = carrier.Address;
+                data.RevUser = carrier.RevUser;
+                data.RevDate = carrier.RevDate;
+
                 _hanysContext.SaveChanges();
             }
             return true;

@@ -12,7 +12,7 @@ namespace IBS.Service.DataBaseContext
     {
         public IBSDbContext():base()
         {
-
+            Database.SetInitializer<IBSDbContext>(null);
         }
 
         public virtual DbSet<Carrier> Carriers { get; set; }
@@ -26,6 +26,13 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.Id);
                 entity.Property(p => p.IsActive);
                 entity.Property(p => p.Name);
+                entity.Property(p => p.Email);
+                entity.Property(p => p.Phone);
+                entity.Property(p => p.Address);
+                entity.Property(p => p.AddUser);
+                entity.Property(p => p.AddDate);
+                entity.Property(p => p.RevUser);
+                entity.Property(p => p.RevDate);
 
                 entity.ToTable("carriers");
             });

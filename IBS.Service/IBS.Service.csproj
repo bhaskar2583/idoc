@@ -66,6 +66,8 @@
     <Compile Include="Services\IHospitalService.cs" />
     <Compile Include="Services\IPolicyService.cs" />
     <Compile Include="Services\PolicyService.cs" />
+    <Compile Include="Utils\DateUtil.cs" />
+    <Compile Include="Utils\LoginUserDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IBS.Core\IBS.Core.csproj">

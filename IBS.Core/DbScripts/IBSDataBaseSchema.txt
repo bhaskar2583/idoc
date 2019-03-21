@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[Carriers]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Name] VARCHAR(100) NOT NULL, 
+    [Address] VARCHAR(MAX) NOT NULL, 
+    [Phone] VARCHAR(10) NOT NULL, 
+    [Email] VARCHAR(100) NOT NULL, 
+    [IsActive] BIT NOT NULL DEFAULT 1, 
+    [AddUser] VARCHAR(100) NOT NULL, 
+    [AddDate] DATETIME NOT NULL DEFAULT getdate(), 
+    [RevUser] VARCHAR(100) NULL, 
+    [RevDate] DATETIME NULL
+)

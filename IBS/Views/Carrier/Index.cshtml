@@ -25,29 +25,42 @@
                 Name
             </th>
             <th>
-                Is Active
+                Phone
             </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Address
+            </th>
+
             <th></th>
         </tr>
     </thead>
-        @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
-        {
-            @Html.HiddenFor(modelItem => item.Data.Id)
-            <tr>
-                <td>
-                    @( ((Int32)1) + @item.Index )
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Data.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Data.IsActive)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "EditCarrierDetails", new { id = item.Data.Id }) |
-                    @Html.ActionLink("Delete", "DeleteCarrierr", new { id = item.Data.Id }, new { onclick = "return confirm('Are you sure to delete?');" })
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+    {
+        @Html.HiddenFor(modelItem => item.Data.Id)
+        <tr>
+            <td>
+                @( ((Int32)1) + @item.Index )
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Address)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCarrierDetails", new { id = item.Data.Id }) |
+                @Html.ActionLink("Delete", "DeleteCarrier", new { id = item.Data.Id }, new { onclick = "return confirm('Are you sure to delete?');" })
+            </td>
+        </tr>
+    }
 </table>
 
