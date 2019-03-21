@@ -56,7 +56,7 @@ namespace IBS.Service.Repositories
                 data.Name = carrier.Name;
                 data.Email = carrier.Email;
                 data.Phone = carrier.Phone;
-                data.Address = carrier.Address;
+                data.AddressLine1 = carrier.AddressLine1;
                 data.RevUser = carrier.RevUser;
                 data.RevDate = carrier.RevDate;
 

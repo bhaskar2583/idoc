@@ -16,9 +16,14 @@ namespace IBS.Controllers
             _carrierService = carrierService;
         }
         // GET: Carrier
-        public ActionResult Index()
+        public ActionResult Index(string searchkey)
         {
             var carriers = _carrierService.GetAllCarriers();
+
+            if (!string.IsNullOrEmpty(searchkey))
+            {
+                carriers = carriers.Where(c => c.Name.ToLower().Contains(searchkey)).ToList();
+            }
             return View(carriers);
         }
         // GET: Carrier/AddCarrier  
