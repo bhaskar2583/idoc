@@ -86,7 +86,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
-                <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" />
+                <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Index", "Carrier")';return false;"/>
             </div>
         </div>
     </div>
@@ -99,17 +99,4 @@
     </div>
 
 }
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $("#btnCancel").click(function () {
-            $(this).closest('form').find("input[type=text], textarea").val("");
-            return false;
-        });
-    });
-</script>
-
-
 

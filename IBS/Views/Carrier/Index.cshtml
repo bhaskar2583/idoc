@@ -5,17 +5,25 @@
 }
 
 <div class="row">
-    <div class="col-md-6">
-        <p>
-            @Html.ActionLink("Add Carrier", "AddCarrier")
-        </p>
+    <div class="col-md-12 form-group">
+        
+        <input type="text" class="form-control-new" id="txtSearchText" style="width:70%" />
+        <a id="anchCarrierSearch"><img src="/content/images/search-icon.png" /></a>
     </div>
-    <div class="col-md-6 text-align-right">
-        <div id="filterbox">
-            Search as carrier name:
-            <input type="text" id="txtSearchText" />
-            <a id="anchCarrierSearch"><img src="/content/images/search-icon.png" /></a>
-        </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <input id="btnActive" type="submit" value="Active" class="btn btn-success" onclick="SetActiveStatus('Active')" />
+        <input id="btnInActive" type="submit" value="InActive" class="btn btn-warning" onclick="SetActiveStatus('InActive')"/>
+        <input id="btnAll" type="submit" value="All" class="btn btn-primary" onclick="SetActiveStatus('None')"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+
+        <input id="btnAddCarrier" type="button" value="Add Carrier" class="btn btn-warning"
+               onclick="location.href='@Url.Action("AddCarrier", "Carrier")';return false;"/>
     </div>
 </div>
 
@@ -68,12 +76,16 @@
     }
 </table>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
+    function SetActiveStatus(activeStatus) {
+        var searchKey = $("#txtSearchText").val();
+        window.location.href = window.location.origin + window.location.pathname + "?carrierSearchkey=" + searchKey + "&statusSearchkey=" + activeStatus;
+    };
     $(document).ready(function () {
 
         $("#anchCarrierSearch").click(function () {
             var searchKey = $("#txtSearchText").val();
-            window.location.href = window.location.origin + window.location.pathname + "?searchkey=" + searchKey;
+            window.location.href = window.location.origin + window.location.pathname + "?carrierSearchkey=" + searchKey;
             
         });
     });

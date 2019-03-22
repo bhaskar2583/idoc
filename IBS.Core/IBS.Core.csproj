@@ -50,6 +50,7 @@
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Hospital.cs" />
     <Compile Include="Entities\Policy.cs" />
+    <Compile Include="Enums\CarrierStatusEnum.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\HospitalModel.cs" />

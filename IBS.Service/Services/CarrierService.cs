@@ -1,4 +1,5 @@
 ﻿using IBS.Core.Entities;
+using IBS.Core.Enums;
 using IBS.Core.Models;
 using IBS.Service.Repositories;
 using IBS.Service.Utils;
@@ -113,6 +114,28 @@ namespace IBS.Service.Services
             };
 
             return _carrierRepository.Update(entity);
+        }
+
+        public IList<CarrierModel> ApplyFilterForIndex(string searchCarrierName, CarrierStatusEnum searchStatus, IList<CarrierModel> source)
+        {
+            if (source == null)
+                return null;
+
+            if (!string.IsNullOrEmpty(searchCarrierName))
+            {
+                source = source.Where(c => c.Name.ToLower().Contains(searchCarrierName)).ToList();
+            }
+
+            switch (searchStatus)
+            {
+                case CarrierStatusEnum.Active:
+                    source = source.Where(c => c.IsActive == true).ToList();
+                    break;
+                case CarrierStatusEnum.InActive:
+                    source = source.Where(c => c.IsActive == false).ToList();
+                    break;
+            }
+            return source;
         }
     }
 }

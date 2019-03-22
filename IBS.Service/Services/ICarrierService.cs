@@ -1,4 +1,5 @@
-﻿using IBS.Core.Models;
+﻿using IBS.Core.Enums;
+using IBS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace IBS.Service.Services
         bool AddCarrier(CarrierModel carrier);
         bool ModifyCarrier(CarrierModel carrier);
         bool DeleteCarrier(int carrierId);
+        IList<CarrierModel> ApplyFilterForIndex(string carrierName, CarrierStatusEnum searchStatus, IList<CarrierModel> source);
     }
 }

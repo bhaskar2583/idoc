@@ -1,4 +1,5 @@
-﻿using IBS.Core.Models;
+﻿using IBS.Core.Enums;
+using IBS.Core.Models;
 using IBS.Service.Services;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,13 @@ namespace IBS.Controllers
             _carrierService = carrierService;
         }
         // GET: Carrier
-        public ActionResult Index(string searchkey)
+        public ActionResult Index(string carrierSearchkey,string statusSearchkey="None")
         {
             var carriers = _carrierService.GetAllCarriers();
 
-            if (!string.IsNullOrEmpty(searchkey))
-            {
-                carriers = carriers.Where(c => c.Name.ToLower().Contains(searchkey)).ToList();
-            }
+            Enum.TryParse(statusSearchkey, out CarrierStatusEnum myStatus);
+            carriers = _carrierService.ApplyFilterForIndex(carrierSearchkey, myStatus, carriers);
+
             return View(carriers);
         }
         // GET: Carrier/AddCarrier  
