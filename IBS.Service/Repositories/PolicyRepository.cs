@@ -13,12 +13,12 @@ namespace IBS.Service.Repositories
         private readonly IBSDbContext _hanysContext;
         public PolicyRepository()
         {
-            _hanysContext = new IBSDbContext();
+            _hanysContext = SingletonForEF.Instance;
         }
 
         public bool Add(Policy policy)
         {
-            _hanysContext.Policies.Add(policy);
+            _hanysContext.pps.Add(policy);
             _hanysContext.SaveChanges();
             return true;
         }
@@ -30,15 +30,15 @@ namespace IBS.Service.Repositories
                 Id = id
             };
 
-            _hanysContext.Policies.Attach(policy);
-            _hanysContext.Policies.Remove(policy);
+            _hanysContext.pps.Attach(policy);
+            _hanysContext.pps.Remove(policy);
             _hanysContext.SaveChanges();
             return true;
         }
 
         public IQueryable<Policy> GetAll()
         {
-            return _hanysContext.Policies;
+            return _hanysContext.pps;
         }
 
         public Policy GetById(int id)
@@ -50,11 +50,18 @@ namespace IBS.Service.Repositories
 
         public bool Update(Policy policy)
         {
-            var data = _hanysContext.Policies.FirstOrDefault(c => c.Id == policy.Id);
+            var data = _hanysContext.pps.FirstOrDefault(c => c.Id == policy.Id);
             if (data != null)
             {
                 data.Name = policy.Name;
-                data.Active = policy.Active;
+                data.IsActive = policy.IsActive;
+                data.CarId = policy.CarId;
+                data.EffectiveDate = policy.EffectiveDate;
+                data.EndDate = policy.EndDate;
+                data.IsGroupInsurence = policy.IsGroupInsurence;
+                data.PolicyType = policy.PolicyType;
+                data.RevDate = policy.RevDate;
+                data.RevUser = policy.RevUser;
                 _hanysContext.SaveChanges();
             }
             return true;

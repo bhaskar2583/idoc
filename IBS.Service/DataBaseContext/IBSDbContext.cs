@@ -8,6 +8,28 @@ using IBS.Core.Entities;
 
 namespace IBS.Service.DataBaseContext
 {
+    public sealed class SingletonForEF
+    {
+        SingletonForEF()
+        {
+        }
+        private static readonly object padlock = new object();
+        private static IBSDbContext instance = null;
+        public static IBSDbContext Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new IBSDbContext();
+                    }
+                    return instance;
+                }
+            }
+        }
+    }
     public class IBSDbContext : DbContext
     {
         public IBSDbContext():base()
@@ -16,7 +38,7 @@ namespace IBS.Service.DataBaseContext
         }
 
         public virtual DbSet<Carrier> Carriers { get; set; }
-        public virtual DbSet<Policy> Policies { get; set; }
+        public virtual DbSet<Policy> pps { get; set; }
         public virtual DbSet<Hospital> Hospitals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBinder)
@@ -42,12 +64,23 @@ namespace IBS.Service.DataBaseContext
             });
             modelBinder.Entity<Policy>().Map(entity =>
             {
-                entity.Property(p => p.Id);
-                entity.Property(p => p.Active);
-                entity.Property(p => p.Name);
+                entity.Property(p => p.Id).HasColumnName("Pol_Id");
+                entity.Property(p => p.Name).HasColumnName("Pol_Name");
+                entity.Property(p => p.PolicyType).HasColumnName("Pol_PolicyType");
+                entity.Property(p => p.CarId).HasColumnName("Pol_Car_Id");
+                entity.Property(p => p.EffectiveDate).HasColumnName("Pol_EffectiveDate");
+                entity.Property(p => p.EndDate).HasColumnName("Pol_EndDate");
+                entity.Property(p => p.IsGroupInsurence).HasColumnName("Pol_GroupInsurence");
+                entity.Property(p => p.IsActive).HasColumnName("Pol_IsActive");
+                entity.Property(p => p.AddDate).HasColumnName("Pol_AddUser");
+                entity.Property(p => p.AddDate).HasColumnName("Pol_AddDate");
+                entity.Property(p => p.RevUser).HasColumnName("Pol_RevUser");
+                entity.Property(p => p.RevDate).HasColumnName("Pol_RevDate");
 
-                entity.ToTable("policies");
+                entity.ToTable("Policies");
             });
+
+
             modelBinder.Entity<Hospital>().Map(entity =>
             {
                 entity.Property(p => p.Id);

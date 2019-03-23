@@ -17,7 +17,7 @@ namespace IBS.Controllers
             _carrierService = carrierService;
         }
         // GET: Carrier
-        public ActionResult Index(string carrierSearchkey,string statusSearchkey="None")
+        public ActionResult Index(string carrierSearchkey,string statusSearchkey="Active")
         {
             var carriers = _carrierService.GetAllCarriers();
 

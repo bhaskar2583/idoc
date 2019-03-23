@@ -167,3 +167,28 @@ table {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
+.ibs-input {
+    padding: 8px;
+    display: block;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 0px !important;
+    font-size: 12px !important;
+}
+.lbl-grid{
+    font-size:10px;
+}
+.lbl-grid-head {
+    font-size: 15px;
+}
+.text-danger {
+    color: #ca6361ba;
+    font-size: 12px;
+}
+.b-custom {
+
+    font-size: 12px;
+    font-weight: 900;
+
+}

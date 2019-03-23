@@ -19,14 +19,14 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Name)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Phone)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -35,14 +35,14 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Email)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.AddressLine1)<span class="hash-redcolor">*</span><br />
-                @Html.TextAreaFor(model => model.AddressLine1, new { @class = "form-control", @cols = "100", @rows = "2" })
+                @Html.TextAreaFor(model => model.AddressLine1, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
                 @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,14 +52,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.AddressLine2)<span class="hash-redcolor">*</span><br />
-                @Html.TextAreaFor(model => model.AddressLine2, new { @class = "form-control", @cols = "100", @rows = "2" })
-                @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.AddressLine2, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.City)<span class="hash-redcolor">*</span><br />
-                @Html.TextBoxFor(model => model.City, new { @class = "form-control", @cols = "100", @rows = "2" })
+                @Html.TextBoxFor(model => model.City, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,14 +68,14 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.State)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.ZipCode)<span class="hash-redcolor">*</span><br />
-                @Html.TextAreaFor(model => model.ZipCode, new { @class = "form-control", @cols = "100", @rows = "2" })
+                @Html.TextAreaFor(model => model.ZipCode, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
                 @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
             </div>
         </div>

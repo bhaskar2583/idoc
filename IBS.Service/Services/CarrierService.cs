@@ -24,7 +24,11 @@ namespace IBS.Service.Services
             {
                 Name = carrier.Name,
                 AddressLine1=carrier.AddressLine1,
-                Email=carrier.Email,
+                AddressLine2 = carrier.AddressLine2,
+                City = carrier.City,
+                State = carrier.State,
+                ZipCode = carrier.ZipCode,
+                Email =carrier.Email,
                 Phone=carrier.Phone,
                 IsActive=true,
                 AddUser= LoginUserDetails.GetWindowsLoginUserName(),
@@ -51,7 +55,11 @@ namespace IBS.Service.Services
                     IsActive = (bool)entity.IsActive,
                     Name = entity.Name,
                     AddressLine1=entity.AddressLine1,
-                    Email=entity.Email,
+                    AddressLine2 = entity.AddressLine2,
+                    City = entity.City,
+                    State = entity.State,
+                    ZipCode = entity.ZipCode,
+                    Email =entity.Email,
                     AddDate=entity.AddDate,
                     AddUser=entity.AddUser,
                     Phone=entity.Phone,
@@ -68,14 +76,14 @@ namespace IBS.Service.Services
         {
             var carriers = new List<CarrierModel>();
 
-            var carriersData = _carrierRepository.GetAll().ToList();
+            var carriersData = _carrierRepository.GetAll();
 
             if (carriersData == null)
             {
                 return carriers;
             }
 
-            carriersData.ForEach(entity =>
+            carriersData.ToList().ForEach(entity =>
             {
                 var carrier = new CarrierModel()
                 {
@@ -83,6 +91,10 @@ namespace IBS.Service.Services
                     IsActive = (bool)entity.IsActive,
                     Name = entity.Name,
                     AddressLine1 = entity.AddressLine1,
+                    AddressLine2=entity.AddressLine2,
+                    City=entity.City,
+                    State=entity.State,
+                    ZipCode=entity.ZipCode,
                     Email = entity.Email,
                     AddDate = entity.AddDate,
                     AddUser = entity.AddUser,
@@ -105,6 +117,10 @@ namespace IBS.Service.Services
                 IsActive = (bool)carrier.IsActive,
                 Name = carrier.Name,
                 AddressLine1 = carrier.AddressLine1,
+                AddressLine2 = carrier.AddressLine2,
+                City = carrier.City,
+                State = carrier.State,
+                ZipCode = carrier.ZipCode,
                 Email = carrier.Email,
                 AddDate = carrier.AddDate,
                 AddUser = carrier.AddUser,
@@ -126,6 +142,7 @@ namespace IBS.Service.Services
                 source = source.Where(c => c.Name.ToLower().Contains(searchCarrierName)).ToList();
             }
 
+
             switch (searchStatus)
             {
                 case CarrierStatusEnum.Active:
@@ -133,6 +150,8 @@ namespace IBS.Service.Services
                     break;
                 case CarrierStatusEnum.InActive:
                     source = source.Where(c => c.IsActive == false).ToList();
+                    break;
+                case CarrierStatusEnum.None:
                     break;
             }
             return source;

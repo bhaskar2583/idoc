@@ -4,28 +4,37 @@
     ViewBag.Title = "Index";
 }
 
-<div class="padding-top-10">
-    <p>
-        @Html.ActionLink("Add Policy", "AddPolicy")
-    </p>
-</div>
 
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10" style="color:green">
-        @ViewBag.AlertMsg
+<div class="row">
+    <div class="col-md-6 form-group">
+        
+    </div>
+    <div class="col-md-6 form-group text-align-right">
+        <input id="btnAddPolicy" type="button" value="Add Carrier" class="btn btn-warning"
+               onclick="location.href='@Url.Action("AddPolicy", "Policy")';return false;" />
     </div>
 </div>
+
 <table class="table">
-    <thead class="thead-dark">
+    <thead class="thead-dark lbl-grid-head">
         <tr>
-            <th>
-                S.No
-            </th>
             <th>
                 Name
             </th>
             <th>
-                Is Active
+                PolicyType
+            </th>
+            <th>
+                Carrier
+            </th>
+            <th>
+                Effective Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                GroupInsurence
             </th>
             <th></th>
         </tr>
@@ -34,21 +43,31 @@
         @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
         {
             @Html.HiddenFor(modelItem => item.Data.Id)
-            <tr>
-                <td>
-                    @( ((Int32)1) + @item.Index )
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Data.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Data.IsActive)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
-                    @Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
-                </td>
-            </tr>
+    <tr class="lbl-grid">
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.PolicyType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.CarId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.EffectiveDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.IsGroupInsurence)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
+            @Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+        </td>
+    </tr>
         }
 </table>
 

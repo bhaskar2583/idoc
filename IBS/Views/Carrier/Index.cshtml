@@ -6,33 +6,33 @@
 
 <div class="row">
     <div class="col-md-12 form-group">
-        
-        <input type="text" class="form-control-new" id="txtSearchText" style="width:70%" />
-        <a id="anchCarrierSearch"><img src="/content/images/search-icon.png" /></a>
+        <label>Carrier Name: </label>
+        <input type="text" class="form-control-new" id="txtSearchText" style="width:15%" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label>Carrier Status: </label>
+        <input type="radio" name="status" value="Active" checked> <label class="lbl-grid">Active</label>
+        <input type="radio" name="status" value="InActive"> <label class="lbl-grid">InActive</label>
+        <input type="radio" name="status" value="None"> <label class="lbl-grid">All</label>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-6 form-group">
-        <input id="btnActive" type="submit" value="Active" class="btn btn-success" onclick="SetActiveStatus('Active')" />
-        <input id="btnInActive" type="submit" value="InActive" class="btn btn-warning" onclick="SetActiveStatus('InActive')"/>
-        <input id="btnAll" type="submit" value="All" class="btn btn-primary" onclick="SetActiveStatus('None')"/>
+        <input id="btnSearch" type="submit" value="Search" class="btn btn-success" onclick="SearchCarriers()" />
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6 form-group">
-
+    <div class="col-md-6 form-group text-align-right">
         <input id="btnAddCarrier" type="button" value="Add Carrier" class="btn btn-warning"
-               onclick="location.href='@Url.Action("AddCarrier", "Carrier")';return false;"/>
+               onclick="location.href='@Url.Action("AddCarrier", "Carrier")';return false;" />
     </div>
 </div>
 
 <table class="table">
-    <thead class="thead-dark">
+    <thead class="thead-dark lbl-grid-head">
         <tr>
-            <th>
-                S.No
-            </th>
             <th>
                 Name
             </th>
@@ -52,10 +52,8 @@
     @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
     {
         @Html.HiddenFor(modelItem => item.Data.Id)
-        <tr>
-            <td>
-                @( ((Int32)1) + @item.Index )
-            </td>
+        <tr class="lbl-grid">
+
             <td>
                 @Html.DisplayFor(modelItem => item.Data.Name)
             </td>
@@ -66,7 +64,20 @@
                 @Html.DisplayFor(modelItem => item.Data.Phone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Data.AddressLine1)
+                <b class="b-custom">Address Line 1</b>: <label class="lbl-grid"> @Html.DisplayFor(modelItem => item.Data.AddressLine1)</label><br />
+                <b class="b-custom">Address Line 2</b>:  @if (!string.IsNullOrEmpty(item.Data.AddressLine2))
+                {
+                    @Html.DisplayFor(modelItem => item.Data.AddressLine2)
+                }
+                @if (string.IsNullOrEmpty(item.Data.AddressLine2))
+                {
+                    <label>-----</label>
+                }<br />
+                <b class="b-custom">City</b>: <label class="lbl-grid"> @Html.DisplayFor(modelItem => item.Data.City) </label><br />
+                <b class="b-custom">State</b>: <label class="lbl-grid">
+                    @Html.DisplayFor(modelItem => item.Data.State)
+                </label><br />
+                <b class="b-custom">ZipCode</b>: <label class="lbl-grid">  @Html.DisplayFor(modelItem => item.Data.ZipCode) </label><br />
             </td>
             <td>
                 @Html.ActionLink("Edit", "EditCarrierDetails", new { id = item.Data.Id }) |
@@ -76,17 +87,24 @@
     }
 </table>
 
-<script type="text/javascript"> 
-    function SetActiveStatus(activeStatus) {
-        var searchKey = $("#txtSearchText").val();
-        window.location.href = window.location.origin + window.location.pathname + "?carrierSearchkey=" + searchKey + "&statusSearchkey=" + activeStatus;
+<script type="text/javascript">
+    function SearchCarriers() {
+        var searchCarrierKey = $("#txtSearchText").val();
+        var searchStatusKey = $("input[name='status']:checked").val();
+        window.location.href = window.location.origin + window.location.pathname + "?carrierSearchkey=" + searchCarrierKey + "&statusSearchkey=" + searchStatusKey;
     };
-    $(document).ready(function () {
 
-        $("#anchCarrierSearch").click(function () {
-            var searchKey = $("#txtSearchText").val();
-            window.location.href = window.location.origin + window.location.pathname + "?carrierSearchkey=" + searchKey;
-            
-        });
+    $(document).ready(function () {
+        var searchString = window.location.search;
+
+        if (searchString != "") {
+            var searchArray = window.location.search.substring(1).split('&');
+            var carrerName = searchArray[0].split('=');
+            var status = searchArray[1].split('=');
+            $("#txtSearchText").val(carrerName[1]);
+            var name = "status";
+            $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
+
+        }
     });
 </script>

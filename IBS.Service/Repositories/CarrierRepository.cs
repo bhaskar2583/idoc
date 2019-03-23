@@ -13,7 +13,7 @@ namespace IBS.Service.Repositories
         private readonly IBSDbContext _hanysContext;
         public CarrierRepository()
         {
-            _hanysContext = new IBSDbContext();
+            _hanysContext = SingletonForEF.Instance;
         }
 
         public bool Add(Carrier carrier)

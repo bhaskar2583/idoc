@@ -16,20 +16,21 @@
     [Car_RevDate] DATETIME NULL
 )
 
+CREATE TABLE [dbo].[Policies] (
+    [Pol_Id]             INT           IDENTITY (1, 1) NOT NULL,
+    [Pol_Name]           VARCHAR (500) NOT NULL,
+    [Pol_PolicyType]     VARCHAR (100) NOT NULL,
+    [Pol_Car_Id]         INT           NOT NULL,
+    [Pol_EffectiveDate]  DATETIME      NOT NULL,
+    [Pol_EndDate]        DATETIME      NOT NULL,
+    [Pol_GroupInsurence] BIT           DEFAULT ((0)) NOT NULL,
+    [Pol_IsActive]       BIT           DEFAULT ((1)) NOT NULL,
+    [Pol_AddUser]        VARCHAR (100) NOT NULL,
+    [Pol_AddDate]        DATETIME      DEFAULT (getdate()) NOT NULL,
+    [Pol_RevUser]        VARCHAR (100) NULL,
+    [Pol_RevDate]        DATETIME      NULL,
+    PRIMARY KEY CLUSTERED ([Pol_Id] ASC, [Pol_PolicyType] ASC, [Pol_Name] ASC), 
+    CONSTRAINT [FK_Policies_Car_Id] FOREIGN KEY ([Pol_Car_Id]) REFERENCES [dbo].[Carriers]([Car_Id]) 
+);
 
-CREATE TABLE [dbo].[Policies]
-(
-	[Pol_Id] INT NOT NULL  IDENTITY, 
-    [Pol_Name] VARCHAR(500) NOT NULL, 
-    [Pol_PolicyType] VARCHAR(100) NOT NULL, 
-    [Pol_Car_Id] INT NOT NULL, 
-    [Pol_EffectiveDate] DATETIME NOT NULL, 
-    [Pol_EndDate] DATETIME NOT NULL, 
-    [Pol_GroupInsurence] BIT NOT NULL DEFAULT 0, 
-    [Pol_IsActive] BIT NOT NULL DEFAULT 1,
-	[Pol_AddUser]  VARCHAR (100) NOT NULL,
-    [Pol_AddDate]  DATETIME      DEFAULT (getdate()) NOT NULL,
-    [Pol_RevUser]  VARCHAR (100) NULL,
-    [Pol_RevDate]  DATETIME      NULL, 
-    PRIMARY KEY ([Pol_Id], [Pol_PolicyType], [Pol_Name]),
-)
+
