@@ -38,7 +38,7 @@ namespace IBS.Service.DataBaseContext
         }
 
         public virtual DbSet<Carrier> Carriers { get; set; }
-        public virtual DbSet<Policies> Policies { get; set; }
+        public virtual DbSet<Policie> Policies { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBinder)
@@ -62,7 +62,7 @@ namespace IBS.Service.DataBaseContext
 
                 entity.ToTable("carriers");
             });
-            modelBinder.Entity<Policies>().Map(entity =>
+            modelBinder.Entity<Policie>().Map(entity =>
             {
                 entity.Property(p => p.Id).HasColumnName("Pol_Id");
                 entity.Property(p => p.IsActive).HasColumnName("Pol_IsActive");

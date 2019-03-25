@@ -16,7 +16,7 @@ namespace IBS.Service.Repositories
             _hanysContext = new IBSDbContext();
         }
 
-        public bool Add(Policies policy)
+        public bool Add(Policie policy)
         {
             _hanysContext.Policies.Add(policy);
             _hanysContext.SaveChanges();
@@ -25,7 +25,7 @@ namespace IBS.Service.Repositories
 
         public bool Delete(int id)
         {
-            var policy = new Policies()
+            var policy = new Policie()
             {
                 Id = id
             };
@@ -36,19 +36,19 @@ namespace IBS.Service.Repositories
             return true;
         }
 
-        public IQueryable<Policies> GetAll()
+        public IQueryable<Policie> GetAll()
         {
             return _hanysContext.Policies;
         }
 
-        public Policies GetById(int id)
+        public Policie GetById(int id)
         {
             var entity = GetAll().FirstOrDefault(c => c.Id == id);
 
             return entity;
         }
 
-        public bool Update(Policies policy)
+        public bool Update(Policie policy)
         {
             var data = _hanysContext.Policies.FirstOrDefault(c => c.Id == policy.Id);
             if (data != null)
@@ -61,8 +61,6 @@ namespace IBS.Service.Repositories
                 data.EndDate = policy.EndDate;
                 data.IsGroupInsurance = policy.IsGroupInsurance;
                 data.EndDate = policy.EndDate;
-                data.AddUser = policy.AddUser;
-                data.AddDate = policy.AddDate;
                 data.RevDate = policy.RevDate;
                 data.RevUser = policy.RevUser;
                 _hanysContext.SaveChanges();

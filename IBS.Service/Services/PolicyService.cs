@@ -1,6 +1,7 @@
 ﻿using IBS.Core.Entities;
 using IBS.Core.Models;
 using IBS.Service.Repositories;
+using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace IBS.Service.Services
 
         public bool AddPolicy(PolicyModel policy)
         {
-            var entity = new Policies()
+            var entity = new Policie()
             {
                 PolicyNumber = policy.PolicyNumber,
                 PolicyType = policy.PolicyType,
@@ -28,10 +29,8 @@ namespace IBS.Service.Services
                 EndDate = policy.EndDate,
                 IsGroupInsurance = policy.IsGroupInsurance,
                 IsActive = policy.IsActive,
-                AddUser = policy.AddUser,
-                AddDate = policy.AddDate,
-                RevUser = policy.RevUser,
-                RevDate = policy.RevDate
+                AddUser = LoginUserDetails.GetWindowsLoginUserName(),
+                AddDate = DateUtil.GetCurrentDate()
             };
 
             return _policyRepository.Add(entity);
@@ -105,7 +104,7 @@ namespace IBS.Service.Services
 
         public bool ModifyPolicy(PolicyModel policy)
         {
-            var entity = new Policies()
+            var entity = new Policie()
             {
                 Id = policy.Id,
                 PolicyNumber = policy.PolicyNumber,
@@ -117,11 +116,11 @@ namespace IBS.Service.Services
                 IsGroupInsurance = policy.IsGroupInsurance,
                 AddUser = policy.AddUser,
                 AddDate = policy.AddDate,
-                RevUser = policy.RevUser,
-                RevDate = policy.RevDate
+                RevDate = DateUtil.GetCurrentDate(),
+                RevUser = LoginUserDetails.GetWindowsLoginUserName()
             };
 
-                return _policyRepository.Update(entity);
+            return _policyRepository.Update(entity);
         }
     }
 }

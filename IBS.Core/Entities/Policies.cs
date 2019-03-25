@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IBS.Core.Entities
 {
-    public class Policies : BaseEntity
+    public class Policie : BaseEntity
     {
         public int Id { get; set; }
         public string PolicyNumber { get; set; }

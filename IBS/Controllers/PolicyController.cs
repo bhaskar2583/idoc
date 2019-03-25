@@ -31,6 +31,8 @@ namespace IBS.Controllers
         [HttpPost]
         public ActionResult AddPolicy(PolicyModel policy)
         {
+            //need to update
+            policy.CarId = 1;
             try
             {
                 if (ModelState.IsValid)
@@ -63,6 +65,7 @@ namespace IBS.Controllers
 
         public ActionResult EditPolicyDetails(int id, PolicyModel policy)
         {
+            policy.CarId = 1;
             try
             {
                 _policyService.ModifyPolicy(policy);

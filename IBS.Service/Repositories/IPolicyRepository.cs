@@ -9,10 +9,10 @@ namespace IBS.Service.Repositories
 {
     public interface IPolicyRepository
     {
-        IQueryable<Policies> GetAll();
-        Policies GetById(int id);
-        bool Add(Policies policy);
-        bool Update(Policies policy);
+        IQueryable<Policie> GetAll();
+        Policie GetById(int id);
+        bool Add(Policie policy);
+        bool Update(Policie policy);
         bool Delete(int id);
     }
 }
