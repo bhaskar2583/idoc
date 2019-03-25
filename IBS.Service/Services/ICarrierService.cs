@@ -16,5 +16,6 @@ namespace IBS.Service.Services
         bool ModifyCarrier(CarrierModel carrier);
         bool DeleteCarrier(int carrierId);
         IList<CarrierModel> ApplyFilterForIndex(string carrierName, CarrierStatusEnum searchStatus, IList<CarrierModel> source);
+        //IList<CarrierModel> ApplyFilterForIndex(object carrierSearchkey, CarrierStatusEnum myStatus, IList<CarrierModel> carriers);
     }
 }

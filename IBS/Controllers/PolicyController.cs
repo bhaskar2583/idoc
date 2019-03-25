@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace IBS.Controllers
 {
-    public class PolicyController : Controller
+    public class PolicyController : System.Web.Mvc.Controller
     {
         private readonly IPolicyService _policyService;
         public PolicyController(IPolicyService policyService)

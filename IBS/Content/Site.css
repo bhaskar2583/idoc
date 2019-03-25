@@ -143,11 +143,13 @@ table {
     border: 1px solid transparent;
     border-radius: 4px;
 }
-.hash-redcolor{
-    color:red;
+
+.hash-redcolor {
+    color: red;
 }
-.text-align-right{
-    text-align:right;
+
+.text-align-right {
+    text-align: right;
 }
 
 .form-control-new {
@@ -176,19 +178,21 @@ table {
     border-radius: 0px !important;
     font-size: 12px !important;
 }
-.lbl-grid{
-    font-size:10px;
+
+.lbl-grid {
+    font-size: 10px;
 }
+
 .lbl-grid-head {
     font-size: 15px;
 }
+
 .text-danger {
     color: #ca6361ba;
     font-size: 12px;
 }
-.b-custom {
 
+.b-custom {
     font-size: 12px;
     font-weight: 900;
-
 }

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace IBS.Controllers
 {
-    public class CarrierController : Controller
+    public class CarrierController : System.Web.Mvc.Controller
     {
         private readonly ICarrierService _carrierService;
         public CarrierController(ICarrierService carrierService)
@@ -17,7 +17,7 @@ namespace IBS.Controllers
             _carrierService = carrierService;
         }
         // GET: Carrier
-        public ActionResult Index(string carrierSearchkey,string statusSearchkey="Active")
+        public ActionResult Index(string carrierSearchkey,string statusSearchkey= "Active")
         {
             var carriers = _carrierService.GetAllCarriers();
 
@@ -50,7 +50,7 @@ namespace IBS.Controllers
 
                 return View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return View();
             }

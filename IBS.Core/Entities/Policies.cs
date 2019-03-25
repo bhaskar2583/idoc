@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace IBS.Core.Models
+namespace IBS.Core.Entities
 {
-    public class PolicyModel : BaseModel
+    public class Policies : BaseEntity
     {
         public int Id { get; set; }
-        [Required]
         public string PolicyNumber { get; set; }
-        [Required]
+        public bool? IsActive { get; set; }
         public string PolicyType { get; set; }
         public int CarId { get; set; }
-        [Required]
         public DateTime EffectiveDate { get; set; }
-        [Required]
         public DateTime EndDate { get; set; }
-        [Required]
-        public bool IsGroupInsurance { get; set; }
-        public bool IsActive{ get; set; }
+        public bool? IsGroupInsurance { get; set; }
+
     }
 }

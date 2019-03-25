@@ -1,7 +1,6 @@
 ﻿using IBS.Core.Entities;
 using IBS.Core.Models;
 using IBS.Service.Repositories;
-using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +19,19 @@ namespace IBS.Service.Services
 
         public bool AddPolicy(PolicyModel policy)
         {
-            var entity = new Policy()
+            var entity = new Policies()
             {
-                Name = policy.Name,
+                PolicyNumber = policy.PolicyNumber,
+                PolicyType = policy.PolicyType,
+                CarId = policy.CarId,
+                EffectiveDate = policy.EffectiveDate,
+                EndDate = policy.EndDate,
+                IsGroupInsurance = policy.IsGroupInsurance,
                 IsActive = policy.IsActive,
-                AddUser = LoginUserDetails.GetWindowsLoginUserName(),
-                AddDate = DateUtil.GetCurrentDate(),
-                CarId=policy.CarId,
-                EffectiveDate=policy.EffectiveDate,
-                EndDate=policy.EndDate,
-                IsGroupInsurence=policy.IsGroupInsurence,
-                PolicyType=policy.PolicyType
+                AddUser = policy.AddUser,
+                AddDate = policy.AddDate,
+                RevUser = policy.RevUser,
+                RevDate = policy.RevDate
             };
 
             return _policyRepository.Add(entity);
@@ -45,29 +46,29 @@ namespace IBS.Service.Services
         {
             var policies = new List<PolicyModel>();
 
-            var policiesData = _policyRepository.GetAll();
+            var policiesData = _policyRepository.GetAll().ToList();
 
             if (policiesData == null)
             {
                 return policies;
             }
 
-            policiesData.ToList().ForEach(entity =>
+            policiesData.ForEach(c =>
             {
                 var policy = new PolicyModel()
                 {
-                    Name = entity.Name,
-                    IsActive = entity.IsActive,
-                    AddUser = entity.AddUser,
-                    AddDate = entity.AddDate,
-                    CarId = entity.CarId,
-                    EffectiveDate = entity.EffectiveDate,
-                    EndDate = entity.EndDate,
-                    IsGroupInsurence = entity.IsGroupInsurence,
-                    PolicyType = entity.PolicyType,
-                    Id = entity.Id,
-                    RevDate = entity.RevDate,
-                    RevUser = entity.RevUser
+                    Id = c.Id,
+                    IsActive = (bool)c.IsActive,
+                    PolicyNumber = c.PolicyNumber,
+                    PolicyType = c.PolicyType,
+                    CarId = c.CarId,
+                    EffectiveDate = c.EffectiveDate,
+                    EndDate = c.EndDate,
+                    IsGroupInsurance = (bool)c.IsGroupInsurance,
+                    AddUser = c.AddUser,
+                    AddDate = c.AddDate,
+                    RevUser = c.RevUser,
+                    RevDate = c.RevDate
                 };
 
                 policies.Add(policy);
@@ -84,18 +85,18 @@ namespace IBS.Service.Services
             {
                 return new PolicyModel()
                 {
-                    Name = entity.Name,
-                    IsActive = entity.IsActive,
-                    AddUser = entity.AddUser,
-                    AddDate = entity.AddDate,
+                    Id = entity.Id,
+                    IsActive = (bool)entity.IsActive,
+                    PolicyNumber = entity.PolicyNumber,
+                    PolicyType = entity.PolicyType,
                     CarId = entity.CarId,
                     EffectiveDate = entity.EffectiveDate,
                     EndDate = entity.EndDate,
-                    IsGroupInsurence = entity.IsGroupInsurence,
-                    PolicyType = entity.PolicyType,
-                    Id=entity.Id,
-                    RevDate=entity.RevDate,
-                    RevUser=entity.RevUser
+                    IsGroupInsurance = (bool)entity.IsGroupInsurance,
+                    AddUser = entity.AddUser,
+                    AddDate = entity.AddDate,
+                    RevUser = entity.RevUser,
+                    RevDate = entity.RevDate
                 };
             }
 
@@ -104,20 +105,23 @@ namespace IBS.Service.Services
 
         public bool ModifyPolicy(PolicyModel policy)
         {
-            var entity = new Policy()
+            var entity = new Policies()
             {
-                Name = policy.Name,
+                Id = policy.Id,
+                PolicyNumber = policy.PolicyNumber,
                 IsActive = policy.IsActive,
+                PolicyType = policy.PolicyType,
                 CarId = policy.CarId,
                 EffectiveDate = policy.EffectiveDate,
                 EndDate = policy.EndDate,
-                IsGroupInsurence = policy.IsGroupInsurence,
-                PolicyType = policy.PolicyType,
-                RevDate = DateUtil.GetCurrentDate(),
-                RevUser = LoginUserDetails.GetWindowsLoginUserName()
+                IsGroupInsurance = policy.IsGroupInsurance,
+                AddUser = policy.AddUser,
+                AddDate = policy.AddDate,
+                RevUser = policy.RevUser,
+                RevDate = policy.RevDate
             };
 
-            return _policyRepository.Update(entity);
+                return _policyRepository.Update(entity);
         }
     }
 }

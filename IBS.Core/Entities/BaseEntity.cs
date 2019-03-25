@@ -8,9 +8,9 @@ namespace IBS.Core.Entities
 {
     public class BaseEntity
     {
-        public string AddUser { get; set; }
-        public DateTime AddDate { get; set; }
-        public string RevUser { get; set; }
-        public DateTime? RevDate { get; set; }
+            public string AddUser { get; set; }
+            public DateTime AddDate { get; set; }
+            public string RevUser { get; set; }
+            public DateTime? RevDate { get; set; }
     }
 }

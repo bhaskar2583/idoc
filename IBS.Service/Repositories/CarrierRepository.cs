@@ -27,7 +27,7 @@ namespace IBS.Service.Repositories
         {
             var carrier = new Carrier()
             {
-                Id = id
+               Id = id
             };
 
             _hanysContext.Carriers.Attach(carrier);
@@ -57,9 +57,13 @@ namespace IBS.Service.Repositories
                 data.Email = carrier.Email;
                 data.Phone = carrier.Phone;
                 data.AddressLine1 = carrier.AddressLine1;
+                data.AddressLine2 = carrier.AddressLine2;
+                data.City = carrier.City;
+                data.State = carrier.State;
+                data.ZipCode = carrier.ZipCode;
                 data.RevUser = carrier.RevUser;
                 data.RevDate = carrier.RevDate;
-
+                data.IsActive = carrier.IsActive;
                 _hanysContext.SaveChanges();
             }
             return true;

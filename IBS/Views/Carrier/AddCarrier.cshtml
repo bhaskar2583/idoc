@@ -39,20 +39,21 @@
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.AddressLine1)<span class="hash-redcolor">*</span><br />
-                @Html.TextAreaFor(model => model.AddressLine1, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
+                @Html.TextBoxFor(model => model.AddressLine1, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
                 @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.AddressLine2)<span class="hash-redcolor">*</span><br />
-                @Html.TextAreaFor(model => model.AddressLine2, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
+                @Html.LabelFor(model => model.AddressLine2)<span class="hash-redcolor"></span><br />
+                @Html.TextBoxFor(model => model.AddressLine2, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
             </div>
         </div>
         <div class="col-md-6">
@@ -75,17 +76,16 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.ZipCode)<span class="hash-redcolor">*</span><br />
-                @Html.TextAreaFor(model => model.ZipCode, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
+                @Html.TextBoxFor(model => model.ZipCode, new { @class = "ibs-input ibs-border", @cols = "100", @rows = "2" })
                 @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
                 <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
-                <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Index", "Carrier")';return false;"/>
+                <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Index", "Carrier")';return false;" />
             </div>
         </div>
     </div>
@@ -96,6 +96,22 @@
             </div>
         </div>
     </div>
+    <div>
+        @Html.ActionLink("Back to Carrier List", "Index")
+    </div>
 
 }
+
+@*<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btnCancel").click(function () {
+            $(this).closest('form').find("input[type=text], textarea").val("");
+            return false;
+        });
+    });
+</script>*@
+
+
 

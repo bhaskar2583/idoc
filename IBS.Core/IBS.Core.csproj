@@ -53,16 +53,14 @@
     <Compile Include="Entities\Carrier.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Hospital.cs" />
-    <Compile Include="Entities\Policy.cs" />
+    <Compile Include="Entities\Policies.cs" />
     <Compile Include="Enums\CarrierStatusEnum.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
+    <Compile Include="Models\ClientModel.cs" />
     <Compile Include="Models\HospitalModel.cs" />
     <Compile Include="Models\PolicyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DbScripts\IBSDataBaseSchema.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

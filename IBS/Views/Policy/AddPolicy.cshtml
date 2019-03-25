@@ -15,13 +15,13 @@
         </h2>
         <hr />
     </div>
-
+    <hr />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Name)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.PolicyNumber)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.PolicyNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-6">
@@ -32,7 +32,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -49,24 +48,15 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.IsGroupInsurence)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.IsGroupInsurence, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
-                @Html.ValidationMessageFor(model => model.IsGroupInsurence, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.CarId)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.CarId, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
-                @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.IsGroupInsurance)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.IsGroupInsurance, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.IsGroupInsurance, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -74,16 +64,29 @@
                 <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Index", "Policy")';return false;" />
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12" style="color:green">
-            <div class="form-group">
-                @ViewBag.Message
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="color:green">
+                 @ViewBag.Message
             </div>
         </div>
     </div>
 
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            var name = $("#Name").val();
+
+            if (name == "") {
+                alert("please enter policy name");
+                return false;
+            }
+
+            return true;
+        });
+    });
+</script>
 
 
 

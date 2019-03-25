@@ -23,16 +23,16 @@ namespace IBS.Service.Services
             var entity = new Carrier()
             {
                 Name = carrier.Name,
-                AddressLine1=carrier.AddressLine1,
+                AddressLine1 = carrier.AddressLine1,
                 AddressLine2 = carrier.AddressLine2,
                 City = carrier.City,
                 State = carrier.State,
                 ZipCode = carrier.ZipCode,
-                Email =carrier.Email,
-                Phone=carrier.Phone,
-                IsActive=true,
-                AddUser= LoginUserDetails.GetWindowsLoginUserName(),
-                AddDate= DateUtil.GetCurrentDate()
+                Email = carrier.Email,
+                Phone = carrier.Phone,
+                IsActive = true,
+                AddUser = LoginUserDetails.GetWindowsLoginUserName(),
+                AddDate = DateUtil.GetCurrentDate()
             };
 
             return _carrierRepository.Add(entity);
@@ -54,17 +54,17 @@ namespace IBS.Service.Services
                     Id = entity.Id,
                     IsActive = (bool)entity.IsActive,
                     Name = entity.Name,
-                    AddressLine1=entity.AddressLine1,
+                    AddressLine1 = entity.AddressLine1,
                     AddressLine2 = entity.AddressLine2,
                     City = entity.City,
                     State = entity.State,
                     ZipCode = entity.ZipCode,
-                    Email =entity.Email,
-                    AddDate=entity.AddDate,
-                    AddUser=entity.AddUser,
-                    Phone=entity.Phone,
-                    RevDate=entity.RevDate,
-                    RevUser=entity.RevUser
+                    Email = entity.Email,
+                    AddDate = entity.AddDate,
+                    AddUser = entity.AddUser,
+                    Phone = entity.Phone,
+                    RevDate = entity.RevDate,
+                    RevUser = entity.RevUser
                 };
             }
 
@@ -91,10 +91,10 @@ namespace IBS.Service.Services
                     IsActive = (bool)entity.IsActive,
                     Name = entity.Name,
                     AddressLine1 = entity.AddressLine1,
-                    AddressLine2=entity.AddressLine2,
-                    City=entity.City,
-                    State=entity.State,
-                    ZipCode=entity.ZipCode,
+                    AddressLine2 = entity.AddressLine2,
+                    City = entity.City,
+                    State = entity.State,
+                    ZipCode = entity.ZipCode,
                     Email = entity.Email,
                     AddDate = entity.AddDate,
                     AddUser = entity.AddUser,
@@ -141,7 +141,6 @@ namespace IBS.Service.Services
             {
                 source = source.Where(c => c.Name.ToLower().Contains(searchCarrierName)).ToList();
             }
-
 
             switch (searchStatus)
             {

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<IBS.Core.Models.ClientModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row col-md-12">
+    <h2>
+        Clients
+    </h2>
+    <hr />
+</div>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+
+    </div>
+    <div class="col-md-6 form-group text-align-right">
+        <input id="btnAddClient" type="button" value="Add Client" class="btn btn-primary"
+               onclick="location.href='@Url.Action("AddClient", "Client")';return false;" />
+    </div>
+</div>
+
+<table class="table">
+    <thead class="thead-dark lbl-grid-head">
+        <tr>
+            <th>
+                Client Name
+            </th>
+            <th>
+                Division
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+    {
+        @Html.HiddenFor(modelItem => item.Data.Id)
+        <tr class="lbl-grid">
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Division)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
+                @*@Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })*@
+            </td>
+        </tr>
+    }
+</table>
+

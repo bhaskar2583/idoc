@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace IBS.Core.Models
 {
-    public class CarrierModel: BaseModel
+    public class CarrierModel : BaseModel
     {
         public int Id { get; set; }
         [Required]

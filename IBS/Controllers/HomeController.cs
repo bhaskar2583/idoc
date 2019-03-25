@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace IBS.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : System.Web.Mvc.Controller
     {
 
         DataContext db = new DataContext();

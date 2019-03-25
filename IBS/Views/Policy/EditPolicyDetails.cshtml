@@ -1,28 +1,27 @@
 ﻿@model IBS.Core.Models.PolicyModel
 
 @{
-    ViewBag.Title = "EditPolicy";
+    ViewBag.Title = "AddPolicy";
 }
 
 @using (Html.BeginForm())
 {
 
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Id)
 
     <div class="row col-md-12">
         <h2>
-            Edit Carrier
+            Edit Policy
         </h2>
         <hr />
     </div>
-
+    <hr />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Name)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.PolicyNumber)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.PolicyNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-6">
@@ -33,7 +32,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -50,35 +48,37 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.IsGroupInsurence)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.IsGroupInsurence, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
-                @Html.ValidationMessageFor(model => model.IsGroupInsurence, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.IsGroupInsurance)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.IsGroupInsurance, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.IsGroupInsurance, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.CarId)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.CarId, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
-                @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
-            </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control chekcbox-width-32" } })
+                </div>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })<br />
+            @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control chekcbox-width-32" } })
+
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
+                <input id="btnSave" type="submit" value="Update" class="btn btn-success" />
                 <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Index", "Policy")';return false;" />
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12" style="color:green">
-            <div class="form-group">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="color:green">
                 @ViewBag.Message
             </div>
         </div>
@@ -100,3 +100,6 @@
         });
     });
 </script>
+
+
+

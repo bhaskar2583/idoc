@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IBS.Core.Entities
 {
-    public class Carrier: BaseEntity
+    public class Carrier : BaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

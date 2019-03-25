@@ -32,14 +32,14 @@ namespace IBS.Service.DataBaseContext
     }
     public class IBSDbContext : DbContext
     {
-        public IBSDbContext():base()
+        public IBSDbContext() : base()
         {
             Database.SetInitializer<IBSDbContext>(null);
         }
 
         public virtual DbSet<Carrier> Carriers { get; set; }
-        public virtual DbSet<Policy> pps { get; set; }
-        public virtual DbSet<Hospital> Hospitals { get; set; }
+        public virtual DbSet<Policies> Policies { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBinder)
         {
@@ -62,29 +62,28 @@ namespace IBS.Service.DataBaseContext
 
                 entity.ToTable("carriers");
             });
-            modelBinder.Entity<Policy>().Map(entity =>
+            modelBinder.Entity<Policies>().Map(entity =>
             {
                 entity.Property(p => p.Id).HasColumnName("Pol_Id");
-                entity.Property(p => p.Name).HasColumnName("Pol_Name");
+                entity.Property(p => p.IsActive).HasColumnName("Pol_IsActive");
+                entity.Property(p => p.PolicyNumber).HasColumnName("Pol_PolicyNumber");
                 entity.Property(p => p.PolicyType).HasColumnName("Pol_PolicyType");
-                entity.Property(p => p.CarId).HasColumnName("Pol_Car_Id");
                 entity.Property(p => p.EffectiveDate).HasColumnName("Pol_EffectiveDate");
                 entity.Property(p => p.EndDate).HasColumnName("Pol_EndDate");
-                entity.Property(p => p.IsGroupInsurence).HasColumnName("Pol_GroupInsurence");
-                entity.Property(p => p.IsActive).HasColumnName("Pol_IsActive");
-                entity.Property(p => p.AddDate).HasColumnName("Pol_AddUser");
+                entity.Property(p => p.CarId).HasColumnName("Pol_Car_Id");
+                entity.Property(p => p.IsGroupInsurance).HasColumnName("Pol_GroupInsurence");
+                entity.Property(p => p.AddUser).HasColumnName("Pol_AddUser");
                 entity.Property(p => p.AddDate).HasColumnName("Pol_AddDate");
                 entity.Property(p => p.RevUser).HasColumnName("Pol_RevUser");
                 entity.Property(p => p.RevDate).HasColumnName("Pol_RevDate");
 
-                entity.ToTable("Policies");
+                entity.ToTable("policies");
             });
-
-
-            modelBinder.Entity<Hospital>().Map(entity =>
+            modelBinder.Entity<Client>().Map(entity =>
             {
                 entity.Property(p => p.Id);
-                entity.Property(p => p.Active);
+                entity.Property(p => p.IsActive);
+                entity.Property(p => p.Division);
                 entity.Property(p => p.Name);
 
                 entity.ToTable("hospitals");

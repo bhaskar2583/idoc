@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace IBS.Service.Repositories
 {
-    public interface IPolicyRepository
+    public interface IClientRepository
     {
-        IQueryable<Policies> GetAll();
-        Policies GetById(int id);
-        bool Add(Policies policy);
-        bool Update(Policies policy);
+        IQueryable<Client> GetAll();
+        Client GetById(int id);
+        bool Add(Client client);
+        bool Update(Client client);
         bool Delete(int id);
     }
 }

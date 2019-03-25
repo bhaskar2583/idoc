@@ -31,12 +31,12 @@ namespace IBS.DependencyResolution {
                     scan.WithDefaultConventions();
 					scan.With(new ControllerConvention());
                 });
-          
-            For<IPolicyRepository>().Use<PolicyRepository>();
-            For<IPolicyService>().Use<PolicyService>();
 
             For<ICarrierRepository>().Use<CarrierRepository>();
             For<ICarrierService>().Use<CarrierService>();
+
+            For<IPolicyRepository>().Use<PolicyRepository>();
+            For<IPolicyService>().Use<PolicyService>();
         }
 
         #endregion

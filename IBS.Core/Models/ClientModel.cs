@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBS.Core.Entities
+namespace IBS.Core.Models
 {
-    public class Client
+    public class ClientModel : BaseModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
