@@ -81,12 +81,16 @@ namespace IBS.Service.DataBaseContext
             });
             modelBinder.Entity<Client>().Map(entity =>
             {
-                entity.Property(p => p.Id);
-                entity.Property(p => p.IsActive);
-                entity.Property(p => p.Division);
-                entity.Property(p => p.Name);
+                entity.Property(p => p.Id).HasColumnName("Cli_Id");
+                entity.Property(p => p.IsActive).HasColumnName("Cli_IsActive");
+                entity.Property(p => p.Division).HasColumnName("Cli_Division");
+                entity.Property(p => p.Name).HasColumnName("Cli_Name");
+                entity.Property(p => p.AddUser).HasColumnName("Cli_AddUser");
+                entity.Property(p => p.AddDate).HasColumnName("Cli_AddDate");
+                entity.Property(p => p.RevUser).HasColumnName("Cli_RevUser");
+                entity.Property(p => p.RevDate).HasColumnName("Cli_RevDate");
 
-                entity.ToTable("hospitals");
+                entity.ToTable("Clients");
             });
         }
 

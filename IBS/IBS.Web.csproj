@@ -215,6 +215,8 @@
     <Content Include="Views\Policy\EditPolicyDetails.cshtml" />
     <Content Include="Views\Policy\Index.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\AddClient.cshtml" />
+    <Content Include="Views\Client\EditClientDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

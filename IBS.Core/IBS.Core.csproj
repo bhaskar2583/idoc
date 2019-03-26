@@ -58,12 +58,16 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\ClientModel.cs" />
+    <Compile Include="Models\DivisionModel.cs" />
     <Compile Include="Models\HospitalModel.cs" />
     <Compile Include="Models\PolicyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScript\DbScript.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

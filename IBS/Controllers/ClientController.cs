@@ -15,7 +15,7 @@ namespace IBS.Controllers
         {
             _clientService = clientService;
         }
-        // GET: Carrier
+        // GET: Client
         public ActionResult Index()
         {
             var clients = _clientService.GetAllClients();
@@ -24,7 +24,9 @@ namespace IBS.Controllers
         // GET: Client/AddClient  
         public ActionResult AddClient()
         {
-            return View();
+            var client = new ClientModel();
+
+            return View(client);
         }
 
         // POST: Client/AddClient    
@@ -43,11 +45,11 @@ namespace IBS.Controllers
                     }
                 }
 
-                return View();
+                return View(client);
             }
             catch
             {
-                return View();
+                return View(client);
             }
         }
 

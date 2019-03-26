@@ -1,6 +1,7 @@
 ﻿using IBS.Core.Entities;
 using IBS.Core.Models;
 using IBS.Service.Repositories;
+using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,9 @@ namespace IBS.Service.Services
             {
                 Name = client.Name,
                 IsActive = client.IsActive,
-                Division = client.Division
+                Division = client.Division,
+                AddUser = LoginUserDetails.GetWindowsLoginUserName(),
+                AddDate = DateUtil.GetCurrentDate()
             };
 
             return _clientRepository.Add(entity);
@@ -44,12 +47,10 @@ namespace IBS.Service.Services
                     Id = entity.Id,
                     IsActive = (bool)entity.IsActive,
                     Name = entity.Name,
-                    Division = (bool)entity.Division
+                    Division = entity.Division
                 };
             }
-
             return null;
-
         }
 
         public IList<ClientModel> GetAllClients()
@@ -73,6 +74,8 @@ namespace IBS.Service.Services
                     Division = c.Division
                 };
 
+                client.SelectedDevision = client.Divisions.FirstOrDefault(d => d.Id == Convert.ToInt32(c.Division));
+
                 clients.Add(client);
             });
 
@@ -86,15 +89,15 @@ namespace IBS.Service.Services
                 Id = client.Id,
                 Name = client.Name,
                 IsActive = client.IsActive,
-                Division = client.Division
+                Division = client.Division,
+                AddUser = client.AddUser,
+                AddDate = client.AddDate,
+                RevDate = DateUtil.GetCurrentDate(),
+                RevUser = LoginUserDetails.GetWindowsLoginUserName()
             };
 
             return _clientRepository.Update(entity);
         }
 
-        HospitalModel IClientService.GetById(int Id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

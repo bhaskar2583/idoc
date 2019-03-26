@@ -13,7 +13,7 @@ namespace IBS.Service.Repositories
         private readonly IBSDbContext _hanysContext;
         public ClientRepository()
         {
-            _hanysContext = new IBSDbContext();
+            _hanysContext = SingletonForEF.Instance;
         }
 
         public bool Add(Client client)

@@ -10,7 +10,7 @@ namespace IBS.Service.Services
     public interface IClientService
     {
         IList<ClientModel> GetAllClients();
-        HospitalModel GetById(int Id);
+        ClientModel GetById(int Id);
         bool AddClient(ClientModel client);
         bool ModifyClient(ClientModel client);
         bool DeleteClient(int clientId);

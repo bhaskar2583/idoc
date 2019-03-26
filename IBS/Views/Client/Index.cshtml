@@ -42,12 +42,11 @@
                 @Html.DisplayFor(modelItem => item.Data.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Data.Division)
+                @Html.DisplayFor(modelItem => item.Data.SelectedDevision.Name)
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
-                @*@Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })*@
+                @Html.ActionLink("Edit", "EditClientDetails", new { id = item.Data.Id }) |
             </td>
         </tr>
     }

@@ -37,6 +37,9 @@ namespace IBS.DependencyResolution {
 
             For<IPolicyRepository>().Use<PolicyRepository>();
             For<IPolicyService>().Use<PolicyService>();
+
+            For<IClientRepository>().Use<ClientRepository>();
+            For<IClientService>().Use<ClientService>();
         }
 
         #endregion
