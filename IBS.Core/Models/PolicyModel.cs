@@ -15,6 +15,8 @@ namespace IBS.Core.Models
         [Required]
         public string PolicyType { get; set; }
         public int CarId { get; set; }
+
+        public List<CarrierDdlModel> Carriers { get; set; }
         [Required]
         public DateTime EffectiveDate { get; set; }
         [Required]
@@ -22,5 +24,10 @@ namespace IBS.Core.Models
         [Required]
         public bool IsGroupInsurance { get; set; }
         public bool IsActive{ get; set; }
+        public PolicyModel()
+        {
+            Carriers = new List<CarrierDdlModel>();
+        }
+
     }
 }

@@ -11,9 +11,11 @@ namespace IBS.Controllers
     public class PolicyController : System.Web.Mvc.Controller
     {
         private readonly IPolicyService _policyService;
-        public PolicyController(IPolicyService policyService)
+        private readonly ICarrierService _carrierService;
+        public PolicyController(IPolicyService policyService, ICarrierService carrierService)
         {
             _policyService = policyService;
+            _carrierService = carrierService;
         }
         // GET: Policies
         public ActionResult Index()
@@ -24,7 +26,17 @@ namespace IBS.Controllers
         // GET: Policy/AddPolicy 
         public ActionResult AddPolicy()
         {
-            return View();
+            var policy = new PolicyModel();
+            var carriers = _carrierService.GetAllCarriers();
+            carriers.ToList().ForEach(c =>
+            {
+                policy.Carriers.Add(new CarrierDdlModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                });
+            });
+            return View(policy);
         }
 
         // POST: Policy/AddPolicy   
@@ -57,6 +69,17 @@ namespace IBS.Controllers
         public ActionResult EditPolicyDetails(int id)
         {
             var policy = _policyService.GetById(id);
+
+            var carriers = _carrierService.GetAllCarriers();
+            carriers.ToList().ForEach(c =>
+            {
+                policy.Carriers.Add(new CarrierDdlModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                });
+            });
+
             return View(policy);
         }
 

@@ -56,6 +56,7 @@
     <Compile Include="Entities\Policies.cs" />
     <Compile Include="Enums\CarrierStatusEnum.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\CarrierDdlModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\ClientModel.cs" />
     <Compile Include="Models\DivisionModel.cs" />

@@ -56,6 +56,17 @@
                 @Html.ValidationMessageFor(model => model.IsGroupInsurance, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CarId)<span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.Carriers,
+                new SelectList(Model.Carriers, "Id", "Name"),
+                "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+            </div>
+        </div>
     </div>
 
     <div class="row">
