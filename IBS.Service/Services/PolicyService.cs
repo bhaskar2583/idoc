@@ -1,4 +1,5 @@
 ﻿using IBS.Core.Entities;
+using IBS.Core.Enums;
 using IBS.Core.Models;
 using IBS.Service.Repositories;
 using IBS.Service.Utils;
@@ -13,9 +14,11 @@ namespace IBS.Service.Services
     public class PolicyService : IPolicyService
     {
         private readonly IPolicyRepository _policyRepository;
-        public PolicyService(IPolicyRepository policyRepository)
+        private readonly ICarrierService _carrierService;
+        public PolicyService(IPolicyRepository policyRepository, ICarrierService carrierService)
         {
             _policyRepository = policyRepository;
+            _carrierService = carrierService;
         }
 
         public bool AddPolicy(PolicyModel policy)
@@ -28,7 +31,7 @@ namespace IBS.Service.Services
                 EffectiveDate = policy.EffectiveDate,
                 EndDate = policy.EndDate,
                 IsGroupInsurance = policy.IsGroupInsurance,
-                IsActive = policy.IsActive,
+                IsActive = true,
                 AddUser = LoginUserDetails.GetWindowsLoginUserName(),
                 AddDate = DateUtil.GetCurrentDate()
             };
@@ -52,6 +55,8 @@ namespace IBS.Service.Services
                 return policies;
             }
 
+            var carriers = _carrierService.GetAllCarriers();
+
             policiesData.ForEach(c =>
             {
                 var policy = new PolicyModel()
@@ -69,11 +74,22 @@ namespace IBS.Service.Services
                     RevUser = c.RevUser,
                     RevDate = c.RevDate
                 };
-
+                MapSelectedCarrier(policy, carriers?.FirstOrDefault(cr => cr.Id == policy.CarId));
                 policies.Add(policy);
             });
 
             return policies;
+        }
+
+        private void MapSelectedCarrier(PolicyModel policy, CarrierModel carrier)
+        {
+            if (carrier == null)
+                return;
+            policy.SelectedCarrier = new CarrierDdlModel()
+            {
+                Id = carrier.Id,
+                Name = carrier.Name
+            };
         }
 
         public PolicyModel GetById(int Id)
@@ -82,7 +98,7 @@ namespace IBS.Service.Services
 
             if (entity != null)
             {
-                return new PolicyModel()
+                var policy= new PolicyModel()
                 {
                     Id = entity.Id,
                     IsActive = (bool)entity.IsActive,
@@ -97,6 +113,10 @@ namespace IBS.Service.Services
                     RevUser = entity.RevUser,
                     RevDate = entity.RevDate
                 };
+
+                var carrier = _carrierService.GetById(policy.CarId);
+                MapSelectedCarrier(policy, carrier);
+                return policy;
             }
 
             return null;
@@ -121,6 +141,43 @@ namespace IBS.Service.Services
             };
 
             return _policyRepository.Update(entity);
+        }
+
+        public void MapCarriers(PolicyModel policy)
+        {
+            var carriers = _carrierService.GetAllCarriers();
+            carriers.ToList().ForEach(c =>
+            {
+                policy.Carriers.Add(new CarrierDdlModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                });
+            });
+        }
+
+        public IList<PolicyModel> ApplyFilterForIndex(string policyNumber, CarrierStatusEnum searchStatus, IList<PolicyModel> source)
+        {
+            if (source == null)
+                return null;
+
+            if (!string.IsNullOrEmpty(policyNumber))
+            {
+                source = source.Where(c => c.PolicyNumber.ToLower().Contains(policyNumber)).ToList();
+            }
+
+            switch (searchStatus)
+            {
+                case CarrierStatusEnum.Active:
+                    source = source.Where(c => c.IsActive == true).ToList();
+                    break;
+                case CarrierStatusEnum.InActive:
+                    source = source.Where(c => c.IsActive == false).ToList();
+                    break;
+                case CarrierStatusEnum.None:
+                    break;
+            }
+            return source;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using IBS.Core.Models;
+﻿using IBS.Core.Enums;
+using IBS.Core.Models;
 using IBS.Service.Services;
 using System;
 using System.Collections.Generic;
@@ -18,24 +19,18 @@ namespace IBS.Controllers
             _carrierService = carrierService;
         }
         // GET: Policies
-        public ActionResult Index()
+        public ActionResult Index(string searchkey, string statusSearchkey = "Active")
         {
             var policies = _policyService.GetAllPolicies();
+            Enum.TryParse(statusSearchkey, out CarrierStatusEnum myStatus);
+            policies = _policyService.ApplyFilterForIndex(searchkey, myStatus, policies);
             return View(policies);
         }
         // GET: Policy/AddPolicy 
         public ActionResult AddPolicy()
         {
             var policy = new PolicyModel();
-            var carriers = _carrierService.GetAllCarriers();
-            carriers.ToList().ForEach(c =>
-            {
-                policy.Carriers.Add(new CarrierDdlModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                });
-            });
+            _policyService.MapCarriers(policy);
             return View(policy);
         }
 
@@ -43,8 +38,6 @@ namespace IBS.Controllers
         [HttpPost]
         public ActionResult AddPolicy(PolicyModel policy)
         {
-            //need to update
-            policy.CarId = 1;
             try
             {
                 if (ModelState.IsValid)
@@ -56,8 +49,8 @@ namespace IBS.Controllers
                         ViewBag.Message = "Policy details added successfully";
                     }
                 }
-
-                return View();
+                _policyService.MapCarriers(policy);
+                return View(policy);
             }
             catch(Exception ex)
             {
@@ -69,17 +62,7 @@ namespace IBS.Controllers
         public ActionResult EditPolicyDetails(int id)
         {
             var policy = _policyService.GetById(id);
-
-            var carriers = _carrierService.GetAllCarriers();
-            carriers.ToList().ForEach(c =>
-            {
-                policy.Carriers.Add(new CarrierDdlModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                });
-            });
-
+            _policyService.MapCarriers(policy);
             return View(policy);
         }
 
@@ -88,7 +71,6 @@ namespace IBS.Controllers
 
         public ActionResult EditPolicyDetails(int id, PolicyModel policy)
         {
-            policy.CarId = 1;
             try
             {
                 _policyService.ModifyPolicy(policy);

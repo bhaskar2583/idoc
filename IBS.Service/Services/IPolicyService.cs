@@ -1,4 +1,5 @@
-﻿using IBS.Core.Models;
+﻿using IBS.Core.Enums;
+using IBS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace IBS.Service.Services
         bool AddPolicy(PolicyModel policy);
         bool ModifyPolicy(PolicyModel policy);
         bool DeletePolicy(int policyId);
+
+        void MapCarriers(PolicyModel policy);
+        IList<PolicyModel> ApplyFilterForIndex(string policyNumber, CarrierStatusEnum searchStatus, IList<PolicyModel> source);
     }
 }

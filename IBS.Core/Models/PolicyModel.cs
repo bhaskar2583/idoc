@@ -17,9 +17,12 @@ namespace IBS.Core.Models
         public int CarId { get; set; }
 
         public List<CarrierDdlModel> Carriers { get; set; }
+        public CarrierDdlModel SelectedCarrier { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EffectiveDate { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
         [Required]
         public bool IsGroupInsurance { get; set; }

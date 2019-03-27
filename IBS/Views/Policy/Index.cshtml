@@ -9,10 +9,25 @@
     </h2>
     <hr />
 </div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label>Policy Number: </label>
+        <input type="text" class="form-control-new" id="txtSearchText" style="width:25%" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label>Policy Status: </label>
+        <input type="radio" name="status" value="Active" checked> <label>Active</label>
+        <input type="radio" name="status" value="InActive"> <label>InActive</label>
+        <input type="radio" name="status" value="None"> <label @*class="lbl-grid"*@>All</label>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-6 form-group">
-
+        <input id="btnSearch" type="submit" value="Search" class="btn btn-success" onclick="Search()" />
     </div>
     <div class="col-md-6 form-group text-align-right">
         <input id="btnAddPolicy" type="button" value="Add Policy" class="btn btn-primary"
@@ -28,6 +43,9 @@
             </th>
             <th>
                 Policy Type
+            </th>
+            <th>
+                Carrier
             </th>
             <th>
                 Effective Date
@@ -47,14 +65,14 @@
         @Html.HiddenFor(modelItem => item.Data.Id)
         <tr class="lbl-grid">
             <td>
-               @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+                @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data.PolicyType)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Data.CarId)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.SelectedCarrier.Name)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data.EffectiveDate)
             </td>
@@ -63,13 +81,31 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data.IsGroupInsurance)
-           </td>
+            </td>
 
-           <td>
+            <td>
                 @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
                 @*@Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })*@
-           </td>
-         </tr>
+            </td>
+        </tr>
     }
 </table>
 
+<script type="text/javascript">
+    function Search() {
+        var searchKey = $("#txtSearchText").val();
+        var searchStatusKey = $("input[name='status']:checked").val();
+        window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
+    };
+    $(document).ready(function () {
+        var searchString = window.location.search;
+        if (searchString != "") {
+            var searchArray = window.location.search.substring(1).split('&');
+            var carrerName = searchArray[0].split('=');
+            var status = searchArray[1].split('=');
+            $("#txtSearchText").val(carrerName[1]);
+            var name = "status";
+            $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
+        }
+    });
+</script>

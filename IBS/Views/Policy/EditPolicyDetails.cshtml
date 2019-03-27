@@ -60,7 +60,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.CarId)<span class="hash-redcolor">*</span><br />
                 @Html.DropDownListFor(
-                model => model.Carriers,
+                model => model.CarId,
                 new SelectList(Model.Carriers, "Id", "Name"),
                 "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
                 )
@@ -85,7 +85,7 @@
         </div>
     </div>
     <div>
-        @Html.ActionLink("Back to Carrier List", "Index")
+        @Html.ActionLink("Back to Policy List", "Index")
     </div>
 }
 
