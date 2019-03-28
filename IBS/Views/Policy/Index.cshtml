@@ -48,6 +48,12 @@
                 Carrier
             </th>
             <th>
+                Coverage
+            </th>
+            <th>
+                Product
+            </th>
+            <th>
                 Effective Date
             </th>
             <th>
@@ -63,31 +69,37 @@
     @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
     {
         @Html.HiddenFor(modelItem => item.Data.Id)
-        <tr class="lbl-grid">
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.PolicyType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.SelectedCarrier.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.EffectiveDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.IsGroupInsurance)
-            </td>
+    <tr class="lbl-grid">
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.PolicyType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.SelectedCarrier.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.SelectedCoverage.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.SelectedProduct.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.EffectiveDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.IsGroupInsurance)
+        </td>
 
-            <td>
-                @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
-                @*@Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })*@
-            </td>
-        </tr>
+        <td>
+            @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
+            @*@Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })*@
+        </td>
+    </tr>
     }
 </table>
 

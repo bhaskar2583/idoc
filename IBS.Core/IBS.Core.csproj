@@ -52,8 +52,10 @@
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Carrier.cs" />
     <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\Coverage.cs" />
     <Compile Include="Entities\Hospital.cs" />
     <Compile Include="Entities\Policies.cs" />
+    <Compile Include="Entities\Product.cs" />
     <Compile Include="Enums\CarrierStatusEnum.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CarrierDdlModel.cs" />

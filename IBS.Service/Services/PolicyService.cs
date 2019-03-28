@@ -15,10 +15,13 @@ namespace IBS.Service.Services
     {
         private readonly IPolicyRepository _policyRepository;
         private readonly ICarrierService _carrierService;
-        public PolicyService(IPolicyRepository policyRepository, ICarrierService carrierService)
+        private readonly ICommonService _commonService;
+        public PolicyService(IPolicyRepository policyRepository, ICarrierService carrierService,
+            ICommonService commonService)
         {
             _policyRepository = policyRepository;
             _carrierService = carrierService;
+            _commonService = commonService;
         }
 
         public bool AddPolicy(PolicyModel policy)
@@ -28,12 +31,14 @@ namespace IBS.Service.Services
                 PolicyNumber = policy.PolicyNumber,
                 PolicyType = policy.PolicyType,
                 CarId = policy.CarId,
-                EffectiveDate = policy.EffectiveDate,
-                EndDate = policy.EndDate,
+                EffectiveDate = (DateTime)policy.EffectiveDate,
+                EndDate = (DateTime)policy.EndDate,
                 IsGroupInsurance = policy.IsGroupInsurance,
                 IsActive = true,
                 AddUser = LoginUserDetails.GetWindowsLoginUserName(),
-                AddDate = DateUtil.GetCurrentDate()
+                AddDate = DateUtil.GetCurrentDate(),
+                CoverageId=policy.CoverageId,
+                ProductId=policy.ProductId
             };
 
             return _policyRepository.Add(entity);
@@ -56,7 +61,8 @@ namespace IBS.Service.Services
             }
 
             var carriers = _carrierService.GetAllCarriers();
-
+            var coverages = _commonService.GetAllCoverages();
+            var products = _commonService.GetAllProducts();
             policiesData.ForEach(c =>
             {
                 var policy = new PolicyModel()
@@ -66,6 +72,8 @@ namespace IBS.Service.Services
                     PolicyNumber = c.PolicyNumber,
                     PolicyType = c.PolicyType,
                     CarId = c.CarId,
+                    CoverageId=c.CoverageId,
+                    ProductId=c.ProductId,
                     EffectiveDate = c.EffectiveDate,
                     EndDate = c.EndDate,
                     IsGroupInsurance = (bool)c.IsGroupInsurance,
@@ -74,7 +82,10 @@ namespace IBS.Service.Services
                     RevUser = c.RevUser,
                     RevDate = c.RevDate
                 };
+
                 MapSelectedCarrier(policy, carriers?.FirstOrDefault(cr => cr.Id == policy.CarId));
+                MapSelectedCoverage(policy, coverages?.FirstOrDefault(cov => cov.Id == policy.CoverageId));
+                MapSelectedProduct(policy, products?.FirstOrDefault(pro => pro.Id == policy.ProductId));
                 policies.Add(policy);
             });
 
@@ -92,6 +103,29 @@ namespace IBS.Service.Services
             };
         }
 
+        private void MapSelectedCoverage(PolicyModel policy, Coverage coverage)
+        {
+            if (coverage == null)
+                return;
+            policy.SelectedCoverage = new Coverage()
+            {
+                Id = coverage.Id,
+                Name = coverage.Name
+            };
+        }
+
+        private void MapSelectedProduct(PolicyModel policy, Product product)
+        {
+            if (product == null)
+                return;
+            policy.SelectedProduct = new Product()
+            {
+                Id = product.Id,
+                Name = product.Name
+            };
+        }
+
+
         public PolicyModel GetById(int Id)
         {
             var entity = _policyRepository.GetById(Id);
@@ -105,6 +139,8 @@ namespace IBS.Service.Services
                     PolicyNumber = entity.PolicyNumber,
                     PolicyType = entity.PolicyType,
                     CarId = entity.CarId,
+                    CoverageId=entity.CoverageId,
+                    ProductId=entity.ProductId,
                     EffectiveDate = entity.EffectiveDate,
                     EndDate = entity.EndDate,
                     IsGroupInsurance = (bool)entity.IsGroupInsurance,
@@ -115,7 +151,11 @@ namespace IBS.Service.Services
                 };
 
                 var carrier = _carrierService.GetById(policy.CarId);
+                var coverage = _commonService.GetCoverageById(policy.CoverageId);
+                var product = _commonService.GetProductById(policy.ProductId);
                 MapSelectedCarrier(policy, carrier);
+                MapSelectedProduct(policy, product);
+                MapSelectedCoverage(policy, coverage);
                 return policy;
             }
 
@@ -131,8 +171,10 @@ namespace IBS.Service.Services
                 IsActive = policy.IsActive,
                 PolicyType = policy.PolicyType,
                 CarId = policy.CarId,
-                EffectiveDate = policy.EffectiveDate,
-                EndDate = policy.EndDate,
+                CoverageId=policy.CoverageId,
+                ProductId=policy.ProductId,
+                EffectiveDate = (DateTime)policy.EffectiveDate,
+                EndDate = (DateTime)policy.EndDate,
                 IsGroupInsurance = policy.IsGroupInsurance,
                 AddUser = policy.AddUser,
                 AddDate = policy.AddDate,
@@ -149,6 +191,32 @@ namespace IBS.Service.Services
             carriers.ToList().ForEach(c =>
             {
                 policy.Carriers.Add(new CarrierDdlModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                });
+            });
+        }
+
+        public void MapProducts(PolicyModel policy)
+        {
+            var products = _commonService.GetAllProducts();
+            products.ToList().ForEach(c =>
+            {
+                policy.Products.Add(new Product()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                });
+            });
+        }
+
+        public void MapCoverages(PolicyModel policy)
+        {
+            var coverages = _commonService.GetAllCoverages();
+            coverages.ToList().ForEach(c =>
+            {
+                policy.Coverages.Add(new Coverage()
                 {
                     Id = c.Id,
                     Name = c.Name

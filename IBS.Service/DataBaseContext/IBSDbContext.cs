@@ -41,6 +41,9 @@ namespace IBS.Service.DataBaseContext
         public virtual DbSet<Policie> Policies { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
 
+        public virtual DbSet<Coverage> Coverages { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBinder)
         {
             modelBinder.Entity<Carrier>().Map(entity =>
@@ -76,6 +79,8 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.AddDate).HasColumnName("Pol_AddDate");
                 entity.Property(p => p.RevUser).HasColumnName("Pol_RevUser");
                 entity.Property(p => p.RevDate).HasColumnName("Pol_RevDate");
+                entity.Property(p => p.CoverageId).HasColumnName("Pol_Cov_Id");
+                entity.Property(p => p.ProductId).HasColumnName("Pol_Pro_Id");
 
                 entity.ToTable("policies");
             });
@@ -91,6 +96,18 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.RevDate).HasColumnName("Cli_RevDate");
 
                 entity.ToTable("Clients");
+            });
+            modelBinder.Entity<Coverage>().Map(entity =>
+            {
+                entity.Property(p => p.Id).HasColumnName("Cov_Id");
+                entity.Property(p => p.Name).HasColumnName("Cov_Name");
+                entity.ToTable("Coverages");
+            });
+            modelBinder.Entity<Product>().Map(entity =>
+            {
+                entity.Property(p => p.Id).HasColumnName("Pro_Id");
+                entity.Property(p => p.Name).HasColumnName("Pro_Name");
+                entity.ToTable("Products");
             });
         }
 

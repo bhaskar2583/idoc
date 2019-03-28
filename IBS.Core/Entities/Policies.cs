@@ -18,5 +18,7 @@ namespace IBS.Core.Entities
         public DateTime EndDate { get; set; }
         public bool? IsGroupInsurance { get; set; }
 
+        public int CoverageId { get; set; }
+        public int ProductId { get; set; }
     }
 }

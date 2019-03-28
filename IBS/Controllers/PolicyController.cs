@@ -31,6 +31,8 @@ namespace IBS.Controllers
         {
             var policy = new PolicyModel();
             _policyService.MapCarriers(policy);
+            _policyService.MapCoverages(policy);
+            _policyService.MapProducts(policy);
             return View(policy);
         }
 
@@ -50,11 +52,17 @@ namespace IBS.Controllers
                     }
                 }
                 _policyService.MapCarriers(policy);
+                _policyService.MapCoverages(policy);
+                _policyService.MapProducts(policy);
                 return View(policy);
             }
             catch(Exception ex)
             {
-                return View();
+                _policyService.MapCarriers(policy);
+                _policyService.MapCoverages(policy);
+                _policyService.MapProducts(policy);
+                ViewBag.Message = "Error while adding policy details";
+                return View(policy);
             }
         }
 
@@ -63,6 +71,8 @@ namespace IBS.Controllers
         {
             var policy = _policyService.GetById(id);
             _policyService.MapCarriers(policy);
+            _policyService.MapCoverages(policy);
+            _policyService.MapProducts(policy);
             return View(policy);
         }
 
@@ -78,7 +88,11 @@ namespace IBS.Controllers
             }
             catch
             {
-                return View();
+                _policyService.MapCarriers(policy);
+                _policyService.MapCoverages(policy);
+                _policyService.MapProducts(policy);
+                ViewBag.Message = "Error while updating policy details";
+                return View(policy);
             }
         }
 

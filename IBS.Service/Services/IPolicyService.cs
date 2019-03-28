@@ -17,6 +17,8 @@ namespace IBS.Service.Services
         bool DeletePolicy(int policyId);
 
         void MapCarriers(PolicyModel policy);
+        void MapCoverages(PolicyModel policy);
+        void MapProducts(PolicyModel policy);
         IList<PolicyModel> ApplyFilterForIndex(string policyNumber, CarrierStatusEnum searchStatus, IList<PolicyModel> source);
     }
 }

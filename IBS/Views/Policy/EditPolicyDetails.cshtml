@@ -19,6 +19,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
+                @Html.HiddenFor(model => model.IsActive);
                 @Html.LabelFor(model => model.PolicyNumber)<span class="hash-redcolor">*</span>
                 @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.PolicyNumber, "", new { @class = "text-danger" })
@@ -65,6 +66,31 @@
                 "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
                 )
                 @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CoverageId)<span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.CoverageId,
+                new SelectList(Model.Coverages, "Id", "Name"),
+                "-- Please select a coverages --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.CoverageId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductId)<span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.ProductId,
+                new SelectList(Model.Products, "Id", "Name"),
+                "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>

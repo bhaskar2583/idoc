@@ -43,7 +43,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.EndDate)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { autocomplete = "off",@class = "ibs-input ibs-border" } })
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -68,13 +68,39 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CoverageId)<span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.CoverageId,
+                new SelectList(Model.Coverages, "Id", "Name"),
+                "-- Please select a coverages --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.CoverageId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductId)<span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.ProductId,
+                new SelectList(Model.Products, "Id", "Name"),
+                "-- Please select a product --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
                 <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
                 <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Index", "Policy")';return false;" />
             </div>
-        </div>      
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12" style="color:green">
