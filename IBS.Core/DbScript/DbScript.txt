@@ -29,9 +29,15 @@ CREATE TABLE [dbo].[Policies] (
     [Pol_AddDate]        DATETIME      DEFAULT (getdate()) NOT NULL,
     [Pol_RevUser]        VARCHAR (100) NULL,
     [Pol_RevDate]        DATETIME      NULL,
-    PRIMARY KEY CLUSTERED ([Pol_Id] ASC, [Pol_PolicyType] ASC, [Pol_PolicyNumber] ASC),
-    CONSTRAINT [FK_Policies_Car_Id] FOREIGN KEY ([Pol_Car_Id]) REFERENCES [dbo].[Carriers] ([Car_Id])
+    [Pol_Cov_Id]         INT           NOT NULL,
+    [Pol_Pro_Id]         INT           NOT NULL,
+    CONSTRAINT [PK_Policies] PRIMARY KEY CLUSTERED ([Pol_PolicyNumber] ASC, [Pol_Cov_Id] ASC, [Pol_Pro_Id] ASC, [Pol_Car_Id] ASC),
+    CONSTRAINT [FK_Policies_Car_Id] FOREIGN KEY ([Pol_Car_Id]) REFERENCES [dbo].[Carriers] ([Car_Id]),
+    CONSTRAINT [FK_Policies_Cov_Id] FOREIGN KEY ([Pol_Cov_Id]) REFERENCES [dbo].[Coverages] ([Cov_Id]),
+    CONSTRAINT [FK_Policies_Pro_Id] FOREIGN KEY ([Pol_Pro_Id]) REFERENCES [dbo].[Products] ([Pro_Id])
 );
+
+
 
 CREATE TABLE [dbo].[Clients]
 (
