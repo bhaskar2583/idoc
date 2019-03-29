@@ -16,10 +16,12 @@ namespace IBS.Core.Models
         public string Division { get; set; }
 
         public List<DivisionModel> Divisions { get; set; }
+        public List<PolicyModel> Polocies { get; set; }
         public DivisionModel SelectedDevision { get; set; }
         public bool IsActive { get; set; }
         public ClientModel()
         {
+            Polocies = new List<PolicyModel>();
             Divisions = new List<DivisionModel>() { new DivisionModel() { Id = 1, Name = "Division 1" }, new DivisionModel() { Id = 2, Name = "Division 2" } };
         }
     }

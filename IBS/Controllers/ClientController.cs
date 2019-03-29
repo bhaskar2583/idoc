@@ -11,9 +11,11 @@ namespace IBS.Controllers
     public class ClientController : System.Web.Mvc.Controller
     {
         private readonly IClientService _clientService;
-        public ClientController(IClientService clientService)
+        private readonly IPolicyService _polocyService;
+        public ClientController(IClientService clientService, IPolicyService polocyService)
         {
             _clientService = clientService;
+            _polocyService = polocyService;
         }
         // GET: Client
         public ActionResult Index()
@@ -92,6 +94,32 @@ namespace IBS.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Details(int id)
+        {
+            var client = _clientService.GetAllClientPolocies(id);
+            var policies = _polocyService.GetAllPolicies();
+
+            var viewPolocies = new List<PolicyModel>();
+            policies.ToList().ForEach(p =>
+            {
+                var isEixst = client.Polocies.FirstOrDefault(cp => cp.Id == p.Id);
+                if (isEixst == null)
+                {
+                    viewPolocies.Add(p);
+                }
+            });
+            ViewBag.Polocies = viewPolocies;
+
+            return View(client);
+        }
+
+        [HttpPost]
+        public JsonResult AddClientPolocie(int clientId,int polocieId)
+        {
+            _clientService.AddClientPolocie(clientId, polocieId);
+            return Json(_clientService.GetAllClients(), JsonRequestBehavior.AllowGet);
         }
     }
 }

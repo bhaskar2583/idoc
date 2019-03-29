@@ -52,6 +52,7 @@
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Carrier.cs" />
     <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\ClientPolicie.cs" />
     <Compile Include="Entities\Coverage.cs" />
     <Compile Include="Entities\Hospital.cs" />
     <Compile Include="Entities\Policies.cs" />

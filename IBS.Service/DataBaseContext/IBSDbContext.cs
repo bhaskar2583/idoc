@@ -43,6 +43,7 @@ namespace IBS.Service.DataBaseContext
 
         public virtual DbSet<Coverage> Coverages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ClientPolicie> ClientPolicies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBinder)
         {
@@ -108,6 +109,19 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.Id).HasColumnName("Pro_Id");
                 entity.Property(p => p.Name).HasColumnName("Pro_Name");
                 entity.ToTable("Products");
+            });
+            modelBinder.Entity<ClientPolicie>().Map(entity =>
+            {
+                entity.Property(p => p.Id).HasColumnName("Cp_Id");
+                entity.Property(p => p.IsActive).HasColumnName("Cp_IsActive");
+                entity.Property(p => p.ClientId).HasColumnName("Cp_ClientId");
+                entity.Property(p => p.PolicieId).HasColumnName("Cp_PolicieId");
+                entity.Property(p => p.AddUser).HasColumnName("Cp_AddUser");
+                entity.Property(p => p.AddDate).HasColumnName("Cp_AddDate");
+                entity.Property(p => p.RevUser).HasColumnName("Cp_RevUser");
+                entity.Property(p => p.RevDate).HasColumnName("Cp_RevDate");
+
+                entity.ToTable("ClientPolicies");
             });
         }
 

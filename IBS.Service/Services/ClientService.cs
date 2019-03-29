@@ -13,9 +13,14 @@ namespace IBS.Service.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
-        public ClientService(IClientRepository clientRepository)
+        private readonly ICommonService _commonService;
+        private readonly IPolicyService _policyService;
+        public ClientService(IClientRepository clientRepository, ICommonService commonService,
+            IPolicyService policyService)
         {
             _clientRepository = clientRepository;
+            _commonService = commonService;
+            _policyService = policyService;
         }
         public bool AddClient(ClientModel client)
         {
@@ -99,5 +104,37 @@ namespace IBS.Service.Services
             return _clientRepository.Update(entity);
         }
 
+        public ClientModel GetAllClientPolocies(int clientId)
+        {
+            var clientResult = new ClientModel();
+            var client = GetById(clientId);
+
+            if (client == null)
+                return clientResult;
+            clientResult.Name = client.Name;
+            clientResult.Id = client.Id;
+
+            var clietPolocies = _commonService.GetAllClientPoliciesById(clientId);
+
+            clietPolocies.ToList().ForEach(cli => {
+                var policie = _policyService.GetById(cli.PolicieId);
+                clientResult.Polocies.Add(policie);
+            });
+            return clientResult;
+        }
+
+        public bool AddClientPolocie(int clientId, int polocieId)
+        {
+            var clientPolocieModel = new ClientPolicie()
+            {
+                ClientId = clientId,
+                PolicieId = polocieId,
+                IsActive = true,
+                AddUser = LoginUserDetails.GetWindowsLoginUserName(),
+                AddDate = DateUtil.GetCurrentDate()
+            };
+
+           return _commonService.AddClientPolocie(clientPolocieModel);
+        }
     }
 }

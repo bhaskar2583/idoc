@@ -14,5 +14,8 @@ namespace IBS.Service.Services
         bool AddClient(ClientModel client);
         bool ModifyClient(ClientModel client);
         bool DeleteClient(int clientId);
+
+        ClientModel GetAllClientPolocies(int clientId);
+        bool AddClientPolocie(int clientId, int polocieId);
     }
 }

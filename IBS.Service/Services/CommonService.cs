@@ -15,6 +15,22 @@ namespace IBS.Service.Services
         {
             _commonRepository = commonRepository;
         }
+
+        public bool AddClientPolocie(ClientPolicie clientPolicie)
+        {
+            return _commonRepository.AddClientPolocie(clientPolicie);
+        }
+
+        public IList<ClientPolicie> GetAllClientPolicies()
+        {
+            return _commonRepository.GetAllClientPolicies();
+        }
+
+        public IList<ClientPolicie> GetAllClientPoliciesById(int clientId)
+        {
+            return _commonRepository.GetAllClientPoliciesById(clientId);
+        }
+
         public IList<Coverage> GetAllCoverages()
         {
             return _commonRepository.GetAllCoverages();

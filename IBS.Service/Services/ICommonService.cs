@@ -13,5 +13,8 @@ namespace IBS.Service.Services
         IList<Product> GetAllProducts();
         Coverage GetCoverageById(int coverageId);
         Product GetProductById(int productId);
+        IList<ClientPolicie> GetAllClientPolicies();
+        IList<ClientPolicie> GetAllClientPoliciesById(int clientId);
+        bool AddClientPolocie(ClientPolicie clientPolicie);
     }
 }

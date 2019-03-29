@@ -32,6 +32,7 @@ CREATE TABLE [dbo].[Policies] (
     [Pol_Cov_Id]         INT           NOT NULL,
     [Pol_Pro_Id]         INT           NOT NULL,
     CONSTRAINT [PK_Policies] PRIMARY KEY CLUSTERED ([Pol_PolicyNumber] ASC, [Pol_Cov_Id] ASC, [Pol_Pro_Id] ASC, [Pol_Car_Id] ASC),
+    UNIQUE NONCLUSTERED ([Pol_Id] ASC),
     CONSTRAINT [FK_Policies_Car_Id] FOREIGN KEY ([Pol_Car_Id]) REFERENCES [dbo].[Carriers] ([Car_Id]),
     CONSTRAINT [FK_Policies_Cov_Id] FOREIGN KEY ([Pol_Cov_Id]) REFERENCES [dbo].[Coverages] ([Cov_Id]),
     CONSTRAINT [FK_Policies_Pro_Id] FOREIGN KEY ([Pol_Pro_Id]) REFERENCES [dbo].[Products] ([Pro_Id])
@@ -50,3 +51,19 @@ CREATE TABLE [dbo].[Clients]
     [Cli_RevUser]        VARCHAR (100) NULL,
     [Cli_RevDate]        DATETIME      NULL,
 )
+
+
+CREATE TABLE [dbo].[ClientPolicies] (
+    [Cp_Id]        INT           IDENTITY (1, 1) NOT NULL,
+    [Cp_ClientId]  INT           NOT NULL,
+    [Cp_PolicieId] INT           NOT NULL,
+    [Cp_IsActive]  BIT           DEFAULT ((1)) NOT NULL,
+    [Cp_AddUser]   VARCHAR (100) NOT NULL,
+    [Cp_AddDate]   DATETIME      DEFAULT (getdate()) NOT NULL,
+    [Cp_RevUser]   VARCHAR (100) NULL,
+    [Cp_RevDate]   DATETIME      NULL,
+    PRIMARY KEY CLUSTERED ([Cp_Id] ASC),
+    CONSTRAINT [FK_ClientPolicies_ClientId] FOREIGN KEY ([Cp_ClientId]) REFERENCES [dbo].[Clients] ([Cli_Id]),
+    CONSTRAINT [FK_ClientPolicies_PolicyId] FOREIGN KEY ([Cp_PolicieId]) REFERENCES [dbo].[Policies] ([Pol_Id])
+);
+

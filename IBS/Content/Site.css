@@ -196,3 +196,8 @@ table {
     font-size: 12px;
     font-weight: 900;
 }
+
+.margin-tb-20{
+    margin-top:20px;
+    margin-bottom: 20px;
+}

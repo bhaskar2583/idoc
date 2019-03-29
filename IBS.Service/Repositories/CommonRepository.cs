@@ -16,6 +16,23 @@ namespace IBS.Service.Repositories
             _hanysContext = new IBSDbContext();
         }
 
+        public bool AddClientPolocie(ClientPolicie clientPolicie)
+        {
+           _hanysContext.ClientPolicies.Add(clientPolicie);
+            _hanysContext.SaveChanges();
+            return true;
+        }
+
+        public IList<ClientPolicie> GetAllClientPolicies()
+        {
+            return _hanysContext.ClientPolicies.ToList();
+        }
+
+        public IList<ClientPolicie> GetAllClientPoliciesById(int clientId)
+        {
+            return _hanysContext.ClientPolicies.Where(cov => cov.ClientId == clientId).ToList();
+        }
+
         public IList<Coverage> GetAllCoverages()
         {
             return _hanysContext.Coverages.ToList();
