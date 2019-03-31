@@ -56,6 +56,8 @@ namespace IBS.Service.Repositories
                 data.Name = client.Name;
                 data.IsActive = client.IsActive;
                 data.Division = client.Division;
+                data.RevDate = client.RevDate;
+                data.RevUser = client.RevUser;
                 _hanysContext.SaveChanges();
             }
             return true;

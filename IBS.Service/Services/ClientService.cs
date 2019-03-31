@@ -114,7 +114,7 @@ namespace IBS.Service.Services
             clientResult.Name = client.Name;
             clientResult.Id = client.Id;
 
-            var clietPolocies = _commonService.GetAllClientPoliciesById(clientId);
+            var clietPolocies = _commonService.GetAllClientPoliciesById(clientId).Where(cp => cp.IsActive == true);
 
             clietPolocies.ToList().ForEach(cli => {
                 var policie = _policyService.GetById(cli.PolicieId);
@@ -135,6 +135,11 @@ namespace IBS.Service.Services
             };
 
            return _commonService.AddClientPolocie(clientPolocieModel);
+        }
+
+        public bool SoftRemoveClientPolicy(int policyId, int clientId)
+        {
+            return _commonService.SoftRemoveClientPolicy(policyId, clientId);
         }
     }
 }

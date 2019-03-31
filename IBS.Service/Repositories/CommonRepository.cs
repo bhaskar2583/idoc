@@ -1,5 +1,6 @@
 ﻿using IBS.Core.Entities;
 using IBS.Service.DataBaseContext;
+using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,20 @@ namespace IBS.Service.Repositories
         {
            _hanysContext.ClientPolicies.Add(clientPolicie);
             _hanysContext.SaveChanges();
+            return true;
+        }
+
+        public bool SoftRemoveClientPolicy(int policyId, int clientId)
+        {
+          
+            var data = _hanysContext.ClientPolicies.FirstOrDefault(c => c.PolicieId == policyId && c.ClientId==clientId);
+            if (data != null)
+            {
+                data.IsActive = false;
+                data.RevDate = DateUtil.GetCurrentDate();
+                data.RevUser = LoginUserDetails.GetWindowsLoginUserName();
+                _hanysContext.SaveChanges();
+            }
             return true;
         }
 

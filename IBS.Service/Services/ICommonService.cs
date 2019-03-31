@@ -16,5 +16,6 @@ namespace IBS.Service.Services
         IList<ClientPolicie> GetAllClientPolicies();
         IList<ClientPolicie> GetAllClientPoliciesById(int clientId);
         bool AddClientPolocie(ClientPolicie clientPolicie);
+        bool SoftRemoveClientPolicy(int policyId, int clientId);
     }
 }

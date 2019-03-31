@@ -21,6 +21,11 @@ namespace IBS.Service.Services
             return _commonRepository.AddClientPolocie(clientPolicie);
         }
 
+        public bool SoftRemoveClientPolicy(int policyId, int clientId)
+        {
+            return _commonRepository.SoftRemoveClientPolicy(policyId, clientId);
+        }
+
         public IList<ClientPolicie> GetAllClientPolicies()
         {
             return _commonRepository.GetAllClientPolicies();

@@ -55,6 +55,8 @@ namespace IBS.Service.Repositories
             {
                 data.IsActive = policy.IsActive;
                 data.CarId = policy.CarId;
+                data.CoverageId = policy.CoverageId;
+                data.ProductId = policy.ProductId;
                 data.PolicyNumber = policy.PolicyNumber;
                 data.PolicyType = policy.PolicyType;
                 data.EffectiveDate = policy.EffectiveDate;

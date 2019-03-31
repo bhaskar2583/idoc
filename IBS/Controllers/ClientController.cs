@@ -115,6 +115,23 @@ namespace IBS.Controllers
             return View(client);
         }
 
+        public ActionResult SoftRemovePolicy(int policyId,int clientId)
+        {
+            try
+            {
+                var result = _clientService.SoftRemoveClientPolicy(policyId, clientId);
+                if (result)
+                {
+                    ViewBag.AlertMsg = "Client policy deleted successfully";
+                }
+                return RedirectToAction("Details",new { id= clientId });
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         [HttpPost]
         public JsonResult AddClientPolocie(int clientId,int polocieId)
         {
