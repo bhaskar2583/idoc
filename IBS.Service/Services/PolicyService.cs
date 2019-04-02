@@ -247,5 +247,87 @@ namespace IBS.Service.Services
             }
             return source;
         }
+
+        public IList<PolicieBudget> GetAllPolicyBudgets(int policyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<PolicyBudgetsModel> IPolicyService.GetAllPolicyBudgets(int policyId)
+        {
+            var policyBudget = new List<PolicyBudgetsModel>();
+            var budgetDetails = _commonService.GetAllPolicyBudgets(policyId);
+
+            if (budgetDetails == null)
+                return policyBudget;
+
+            budgetDetails.ToList().ForEach(b =>
+            {
+                var policy = _policyRepository.GetById(b.Id);
+
+                var isExist = policyBudget.FirstOrDefault(pb => pb.PolicyName == policy.PolicyNumber);
+
+                if (isExist == null)
+                {
+                    var budget = new PolicyBudgetsModel()
+                    {
+                        PolicyId = b.PolicyId,
+                        PolicyName = policy.PolicyNumber
+                    };
+                    policyBudget.Add(budget);
+                    AssignBudget(budget, b.BudgetKey, b.BudgetValue);
+                }
+                if (isExist != null)
+                {
+                    AssignBudget(isExist, b.BudgetKey, b.BudgetValue);
+                }
+                
+            });
+            return policyBudget;
+        }
+
+        private void AssignBudget(PolicyBudgetsModel budget,string month,int amount)
+        {
+            switch (month)
+            {
+                case "jan" :
+                    budget.JanBudget = amount;
+                    break;
+                case "feb":
+                    budget.JanBudget = amount;
+                    break;
+                case "mar":
+                    budget.JanBudget = amount;
+                    break;
+                case "apr":
+                    budget.JanBudget = amount;
+                    break;
+                case "may":
+                    budget.JanBudget = amount;
+                    break;
+                case "jun":
+                    budget.JanBudget = amount;
+                    break;
+                case "jul":
+                    budget.JanBudget = amount;
+                    break;
+                case "aug":
+                    budget.JanBudget = amount;
+                    break;
+                case "sep":
+                    budget.JanBudget = amount;
+                    break;
+                case "oct":
+                    budget.JanBudget = amount;
+                    break;
+                case "nov":
+                    budget.JanBudget = amount;
+                    break;
+                case "dec":
+                    budget.JanBudget = amount;
+                    break;
+
+            }
+        }
     }
 }

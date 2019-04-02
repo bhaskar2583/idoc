@@ -67,5 +67,10 @@ namespace IBS.Service.Repositories
         {
             return _hanysContext.Products.FirstOrDefault(cov => cov.Id == productId);
         }
+
+        public IList<PolicieBudget> GetAllPolicyBudgets(int policyId)
+        {
+            return _hanysContext.PolicieBudgets.ToList();
+        }
     }
 }

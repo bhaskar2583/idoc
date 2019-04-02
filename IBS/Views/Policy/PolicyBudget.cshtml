@@ -1,0 +1,139 @@
+﻿@model IEnumerable<IBS.Core.Models.PolicyBudgetsModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row col-md-12">
+    <h2>
+        Policy Budget
+    </h2>
+    <hr />
+</div>
+
+<div class="row col-md-12">
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Budget Year</label>
+            <select class="ibs-input ibs-border">
+                <option>2019</option>
+                <option>2018</option>
+                <option>2017</option>
+            </select>
+            <input id="btnAddPolicie" type="submit" value="Search" class="btn btn-success margin-tb-20" />
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead class="thead-dark lbl-grid-head">
+        <tr>
+            <th>
+                Policy Number
+            </th>
+            <th>
+                Jan
+            </th>
+            <th>
+                Feb
+            </th>
+            <th>
+                March
+            </th>
+            <th>
+                April
+            </th>
+            <th>
+                May
+            </th>
+            <th>
+                Jun
+            </th>
+            <th>
+                July
+            </th>
+            <th>
+                Auguest
+            </th>
+            <th>
+                September
+            </th>
+            <th>
+                Octomber
+            </th>
+            <th>
+                November
+            </th>
+            <th>
+                December
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+    {
+      
+    <tr class="lbl-grid">
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.PolicyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.JanBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.FebBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.MarchBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.AprilBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.MayBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.JunBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.JulyBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.AugBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.SepBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.OctBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.NovBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.DecBudget)
+        </td>
+
+    </tr>
+    }
+</table>
+
+<script type="text/javascript">
+    function Search() {
+        var searchKey = $("#txtSearchText").val();
+        var searchStatusKey = $("input[name='status']:checked").val();
+        window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
+    };
+    $(document).ready(function () {
+        var searchString = window.location.search;
+        if (searchString != "") {
+            var searchArray = window.location.search.substring(1).split('&');
+            var carrerName = searchArray[0].split('=');
+            var status = searchArray[1].split('=');
+            $("#txtSearchText").val(carrerName[1]);
+            var name = "status";
+            $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
+        }
+    });
+</script>

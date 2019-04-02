@@ -113,5 +113,12 @@ namespace IBS.Controllers
                 return View();
             }
         }
+
+        // GET: Policies
+        public ActionResult PolicyBudget(int id)
+        {
+            var policyBudget = _policyService.GetAllPolicyBudgets(id);
+            return View(policyBudget);
+        }
     }
 }

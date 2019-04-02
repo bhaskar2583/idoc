@@ -218,6 +218,7 @@
     <Content Include="Views\Client\AddClient.cshtml" />
     <Content Include="Views\Client\EditClientDetails.cshtml" />
     <Content Include="Views\Client\Details.cshtml" />
+    <Content Include="Views\Policy\PolicyBudget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

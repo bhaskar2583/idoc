@@ -18,5 +18,7 @@ namespace IBS.Service.Repositories
 
         bool AddClientPolocie(ClientPolicie clientPolicie);
         bool SoftRemoveClientPolicy(int policyId, int clientId);
+
+        IList<PolicieBudget> GetAllPolicyBudgets(int policyId);
     }
 }

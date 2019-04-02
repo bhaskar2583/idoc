@@ -97,6 +97,7 @@
 
         <td>
             @Html.ActionLink("Edit", "EditPolicyDetails", new { id = item.Data.Id }) |
+            @Html.ActionLink("CF Budget", "PolicyBudget", new { id = item.Data.Id }) |
             @*@Html.ActionLink("Delete", "DeletePolicy", new { id = item.Data.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })*@
         </td>
     </tr>

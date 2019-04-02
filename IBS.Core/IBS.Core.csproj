@@ -55,6 +55,7 @@
     <Compile Include="Entities\ClientPolicie.cs" />
     <Compile Include="Entities\Coverage.cs" />
     <Compile Include="Entities\Hospital.cs" />
+    <Compile Include="Entities\PolicieBudget.cs" />
     <Compile Include="Entities\Policies.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Enums\CarrierStatusEnum.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Models\ClientModel.cs" />
     <Compile Include="Models\DivisionModel.cs" />
     <Compile Include="Models\HospitalModel.cs" />
+    <Compile Include="Models\PolicyBudgetsModel.cs" />
     <Compile Include="Models\PolicyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
