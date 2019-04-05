@@ -198,9 +198,9 @@ namespace IBS.Service.Services
             });
         }
 
-        public void MapProducts(PolicyModel policy)
+        public void MapProductsOfCoverage(PolicyModel policy,int coverageId)
         {
-            var products = _commonService.GetAllProducts();
+            var products = _commonService.GetAllProductsByCoverageId(coverageId);
             products.ToList().ForEach(c =>
             {
                 policy.Products.Add(new Product()
@@ -263,32 +263,32 @@ namespace IBS.Service.Services
 
             budgetDetails.ToList().ForEach(b =>
             {
-                var policy = _policyRepository.GetById(b.Id);
-
-                var isExist = policyBudget.FirstOrDefault(pb => pb.PolicyName == policy.PolicyNumber);
+                var isExist = policyBudget.FirstOrDefault(pb => pb.Year == b.BudgetYear
+                && pb.PolicyId == b.PolicyId);
 
                 if (isExist == null)
                 {
+                    var policy = _policyRepository.GetById(b.PolicyId);
                     var budget = new PolicyBudgetsModel()
                     {
                         PolicyId = b.PolicyId,
-                        PolicyName = policy.PolicyNumber
+                        PolicyNumber = policy.PolicyNumber,
+                        Year = b.BudgetYear
                     };
                     policyBudget.Add(budget);
-                    AssignBudget(budget, b.BudgetKey, b.BudgetValue);
+                    AssignBudget(budget, b.BudgetMonth, b.BudgetValue);
                 }
                 if (isExist != null)
                 {
-                    AssignBudget(isExist, b.BudgetKey, b.BudgetValue);
+                    AssignBudget(isExist, b.BudgetMonth, b.BudgetValue);
                 }
-                
             });
             return policyBudget;
         }
 
         private void AssignBudget(PolicyBudgetsModel budget,string month,int amount)
         {
-            switch (month)
+            switch (month.ToLower())
             {
                 case "jan" :
                     budget.JanBudget = amount;

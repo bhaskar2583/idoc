@@ -10,7 +10,8 @@ namespace IBS.Core.Entities
     {
         public int Id { get; set; }
         public int PolicyId { get; set; }
-        public string BudgetKey { get; set; }
+        public int BudgetYear { get; set; }
+        public string BudgetMonth { get; set; }
         public int BudgetValue { get; set; }
         public bool IsActive { get; set; }
     }

@@ -19,7 +19,7 @@ namespace IBS.Service.Services
 
         void MapCarriers(PolicyModel policy);
         void MapCoverages(PolicyModel policy);
-        void MapProducts(PolicyModel policy);
+        void MapProductsOfCoverage(PolicyModel policy,int coverageId);
         IList<PolicyModel> ApplyFilterForIndex(string policyNumber, CarrierStatusEnum searchStatus, IList<PolicyModel> source);
         IList<PolicyBudgetsModel> GetAllPolicyBudgets(int policyId);
     }

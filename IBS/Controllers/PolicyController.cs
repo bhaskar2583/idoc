@@ -1,6 +1,7 @@
 ﻿using IBS.Core.Enums;
 using IBS.Core.Models;
 using IBS.Service.Services;
+using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,6 @@ namespace IBS.Controllers
             var policy = new PolicyModel();
             _policyService.MapCarriers(policy);
             _policyService.MapCoverages(policy);
-            //_policyService.MapProducts(policy);
             return View(policy);
         }
 
@@ -56,14 +56,14 @@ namespace IBS.Controllers
                 }
                 _policyService.MapCarriers(policy);
                 _policyService.MapCoverages(policy);
-                _policyService.MapProducts(policy);
+                _policyService.MapProductsOfCoverage(policy, policy.CoverageId);
                 return View(policy);
             }
             catch(Exception ex)
             {
                 _policyService.MapCarriers(policy);
                 _policyService.MapCoverages(policy);
-                _policyService.MapProducts(policy);
+                _policyService.MapProductsOfCoverage(policy, policy.CoverageId);
                 ViewBag.Message = "Error while adding policy details";
                 return View(policy);
             }
@@ -75,7 +75,7 @@ namespace IBS.Controllers
             var policy = _policyService.GetById(id);
             _policyService.MapCarriers(policy);
             _policyService.MapCoverages(policy);
-            _policyService.MapProducts(policy);
+            _policyService.MapProductsOfCoverage(policy,policy.SelectedCoverage.Id);
             return View(policy);
         }
 
@@ -93,7 +93,7 @@ namespace IBS.Controllers
             {
                 _policyService.MapCarriers(policy);
                 _policyService.MapCoverages(policy);
-                _policyService.MapProducts(policy);
+                _policyService.MapProductsOfCoverage(policy, policy.CoverageId);
                 ViewBag.Message = "Error while updating policy details";
                 return View(policy);
             }
@@ -118,9 +118,14 @@ namespace IBS.Controllers
         }
 
         // GET: Policies
-        public ActionResult PolicyBudget(int id)
+        public ActionResult PolicyBudget(int id,int? year)
         {
             var policyBudget = _policyService.GetAllPolicyBudgets(id);
+            ViewBag.Years = DateUtil.GetPreviousYears(5);
+            if(year!=null && year > 0)
+            {
+                policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
+            }
             return View(policyBudget);
         }
         [HttpGet]

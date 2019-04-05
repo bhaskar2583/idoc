@@ -133,6 +133,29 @@
 
             return true;
         });
+
+        $("#CoverageId").change(function () {
+
+            let host = window.location.origin;
+            let path = window.location.pathname.split('/');
+            let apiPath = host + "/" + path[0] + "/" + path[1];
+
+            var coverageId = $("#CoverageId").val();
+            $("#ProductId").empty();
+            $("#ProductId").append($('<option></option>').val("").html("-- Please select a product --"));
+            $.ajax({
+                url: apiPath+'/GetProducts',
+                type: "GET",
+                dataType: "JSON",
+                data: { coverageId: coverageId },
+                success: function (data) {
+                    $.each(data, function (index, product) {
+                        $("#ProductId").append(
+                            $('<option></option>').val(product.Id).html(product.Name));
+                    });
+                }
+            });
+        });
     });
 </script>
 

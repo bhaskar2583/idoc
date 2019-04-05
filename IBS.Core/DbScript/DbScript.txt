@@ -67,19 +67,22 @@ CREATE TABLE [dbo].[ClientPolicies] (
     CONSTRAINT [FK_ClientPolicies_PolicyId] FOREIGN KEY ([Cp_PolicieId]) REFERENCES [dbo].[Policies] ([Pol_Id])
 );
 
-CREATE TABLE [dbo].[PolicieBudgets]
-(
-	[Pb_Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Pb_Pol_Id] INT NOT NULL, 
-    [Pb_Bud_Key] VARCHAR(50) NOT NULL, 
-    [pb_Bud_Value] INT NOT NULL,
-	[Pb_IsActive]     BIT           DEFAULT ((1)) NOT NULL,
-    [Pb_AddUser]      VARCHAR (100) NOT NULL,
-    [Pb_AddDate]      DATETIME      DEFAULT (getdate()) NOT NULL,
-    [Pb_RevUser]      VARCHAR (100) NULL,
-    [Pb_RevDate]      DATETIME      NULL,
-	CONSTRAINT [FK_Pb_PolicyId] FOREIGN KEY ([Pb_Pol_Id]) REFERENCES [dbo].[Policies] ([Pol_Id])
-)
+CREATE TABLE [dbo].[PolicieBudgets] (
+    [Pb_Id]        INT           IDENTITY (1, 1) NOT NULL,
+    [Pb_Pol_Id]    INT           NOT NULL,
+    [Pb_Bud_Year]  INT           NOT NULL,
+    [Pb_Bud_Month] VARCHAR (50)  NOT NULL,
+    [pb_Bud_Value] INT           NOT NULL,
+    [Pb_IsActive]  BIT           DEFAULT ((1)) NOT NULL,
+    [Pb_AddUser]   VARCHAR (100) NOT NULL,
+    [Pb_AddDate]   DATETIME      DEFAULT (getdate()) NOT NULL,
+    [Pb_RevUser]   VARCHAR (100) NULL,
+    [Pb_RevDate]   DATETIME      NULL,
+    PRIMARY KEY CLUSTERED ([Pb_Id] ASC),
+    CONSTRAINT [FK_Pb_PolicyId] FOREIGN KEY ([Pb_Pol_Id]) REFERENCES [dbo].[Policies] ([Pol_Id])
+);
+
+
 
 CREATE TABLE [dbo].[Products] (
     [Pro_Id]     INT           IDENTITY (1, 1) NOT NULL,

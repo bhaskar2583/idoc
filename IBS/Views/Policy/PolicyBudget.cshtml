@@ -15,12 +15,11 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Budget Year</label>
-            <select class="ibs-input ibs-border">
-                <option>2019</option>
-                <option>2018</option>
-                <option>2017</option>
-            </select>
-            <input id="btnAddPolicie" type="submit" value="Search" class="btn btn-success margin-tb-20" />
+            @Html.DropDownList(
+            "ddlYears",
+            new SelectList(ViewBag.Years), "-- ALL --", new { @class = "ibs-input ibs-border" }
+            )
+            <input id="btnSearchPolicy" type="submit" value="Search" class="btn btn-success margin-tb-20" />
         </div>
     </div>
 </div>
@@ -30,6 +29,9 @@
         <tr>
             <th>
                 Policy Number
+            </th>
+            <th>
+                Year
             </th>
             <th>
                 Jan
@@ -73,46 +75,49 @@
     </thead>
     @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
     {
-      
+
     <tr class="lbl-grid">
         <td>
-            @Html.LabelFor(modelItem => item.Data.PolicyName)
+            @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data.Year)
         </td>
         <td>
             @Html.TextBoxFor(modelItem => item.Data.JanBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.FebBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.FebBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.MarchBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.MarchBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.AprilBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.AprilBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.MayBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.MayBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.JunBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.JunBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.JulyBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.JulyBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.AugBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.AugBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.SepBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.SepBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.OctBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.OctBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.NovBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.NovBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.DecBudget,  new { Style = "width:80px" })
+            @Html.TextBoxFor(modelItem => item.Data.DecBudget, new { Style = "width:80px" })
         </td>
 
     </tr>
@@ -126,14 +131,21 @@
         window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
     };
     $(document).ready(function () {
-        var searchString = window.location.search;
-        if (searchString != "") {
-            var searchArray = window.location.search.substring(1).split('&');
-            var carrerName = searchArray[0].split('=');
-            var status = searchArray[1].split('=');
-            $("#txtSearchText").val(carrerName[1]);
-            var name = "status";
-            $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
+        var query = window.location.search;
+        if (query != undefined && query != "") {
+            var queryArray = query.split('=');
+            if (queryArray[0].indexOf("year") != -1) {
+                $("#ddlYears").val(queryArray[1]);
+            }
         }
+        $("#btnSearchPolicy").click(function () {
+            var year = $("#ddlYears").val();
+            if (year == "") {
+                window.location.href = window.location.origin + window.location.pathname;
+                return;
+            }
+            window.location.href = window.location.origin + window.location.pathname + "?year=" + year;
+        });
+
     });
 </script>

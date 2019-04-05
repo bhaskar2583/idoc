@@ -130,7 +130,8 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.Id).HasColumnName("Pb_Id");
                 entity.Property(p => p.IsActive).HasColumnName("Pb_IsActive");
                 entity.Property(p => p.PolicyId).HasColumnName("Pb_Pol_Id");
-                entity.Property(p => p.BudgetKey).HasColumnName("Pb_Bud_Key");
+                entity.Property(p => p.BudgetYear).HasColumnName("Pb_Bud_Year");
+                entity.Property(p => p.BudgetMonth).HasColumnName("Pb_Bud_Month");
                 entity.Property(p => p.BudgetValue).HasColumnName("Pb_Bud_Value");
                 entity.Property(p => p.AddUser).HasColumnName("Pb_AddUser");
                 entity.Property(p => p.AddDate).HasColumnName("Pb_AddDate");

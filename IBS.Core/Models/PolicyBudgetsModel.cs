@@ -9,7 +9,8 @@ namespace IBS.Core.Models
     public class PolicyBudgetsModel
     {
         public int PolicyId { get; set; }
-        public string PolicyName { get; set; }
+        public string PolicyNumber { get; set; }
+        public int Year { get; set; }
         public int JanBudget { get; set; }
         public int FebBudget { get; set; }
         public int MarchBudget { get; set; }
