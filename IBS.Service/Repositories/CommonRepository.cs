@@ -72,5 +72,10 @@ namespace IBS.Service.Repositories
         {
             return _hanysContext.PolicieBudgets.ToList();
         }
+
+        public IList<Product> GetAllProductsByCoverageId(int coverageId)
+        {
+            return _hanysContext.Products.Where(p => p.CoverageId == coverageId).ToList();
+        }
     }
 }

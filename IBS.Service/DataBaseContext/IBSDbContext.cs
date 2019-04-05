@@ -109,6 +109,7 @@ namespace IBS.Service.DataBaseContext
             {
                 entity.Property(p => p.Id).HasColumnName("Pro_Id");
                 entity.Property(p => p.Name).HasColumnName("Pro_Name");
+                entity.Property(p => p.CoverageId).HasColumnName("Pro_Cov_Id");
                 entity.ToTable("Products");
             });
             modelBinder.Entity<ClientPolicie>().Map(entity =>

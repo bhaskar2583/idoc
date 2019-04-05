@@ -127,6 +127,23 @@
 
             return true;
         });
+        $("#CoverageId").change(function () {
+            var coverageId = $("#CoverageId").val();
+            $("#ProductId").empty();
+            $("#ProductId").append($('<option></option>').val("").html("-- Please select a product --"));
+            $.ajax({
+                url: 'GetProducts',
+                type: "GET",
+                dataType: "JSON",
+                data: { coverageId: coverageId },
+                success: function (data) {               
+                    $.each(data, function (index, product) {
+                        $("#ProductId").append(
+                            $('<option></option>').val(product.Id).html(product.Name));
+                    });
+                }
+            });
+        });
     });
 </script>
 

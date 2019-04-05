@@ -80,3 +80,11 @@ CREATE TABLE [dbo].[PolicieBudgets]
     [Pb_RevDate]      DATETIME      NULL,
 	CONSTRAINT [FK_Pb_PolicyId] FOREIGN KEY ([Pb_Pol_Id]) REFERENCES [dbo].[Policies] ([Pol_Id])
 )
+
+CREATE TABLE [dbo].[Products] (
+    [Pro_Id]     INT           IDENTITY (1, 1) NOT NULL,
+    [Pro_Name]   VARCHAR (500) NOT NULL,
+    [Pro_Cov_Id] INT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([Pro_Id] ASC),
+    CONSTRAINT [FK_Product_CovId] FOREIGN KEY ([Pro_Cov_Id]) REFERENCES [dbo].[Coverages] ([Cov_Id])
+);

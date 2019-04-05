@@ -60,5 +60,10 @@ namespace IBS.Service.Services
         {
             return _commonRepository.GetAllPolicyBudgets(policyId);
         }
+
+        public IList<Product> GetAllProductsByCoverageId(int coverageId)
+        {
+            return _commonRepository.GetAllProductsByCoverageId(coverageId);
+        }
     }
 }

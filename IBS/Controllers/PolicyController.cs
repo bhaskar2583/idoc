@@ -13,10 +13,13 @@ namespace IBS.Controllers
     {
         private readonly IPolicyService _policyService;
         private readonly ICarrierService _carrierService;
-        public PolicyController(IPolicyService policyService, ICarrierService carrierService)
+        private readonly ICommonService _commonService;
+        public PolicyController(IPolicyService policyService, ICarrierService carrierService,
+            ICommonService commonService)
         {
             _policyService = policyService;
             _carrierService = carrierService;
+            _commonService = commonService;
         }
         // GET: Policies
         public ActionResult Index(string searchkey, string statusSearchkey = "Active")
@@ -32,7 +35,7 @@ namespace IBS.Controllers
             var policy = new PolicyModel();
             _policyService.MapCarriers(policy);
             _policyService.MapCoverages(policy);
-            _policyService.MapProducts(policy);
+            //_policyService.MapProducts(policy);
             return View(policy);
         }
 
@@ -120,5 +123,12 @@ namespace IBS.Controllers
             var policyBudget = _policyService.GetAllPolicyBudgets(id);
             return View(policyBudget);
         }
+        [HttpGet]
+        public JsonResult GetProducts(int coverageId)
+        {
+            var products = _commonService.GetAllProductsByCoverageId(coverageId);
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

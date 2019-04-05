@@ -10,5 +10,6 @@ namespace IBS.Core.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int CoverageId { get; set; }
     }
 }
