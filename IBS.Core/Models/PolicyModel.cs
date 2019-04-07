@@ -11,6 +11,7 @@ namespace IBS.Core.Models
     public class PolicyModel : BaseModel
     {
         public int Id { get; set; }
+        public int ClientPolicyId { get; set; }
         [Required]
         public string PolicyNumber { get; set; }
         [Required]

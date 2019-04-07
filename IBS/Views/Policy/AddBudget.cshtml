@@ -1,0 +1,90 @@
+﻿@model IBS.Core.Models.AddPolicyBudget
+
+@{
+    ViewBag.Title = "AddBudget";
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="row col-md-12">
+        <h2>
+            Add Policy Budget
+        </h2>
+        <hr />
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClientName)<br />
+                @Html.HiddenFor(model => model.ClientId)
+                @Html.HiddenFor(model => model.ClientPolicyId)
+                @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PolicyNumber)<br />
+                @Html.HiddenFor(model => model.PolicyId)
+                @Html.HiddenFor(model => model.PolicyNumber)
+                @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Coverage)<br />
+                @Html.HiddenFor(model => model.Coverage)
+                @Html.EditorFor(model => model.Coverage, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Product)<br />
+                @Html.HiddenFor(model => model.Product)
+                @Html.EditorFor(model => model.Product, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Year)<span class="hash-redcolor">*</span>
+                @Html.DropDownListFor(
+                model => model.Year,
+                new SelectList(ViewBag.Years), "-- Please select a year --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.JanBudget)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.JanBudget, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.JanBudget, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
+                <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Details", "Client",new { id=Model.ClientId})';return false;" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="color:green">
+            <div class="form-group">
+                @ViewBag.Message
+            </div>
+        </div>
+    </div>
+}
+
+

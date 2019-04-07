@@ -44,7 +44,7 @@ namespace IBS.Service.DataBaseContext
         public virtual DbSet<Coverage> Coverages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ClientPolicie> ClientPolicies { get; set; }
-        public virtual DbSet<PolicieBudget> PolicieBudgets { get; set; }
+        public virtual DbSet<ClientPolicyBudget> ClientPolicieBudgets { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBinder)
         {
@@ -125,10 +125,12 @@ namespace IBS.Service.DataBaseContext
 
                 entity.ToTable("ClientPolicies");
             });
-            modelBinder.Entity<PolicieBudget>().Map(entity =>
+            modelBinder.Entity<ClientPolicyBudget>().Map(entity =>
             {
                 entity.Property(p => p.Id).HasColumnName("Pb_Id");
                 entity.Property(p => p.IsActive).HasColumnName("Pb_IsActive");
+                entity.Property(p => p.ClientPolicyId).HasColumnName("Pb_Cpl_Id");
+                entity.Property(p => p.ClientId).HasColumnName("Pb_Cli_Id");
                 entity.Property(p => p.PolicyId).HasColumnName("Pb_Pol_Id");
                 entity.Property(p => p.BudgetYear).HasColumnName("Pb_Bud_Year");
                 entity.Property(p => p.BudgetMonth).HasColumnName("Pb_Bud_Month");
@@ -138,7 +140,7 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.RevUser).HasColumnName("Pb_RevUser");
                 entity.Property(p => p.RevDate).HasColumnName("Pb_RevDate");
 
-                entity.ToTable("PolicieBudgets");
+                entity.ToTable("ClientPolicieBudgets");
             });
         }
 

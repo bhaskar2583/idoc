@@ -219,6 +219,9 @@
     <Content Include="Views\Client\EditClientDetails.cshtml" />
     <Content Include="Views\Client\Details.cshtml" />
     <Content Include="Views\Policy\PolicyBudget.cshtml" />
+    <Content Include="Views\Policy\AddBudget.cshtml" />
+    <Content Include="Views\Policy\EditBudget.cshtml" />
+    <Content Include="Views\Policy\ViewPolicyDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

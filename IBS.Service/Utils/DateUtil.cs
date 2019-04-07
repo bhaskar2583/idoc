@@ -24,5 +24,9 @@ namespace IBS.Service.Utils
             }
             return years;
         }
+        public static List<string> GetMonths()
+        {
+            return new List<string>() { "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
+        }
     }
 }

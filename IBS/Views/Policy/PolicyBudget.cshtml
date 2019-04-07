@@ -84,42 +84,44 @@
             @Html.DisplayFor(modelItem => item.Data.Year)
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.JanBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.JanBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.FebBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.FebBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.MarchBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.MarchBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.AprilBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.AprilBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.MayBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.MayBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.JunBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.JunBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.JulyBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.JulyBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.AugBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.AugBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.SepBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.SepBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.OctBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.OctBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.NovBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.NovBudget, new { Style = "width:80px" })
         </td>
         <td>
-            @Html.TextBoxFor(modelItem => item.Data.DecBudget, new { Style = "width:80px" })
+            @Html.DisplayFor(modelItem => item.Data.DecBudget, new { Style = "width:80px" })
         </td>
-
+        <td>
+            @Html.ActionLink("Edit", "EditBudget", new { ClientId = item.Data.ClientId,PolicyId=item.Data.PolicyId,Year=item.Data.Year }) |
+        </td>
     </tr>
     }
 </table>

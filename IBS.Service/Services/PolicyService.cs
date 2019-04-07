@@ -16,12 +16,15 @@ namespace IBS.Service.Services
         private readonly IPolicyRepository _policyRepository;
         private readonly ICarrierService _carrierService;
         private readonly ICommonService _commonService;
+       // private readonly IClientService _clientService;
         public PolicyService(IPolicyRepository policyRepository, ICarrierService carrierService,
-            ICommonService commonService)
+            ICommonService commonService//, IClientService clientService
+            )
         {
             _policyRepository = policyRepository;
             _carrierService = carrierService;
             _commonService = commonService;
+         //   _clientService = clientService;
         }
 
         public bool AddPolicy(PolicyModel policy)
@@ -248,7 +251,7 @@ namespace IBS.Service.Services
             return source;
         }
 
-        public IList<PolicieBudget> GetAllPolicyBudgets(int policyId)
+        public IList<ClientPolicyBudget> GetAllPolicyBudgets(int policyId)
         {
             throw new NotImplementedException();
         }
@@ -269,10 +272,13 @@ namespace IBS.Service.Services
                 if (isExist == null)
                 {
                     var policy = _policyRepository.GetById(b.PolicyId);
+                    //var client = _clientService.GetById(b.ClientId);
                     var budget = new PolicyBudgetsModel()
                     {
                         PolicyId = b.PolicyId,
                         PolicyNumber = policy.PolicyNumber,
+                        ClientId=b.ClientId,
+                       //ClientName=client.Name,
                         Year = b.BudgetYear
                     };
                     policyBudget.Add(budget);
@@ -286,7 +292,7 @@ namespace IBS.Service.Services
             return policyBudget;
         }
 
-        private void AssignBudget(PolicyBudgetsModel budget,string month,int amount)
+        private void AssignBudget(PolicyBudgetsModel budget,string month,decimal amount)
         {
             switch (month.ToLower())
             {
@@ -294,37 +300,37 @@ namespace IBS.Service.Services
                     budget.JanBudget = amount;
                     break;
                 case "feb":
-                    budget.JanBudget = amount;
+                    budget.FebBudget = amount;
                     break;
                 case "mar":
-                    budget.JanBudget = amount;
+                    budget.MarchBudget = amount;
                     break;
                 case "apr":
-                    budget.JanBudget = amount;
+                    budget.AprilBudget = amount;
                     break;
                 case "may":
-                    budget.JanBudget = amount;
+                    budget.MayBudget = amount;
                     break;
                 case "jun":
-                    budget.JanBudget = amount;
+                    budget.JunBudget = amount;
                     break;
                 case "jul":
-                    budget.JanBudget = amount;
+                    budget.JulyBudget = amount;
                     break;
                 case "aug":
-                    budget.JanBudget = amount;
+                    budget.AugBudget = amount;
                     break;
                 case "sep":
-                    budget.JanBudget = amount;
+                    budget.SepBudget = amount;
                     break;
                 case "oct":
-                    budget.JanBudget = amount;
+                    budget.OctBudget = amount;
                     break;
                 case "nov":
-                    budget.JanBudget = amount;
+                    budget.NovBudget = amount;
                     break;
                 case "dec":
-                    budget.JanBudget = amount;
+                    budget.DecBudget = amount;
                     break;
 
             }

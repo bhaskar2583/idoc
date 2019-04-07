@@ -1,4 +1,5 @@
 ﻿using IBS.Core.Entities;
+using IBS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace IBS.Service.Services
         IList<ClientPolicie> GetAllClientPoliciesById(int clientId);
         bool AddClientPolocie(ClientPolicie clientPolicie);
         bool SoftRemoveClientPolicy(int policyId, int clientId);
-        IList<PolicieBudget> GetAllPolicyBudgets(int policyId);
+        IList<ClientPolicyBudget> GetAllPolicyBudgets(int policyId);
+        bool AddClientPolocyBudget(AddPolicyBudget budget);
+        bool UpdateClientPolocyBudget(AddPolicyBudget budget);
+        AddPolicyBudget GetAllPolicyBudgetsForClientPolicyYear(int clientId,int policyId,int year);
     }
 }

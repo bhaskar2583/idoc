@@ -65,8 +65,9 @@
             @Html.DisplayFor(modelItem => item.Data.SelectedProduct.Name)
         </td>
         <td>
-            @Html.ActionLink("View", "EditPolicyDetails", "Policy", new { id = item.Data.Id },null) |
-            @Html.ActionLink("Remove", "SoftRemovePolicy", new { policyId = item.Data.Id, clientId=Model.Id }) |
+            @Html.ActionLink("View", "ViewPolicyDetails", "Policy", new { id = item.Data.Id }, null) |
+            @Html.ActionLink("Remove", "SoftRemovePolicy", new { policyId = item.Data.Id, clientId = Model.Id }) |
+            @Html.ActionLink("Add Budget", "AddBudget", "Policy", new { policyId = item.Data.Id, clientId = Model.Id,ClientPolicyId= item.Data.ClientPolicyId },null) |
         </td>
     </tr>
     }

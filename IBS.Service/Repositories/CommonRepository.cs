@@ -68,14 +68,52 @@ namespace IBS.Service.Repositories
             return _hanysContext.Products.FirstOrDefault(cov => cov.Id == productId);
         }
 
-        public IList<PolicieBudget> GetAllPolicyBudgets(int policyId)
+        public IList<ClientPolicyBudget> GetAllPolicyBudgets(int policyId)
         {
-            return _hanysContext.PolicieBudgets.ToList();
+            return _hanysContext.ClientPolicieBudgets.Where(p => p.PolicyId == policyId).ToList();
         }
 
         public IList<Product> GetAllProductsByCoverageId(int coverageId)
         {
             return _hanysContext.Products.Where(p => p.CoverageId == coverageId).ToList();
+        }
+
+        public bool AddClientPolocyBudget(ClientPolicyBudget budget)
+        {
+            _hanysContext.ClientPolicieBudgets.Add(budget);
+            _hanysContext.SaveChanges();
+            return true;
+        }
+
+        public bool UpdateClientPolocyBudget(ClientPolicyBudget budget)
+        {
+            var data = _hanysContext.ClientPolicieBudgets.FirstOrDefault(c => c.ClientId == budget.ClientId
+            && c.PolicyId==budget.PolicyId
+            && c.BudgetYear==budget.BudgetYear
+            && c.BudgetMonth==budget.BudgetMonth);
+            if (data != null)
+            {
+                data.IsActive = budget.IsActive;
+                data.BudgetValue = budget.BudgetValue;
+                data.RevDate = budget.RevDate;
+                data.RevUser = budget.RevUser;
+                _hanysContext.SaveChanges();
+            }
+            return true;
+        }
+
+        public IList<ClientPolicyBudget> GetClientPolicyBudgetByClientYear(int clientId, int year)
+        {
+            return _hanysContext.ClientPolicieBudgets.Where(cpb => cpb.ClientId == clientId && cpb.BudgetYear == year).ToList();
+        }
+
+        public IList<ClientPolicyBudget> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year)
+        {
+            var budget = _hanysContext.ClientPolicieBudgets.Where(b => b.ClientId == clientId
+              && b.PolicyId == policyId
+              && b.BudgetYear == year).ToList();
+
+            return budget;
         }
     }
 }

@@ -118,6 +118,7 @@ namespace IBS.Service.Services
 
             clietPolocies.ToList().ForEach(cli => {
                 var policie = _policyService.GetById(cli.PolicieId);
+                policie.ClientPolicyId = cli.Id;
                 clientResult.Polocies.Add(policie);
             });
             return clientResult;

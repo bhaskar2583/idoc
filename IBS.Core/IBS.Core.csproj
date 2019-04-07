@@ -55,7 +55,7 @@
     <Compile Include="Entities\ClientPolicie.cs" />
     <Compile Include="Entities\Coverage.cs" />
     <Compile Include="Entities\Hospital.cs" />
-    <Compile Include="Entities\PolicieBudget.cs" />
+    <Compile Include="Entities\ClientPolicyBudget.cs" />
     <Compile Include="Entities\Policies.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Enums\CarrierStatusEnum.cs" />
