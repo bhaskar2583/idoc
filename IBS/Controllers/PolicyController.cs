@@ -130,28 +130,37 @@ namespace IBS.Controllers
         // GET: Policies
         public ActionResult PolicyBudget(int id,int? year)
         {
-            var policyBudget = _policyService.GetAllPolicyBudgets(id);
-            ViewBag.Years = DateUtil.GetPreviousYears(5);
-            if(year!=null && year > 0)
+            int? yearValue = 0;
+            if (year != null)
             {
-                policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
+                yearValue = year;
             }
-            return View(policyBudget);
+           return RedirectToAction("AddBudget", new { policyId = id, clientId=0, ClientPolicyId=0, yearValue });
+            //var policyBudget = _policyService.GetAllPolicyBudgets(id);
+            //ViewBag.Years = DateUtil.GetPreviousYears(5);
+            //if(year!=null && year > 0)
+            //{
+            //    policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
+            //}
+            //return View(policyBudget);
         }
 
         [HttpGet]
-        public ActionResult AddBudget(int policyId, int clientId,int ClientPolicyId)
+        public ActionResult AddBudget(int policyId, int clientId,int ClientPolicyId,int year=0)
         {
             var client = _clinetService.GetById(clientId);
             var policy = _policyService.GetById(policyId);
             var coverage = _commonService.GetCoverageById(policy.CoverageId);
             var product = _commonService.GetCoverageById(policy.ProductId);
-            ViewBag.Years = DateUtil.GetPreviousYears(5);
+            var yearsSelectItems = new List<SelectListItem>();
+            var years = DateUtil.GetPreviousYearsSelectList(5);
+           
+            ViewBag.Years = new SelectList(years,"Id","Name");
             var model = new AddPolicyBudget()
             {
                 ClientPolicyId= ClientPolicyId,
                 ClientId = clientId,
-                ClientName = client.Name,
+                ClientName = client?.Name,
                 PolicyId= policyId,
                 PolicyNumber = policy.PolicyNumber,
                 Coverage = coverage.Name,

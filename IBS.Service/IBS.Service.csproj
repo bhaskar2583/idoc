@@ -72,6 +72,7 @@
     <Compile Include="Services\PolicyService.cs" />
     <Compile Include="Utils\DateUtil.cs" />
     <Compile Include="Utils\LoginUserDetails.cs" />
+    <Compile Include="Utils\SelectListForYears.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IBS.Core\IBS.Core.csproj">

@@ -24,6 +24,23 @@ namespace IBS.Service.Utils
             }
             return years;
         }
+
+        public static List<SelectListForYears> GetPreviousYearsSelectList(int prefix)
+        {
+            List<SelectListForYears> years = new List<SelectListForYears>();
+            int currentYear = DateTime.Now.Year;
+
+            for (int i = 0; i < prefix; i++)
+            {
+                years.Add(new SelectListForYears()
+                {
+                    Id = currentYear - i,
+                    Name = Convert.ToString(currentYear - i)
+                });
+            }
+            return years;
+        }
+
         public static List<string> GetMonths()
         {
             return new List<string>() { "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};

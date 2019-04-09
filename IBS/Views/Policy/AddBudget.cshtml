@@ -50,33 +50,124 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <table class="table">
+        <thead class="thead-dark lbl-grid-head">
+            <tr>
+
+                <th>
+                    Jan
+                </th>
+                <th>
+                    Feb
+                </th>
+                <th>
+                    March
+                </th>
+                <th>
+                    April
+                </th>
+                <th>
+                    May
+                </th>
+                <th>
+                    Jun
+                </th>
+                <th>
+                    July
+                </th>
+                <th>
+                    Auguest
+                </th>
+                <th>
+                    September
+                </th>
+                <th>
+                    Octomber
+                </th>
+                <th>
+                    November
+                </th>
+                <th>
+                    December
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tr class="lbl-grid">
+            <td>
+                @Html.TextBoxFor(midel => Model.JanBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.FebBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.MarchBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.AprilBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.MayBudget, new { style = " width:70px; " })
+
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.JunBudget, new { style = " width:70px; " })
+            </td>
+
+            <td>
+                @Html.TextBoxFor(midel => Model.JulyBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.AugBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.SepBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.OctBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.NovBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.DecBudget, new { style = " width:70px; " })
+            </td>
+
+        </tr>
+    </table>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Year)<span class="hash-redcolor">*</span>
                 @Html.DropDownListFor(
                 model => model.Year,
-                new SelectList(ViewBag.Years), "-- Please select a year --", new { @class = "ibs-input ibs-border" }
+                new SelectList(ViewBag.Years.Items, "Id", "Name"),
+                "-- Please select a year --", new { @class = "ibs-input ibs-border" }
                 )
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.JanBudget)<span class="hash-redcolor">*</span>
-                @Html.EditorFor(model => model.JanBudget, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border" } })
-                @Html.ValidationMessageFor(model => model.JanBudget, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
-                <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Details", "Client",new { id=Model.ClientId})';return false;" />
-            </div>
-        </div>
+        @*<div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.JanBudget)<span class="hash-redcolor">*</span>
+                    @Html.TextBoxFor(model => model.JanBudget, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border" } })
+                    @Html.ValidationMessageFor(model => model.JanBudget, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
     </div>
     <div class="row">
         <div class="col-md-12" style="color:green">
@@ -85,6 +176,21 @@
             </div>
         </div>
     </div>
+
+
+    <script type="text/javascript">
+    function Search() {
+        var searchKey = $("#txtSearchText").val();
+        var searchStatusKey = $("input[name='status']:checked").val();
+        window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
+    };
+        $(document).ready(function () {
+            $("#Year").change(function () {
+                var year = $("#Year").val();
+                window.location.href = window.location.href + "&year="+year;
+            });
+    });
+    </script>
 }
 
 
