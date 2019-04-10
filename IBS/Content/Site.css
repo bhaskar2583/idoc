@@ -94,11 +94,7 @@ ul.nav.navbar-nav.navbar-list > li > a {
 
 /*Table properties*/
 .thead-dark {
-    background: #a8d1f7; /* Old browsers */
-    background: -moz-linear-gradient(top, #a8d1f7 0%, #83abd3 56%, #5d88b7 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #a8d1f7 0%,#83abd3 56%,#5d88b7 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #a8d1f7 0%,#83abd3 56%,#5d88b7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8d1f7', endColorstr='#5d88b7',GradientType=0 ); /* IE6-9 */
+    background: #222222; /* Old browsers */
 }
 
     .thead-dark th {
@@ -107,7 +103,6 @@ ul.nav.navbar-nav.navbar-list > li > a {
 
 table {
     margin-top: 2%;
-    border-radius: 0.5em;
     border-color: #002e61;
     overflow: hidden;
 }
@@ -141,7 +136,7 @@ table {
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius:0px !important;
 }
 
 .hash-redcolor {
@@ -197,7 +192,18 @@ table {
     font-weight: 900;
 }
 
-.margin-tb-20{
-    margin-top:20px;
+.margin-tb-20 {
+    margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #222222;
+    border-color: #333;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #b73382;
+    border-color: #2e6da4;
 }
