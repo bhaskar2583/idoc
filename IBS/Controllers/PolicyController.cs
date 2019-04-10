@@ -135,37 +135,73 @@ namespace IBS.Controllers
             {
                 yearValue = year;
             }
-           return RedirectToAction("AddBudget", new { policyId = id, clientId=0, ClientPolicyId=0, yearValue });
-            //var policyBudget = _policyService.GetAllPolicyBudgets(id);
-            //ViewBag.Years = DateUtil.GetPreviousYears(5);
-            //if(year!=null && year > 0)
-            //{
-            //    policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
-            //}
-            //return View(policyBudget);
+            var ClientPolicy = _commonService.GetClientPoliciesByPolicyId(id);
+            return RedirectToAction("AddBudget", new { policyId = id, clientId= ClientPolicy.ClientId, ClientPolicyId=0, yearValue });
+            
         }
 
         [HttpGet]
         public ActionResult AddBudget(int policyId, int clientId,int ClientPolicyId,int year=0)
         {
+
             var client = _clinetService.GetById(clientId);
             var policy = _policyService.GetById(policyId);
+            
             var coverage = _commonService.GetCoverageById(policy.CoverageId);
             var product = _commonService.GetCoverageById(policy.ProductId);
             var yearsSelectItems = new List<SelectListItem>();
             var years = DateUtil.GetPreviousYearsSelectList(5);
            
             ViewBag.Years = new SelectList(years,"Id","Name");
+
+            var policyBudget = _policyService.GetAllPolicyBudgets(policyId);
+            if (year > 0)
+            {
+                policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
+            }
+            else
+            {
+                year = years.FirstOrDefault().Id;
+                policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
+            }
+            
             var model = new AddPolicyBudget()
             {
                 ClientPolicyId= ClientPolicyId,
-                ClientId = clientId,
+                ClientId = client.Id,
                 ClientName = client?.Name,
                 PolicyId= policyId,
                 PolicyNumber = policy.PolicyNumber,
                 Coverage = coverage.Name,
-                Product = product.Name
+                Product = product.Name,
+                Year=year
             };
+
+            if(policyBudget != null && policyBudget.Count > 0)
+            {
+                model.JanBudget = policyBudget[0].JanBudget;
+                model.FebBudget = policyBudget[0].FebBudget;
+
+                model.MarchBudget = policyBudget[0].MarchBudget;
+
+                model.AprilBudget = policyBudget[0].AprilBudget;
+
+                model.MayBudget = policyBudget[0].MayBudget;
+
+                model.JunBudget = policyBudget[0].JunBudget;
+
+                model.JulyBudget = policyBudget[0].JulyBudget;
+
+                model.AugBudget = policyBudget[0].AugBudget;
+
+                model.SepBudget = policyBudget[0].SepBudget;
+
+                model.OctBudget = policyBudget[0].OctBudget;
+                model.NovBudget = policyBudget[0].NovBudget;
+
+                model.DecBudget = policyBudget[0].DecBudget;
+
+            }
             return View(model);
         }
         [HttpPost]
@@ -182,13 +218,19 @@ namespace IBS.Controllers
                         ViewBag.Message = "budget details added successfully";
                     }
                 }
-                ViewBag.Years = DateUtil.GetPreviousYears(5);
+                var years = DateUtil.GetPreviousYearsSelectList(5);
+                ViewBag.Years = new SelectList(years, "Id", "Name");
+                var client = _clinetService.GetById(projectBudget.ClientId);
+                projectBudget.ClientName = client.Name;
                 return View(projectBudget);
             }
             catch (Exception ex)
             {
-                ViewBag.Years = DateUtil.GetPreviousYears(5);
+                var years = DateUtil.GetPreviousYearsSelectList(5);
+                ViewBag.Years = new SelectList(years, "Id", "Name");
                 ViewBag.Message = "Error while adding budget details";
+                var client = _clinetService.GetById(projectBudget.ClientId);
+                projectBudget.ClientName = client.Name;
                 return View(projectBudget);
             }
         }

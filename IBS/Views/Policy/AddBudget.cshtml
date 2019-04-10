@@ -11,7 +11,7 @@
 
     <div class="row col-md-12">
         <h2>
-            Add Policy Budget
+            Policy Budget
         </h2>
         <hr />
     </div>
@@ -49,6 +49,17 @@
                 @Html.EditorFor(model => model.Product, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
             </div>
         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Year)<br />
+                @Html.HiddenFor(model => model.Year)
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+        
     </div>
 
 
@@ -137,6 +148,9 @@
             <td>
                 @Html.TextBoxFor(midel => Model.DecBudget, new { style = " width:70px; " })
             </td>
+            <td>
+                <a id="anchPrefill" href="javascript:void(0);">Prefill</a>
+            </td>
 
         </tr>
     </table>
@@ -152,22 +166,15 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Year)<span class="hash-redcolor">*</span>
-                @Html.DropDownListFor(
-                model => model.Year,
-                new SelectList(ViewBag.Years.Items, "Id", "Name"),
-                "-- Please select a year --", new { @class = "ibs-input ibs-border" }
-                )
-                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+
+                @foreach (var year in ViewBag.Years.Items)
+                {
+                    <a href="@Url.Action("AddBudget", "Policy", new { policyId =Model.PolicyId, clientId =Model.ClientId, ClientPolicyId =0, year =year.Id})">@year.Name</a><br />
+                }
+
             </div>
         </div>
-        @*<div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.JanBudget)<span class="hash-redcolor">*</span>
-                    @Html.TextBoxFor(model => model.JanBudget, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border" } })
-                    @Html.ValidationMessageFor(model => model.JanBudget, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+
     </div>
     <div class="row">
         <div class="col-md-12" style="color:green">
@@ -179,17 +186,23 @@
 
 
     <script type="text/javascript">
-    function Search() {
-        var searchKey = $("#txtSearchText").val();
-        var searchStatusKey = $("input[name='status']:checked").val();
-        window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
-    };
+
         $(document).ready(function () {
-            $("#Year").change(function () {
-                var year = $("#Year").val();
-                window.location.href = window.location.href + "&year="+year;
+            $("#anchPrefill").click(function () {
+                var janBudget = $("#JanBudget").val();
+                $("#FebBudget").val(janBudget);
+                $("#MarchBudget").val(janBudget);
+                $("#AprilBudget").val(janBudget);
+                $("#MayBudget").val(janBudget);
+                $("#JunBudget").val(janBudget);
+                $("#JulyBudget").val(janBudget);
+                $("#AugBudget").val(janBudget);
+                $("#SepBudget").val(janBudget);
+                $("#OctBudget").val(janBudget);
+                $("#NovBudget").val(janBudget);
+                $("#DecBudget").val(janBudget);
             });
-    });
+        });
     </script>
 }
 

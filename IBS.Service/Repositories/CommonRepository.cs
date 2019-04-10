@@ -80,6 +80,20 @@ namespace IBS.Service.Repositories
 
         public bool AddClientPolocyBudget(ClientPolicyBudget budget)
         {
+            var data = _hanysContext.ClientPolicieBudgets.FirstOrDefault(c => c.PolicyId == budget.PolicyId
+               && c.BudgetYear == budget.BudgetYear
+               && c.BudgetMonth == budget.BudgetMonth);
+
+            if (data != null)
+            {
+                data.IsActive = budget.IsActive;
+                data.BudgetValue = budget.BudgetValue;
+                data.RevDate = budget.RevDate;
+                data.RevUser = budget.RevUser;
+                _hanysContext.SaveChanges();
+                return true;
+            }
+
             _hanysContext.ClientPolicieBudgets.Add(budget);
             _hanysContext.SaveChanges();
             return true;
@@ -114,6 +128,11 @@ namespace IBS.Service.Repositories
               && b.BudgetYear == year).ToList();
 
             return budget;
+        }
+
+        public ClientPolicie GetClientPoliciesByPolicyId(int policyId)
+        {
+            return _hanysContext.ClientPolicies.FirstOrDefault(cp => cp.PolicieId == policyId);
         }
     }
 }

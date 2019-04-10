@@ -14,5 +14,6 @@ namespace IBS.Service.Repositories
         bool Add(Client client);
         bool Update(Client client);
         bool Delete(int id);
+
     }
 }

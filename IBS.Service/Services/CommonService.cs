@@ -83,9 +83,48 @@ namespace IBS.Service.Services
                     AddUser = LoginUserDetails.GetWindowsLoginUserName(),
                     AddDate = DateUtil.GetCurrentDate(),
                     BudgetYear = budget.Year,
-                    BudgetMonth = month,
-                    BudgetValue = budget.JanBudget
+                    BudgetMonth = month
                 };
+
+                switch (entity.BudgetMonth.ToLower())
+                {
+                    case "jan":
+                        entity.BudgetValue = budget.JanBudget;
+                        break;
+                    case "feb":
+                        entity.BudgetValue = budget.FebBudget;
+                        break;
+                    case "mar":
+                        entity.BudgetValue = budget.MarchBudget;
+                        break;
+                    case "apr":
+                        entity.BudgetValue = budget.AprilBudget;
+                        break;
+                    case "may":
+                        entity.BudgetValue = budget.MayBudget;
+                        break;
+                    case "jun":
+                        entity.BudgetValue = budget.JunBudget;
+                        break;
+                    case "jul":
+                        entity.BudgetValue = budget.JulyBudget;
+                        break;
+                    case "aug":
+                        entity.BudgetValue = budget.AugBudget;
+                        break;
+                    case "sep":
+                        entity.BudgetValue = budget.SepBudget;
+                        break;
+                    case "oct":
+                        entity.BudgetValue = budget.OctBudget;
+                        break;
+                    case "nov":
+                        entity.BudgetValue = budget.NovBudget;
+                        break;
+                    case "dec":
+                        entity.BudgetValue = budget.DecBudget;
+                        break;
+                }
 
                 _commonRepository.AddClientPolocyBudget(entity);
             }
@@ -191,6 +230,10 @@ namespace IBS.Service.Services
                 }
             });
             return budgetModel;
+        }
+        public ClientPolicie GetClientPoliciesByPolicyId(int policyId)
+        {
+            return _commonRepository.GetClientPoliciesByPolicyId(policyId);
         }
     }
 }
