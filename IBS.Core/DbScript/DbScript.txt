@@ -81,10 +81,10 @@ CREATE TABLE [dbo].[ClientPolicieBudgets] (
     [Pb_RevUser]   VARCHAR (100)   NULL,
     [Pb_RevDate]   DATETIME        NULL,
     PRIMARY KEY CLUSTERED ([Pb_Id] ASC),
-    CONSTRAINT [FK_Pb_PolicyId] FOREIGN KEY ([Pb_Pol_Id]) REFERENCES [dbo].[Policies] ([Pol_Id]),
-    CONSTRAINT [FK_Pb_ClientId] FOREIGN KEY ([Pb_Cli_Id]) REFERENCES [dbo].[Clients] ([Cli_Id]),
-    CONSTRAINT [FK_Pb_ClienPolicyId] FOREIGN KEY ([Pb_Cpl_Id]) REFERENCES [dbo].[ClientPolicies] ([Cp_Id])
+    CONSTRAINT [FK_Pb_PolicyId] FOREIGN KEY ([Pb_Pol_Id]) REFERENCES [dbo].[Policies] ([Pol_Id])
 );
+
+
 
 
 
