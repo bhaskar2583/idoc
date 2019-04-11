@@ -123,11 +123,22 @@ namespace IBS.Service.Repositories
 
         public IList<ClientPolicyBudget> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year)
         {
-            var budget = _hanysContext.ClientPolicieBudgets.Where(b => b.ClientId == clientId
-              && b.PolicyId == policyId
-              && b.BudgetYear == year).ToList();
+            //var budget = _hanysContext.ClientPolicieBudgets.Where(b => b.ClientId == clientId
+            //  && b.PolicyId == policyId
+            //  && b.BudgetYear == year).ToList();
 
-            return budget;
+            //return budget;
+            var budgets = _hanysContext.ClientPolicieBudgets.ToList();
+            if (clientId > 0)
+            {
+                budgets = budgets.Where(b => b.ClientId == clientId).ToList();
+            }
+            if (year > 0)
+            {
+                budgets = budgets.Where(b => b.BudgetYear == year).ToList();
+            }
+
+            return budgets;
         }
 
         public ClientPolicie GetClientPoliciesByPolicyId(int policyId)

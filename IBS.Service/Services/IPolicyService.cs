@@ -22,5 +22,6 @@ namespace IBS.Service.Services
         void MapProductsOfCoverage(PolicyModel policy,int coverageId);
         IList<PolicyModel> ApplyFilterForIndex(string policyNumber, CarrierStatusEnum searchStatus, IList<PolicyModel> source);
         IList<PolicyBudgetsModel> GetAllPolicyBudgets(int policyId);
+        IList<PolicyBudgetsModel> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year);
     }
 }

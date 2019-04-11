@@ -255,7 +255,39 @@ namespace IBS.Service.Services
         {
             throw new NotImplementedException();
         }
+        public IList<PolicyBudgetsModel> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year)
+        {
+            var policyBudget = new List<PolicyBudgetsModel>();
+            var budgetDetails = _commonService.GetAllPolicyBudgetsForClientPolicyYear(clientId, policyId, year);
 
+            if (budgetDetails == null)
+                return policyBudget;
+
+            budgetDetails.ToList().ForEach(b =>
+            {
+                var isExist = policyBudget.FirstOrDefault(pb => pb.Year == b.BudgetYear
+                && pb.PolicyId == b.PolicyId);
+
+                if (isExist == null)
+                {
+                    var policy = _policyRepository.GetById(b.PolicyId);
+                    var budget = new PolicyBudgetsModel()
+                    {
+                        PolicyId = b.PolicyId,
+                        PolicyNumber = policy.PolicyNumber,
+                        ClientId = b.ClientId,
+                        Year = b.BudgetYear
+                    };
+                    policyBudget.Add(budget);
+                    AssignBudget(budget, b.BudgetMonth, b.BudgetValue);
+                }
+                if (isExist != null)
+                {
+                    AssignBudget(isExist, b.BudgetMonth, b.BudgetValue);
+                }
+            });
+            return policyBudget;
+        }
         IList<PolicyBudgetsModel> IPolicyService.GetAllPolicyBudgets(int policyId)
         {
             var policyBudget = new List<PolicyBudgetsModel>();
@@ -272,13 +304,11 @@ namespace IBS.Service.Services
                 if (isExist == null)
                 {
                     var policy = _policyRepository.GetById(b.PolicyId);
-                    //var client = _clientService.GetById(b.ClientId);
                     var budget = new PolicyBudgetsModel()
                     {
                         PolicyId = b.PolicyId,
                         PolicyNumber = policy.PolicyNumber,
                         ClientId=b.ClientId,
-                       //ClientName=client.Name,
                         Year = b.BudgetYear
                     };
                     policyBudget.Add(budget);

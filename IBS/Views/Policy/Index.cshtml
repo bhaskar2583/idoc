@@ -30,6 +30,9 @@
         <input id="btnSearch" type="submit" value="Search" class="btn btn-success" onclick="Search()" />
     </div>
     <div class="col-md-6 form-group text-align-right">
+        <input id="btnAddPolicy" type="button" value="Budgets" class="btn btn-primary"
+               onclick="location.href='@Url.Action("PolicyBudgets", "Policy", new { policyId = 0,clientId=0,year=0 })';return false;" />
+
         <input id="btnAddPolicy" type="button" value="Add Policy" class="btn btn-primary"
                onclick="location.href='@Url.Action("AddPolicy", "Policy")';return false;" />
     </div>

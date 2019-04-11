@@ -182,54 +182,11 @@ namespace IBS.Service.Services
             return true;
         }
 
-        public AddPolicyBudget GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year)
+        public IList<ClientPolicyBudget> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year)
         {
-            var budgetModel = new AddPolicyBudget();
-            var budget = _commonRepository.GetAllPolicyBudgetsForClientPolicyYear(clientId, policyId, year);
-            budget.ToList().ForEach(b =>
-            {
-                switch (b.BudgetMonth.ToLower())
-                {
-                    case "jan":
-                        budgetModel.JanBudget = b.BudgetValue;
-                        break;
-                    case "feb":
-                        budgetModel.FebBudget = b.BudgetValue;
-                        break;
-                    case "mar":
-                        budgetModel.MarchBudget = b.BudgetValue;
-                        break;
-                    case "apr":
-                        budgetModel.AprilBudget = b.BudgetValue;
-                        break;
-                    case "may":
-                        budgetModel.MayBudget = b.BudgetValue;
-                        break;
-                    case "jun":
-                        budgetModel.JunBudget = b.BudgetValue;
-                        break;
-                    case "jul":
-                        budgetModel.JulyBudget = b.BudgetValue;
-                        break;
-                    case "aug":
-                        budgetModel.AugBudget = b.BudgetValue;
-                        break;
-                    case "sep":
-                        budgetModel.SepBudget = b.BudgetValue;
-                        break;
-                    case "oct":
-                        budgetModel.OctBudget = b.BudgetValue;
-                        break;
-                    case "nov":
-                        budgetModel.NovBudget = b.BudgetValue;
-                        break;
-                    case "dec":
-                        budgetModel.DecBudget = b.BudgetValue;
-                        break;
-
-                }
-            });
-            return budgetModel;
+           
+            return _commonRepository.GetAllPolicyBudgetsForClientPolicyYear(clientId, policyId, year);
+           
         }
         public ClientPolicie GetClientPoliciesByPolicyId(int policyId)
         {

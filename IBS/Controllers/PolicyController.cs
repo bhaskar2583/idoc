@@ -128,6 +128,19 @@ namespace IBS.Controllers
         }
 
         // GET: Policies
+        public ActionResult PolicyBudgets(int policyId,int clientId, int year)
+        {
+
+            var ClientPolicy = _policyService.GetAllPolicyBudgetsForClientPolicyYear(clientId, policyId, year);
+            var years = DateUtil.GetPreviousYears(5);
+            ViewBag.Years = years;
+
+            var clients = _clinetService.GetAllClients();
+            ViewBag.Clients = clients;
+            return View(ClientPolicy);
+
+        }
+        // GET: Policies
         public ActionResult PolicyBudget(int id,int? year)
         {
             int? yearValue = 0;
@@ -136,7 +149,7 @@ namespace IBS.Controllers
                 yearValue = year;
             }
             var ClientPolicy = _commonService.GetClientPoliciesByPolicyId(id);
-            return RedirectToAction("AddBudget", new { policyId = id, clientId= ClientPolicy.ClientId, ClientPolicyId=0, yearValue });
+            return RedirectToAction("AddBudget", new { policyId = id, clientId= ClientPolicy.ClientId, ClientPolicyId=0, year= yearValue });
             
         }
 
@@ -235,59 +248,6 @@ namespace IBS.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult EditBudget(int policyId, int clientId, int year)
-        {
-            var budget = _commonService.GetAllPolicyBudgetsForClientPolicyYear(clientId, policyId, year);
-           
-            var client = _clinetService.GetById(clientId);
-            var policy = _policyService.GetById(policyId);
-            var coverage = _commonService.GetCoverageById(policy.CoverageId);
-            var product = _commonService.GetCoverageById(policy.ProductId);
-            ViewBag.Years = DateUtil.GetPreviousYears(5);
-
-            //var model = new AddPolicyBudget()
-            //{
-            //    ClientId = clientId,
-            //    ClientName = client.Name,
-            //    PolicyId = policyId,
-            //    PolicyNumber = policy.PolicyNumber,
-            //    Coverage = coverage.Name,
-            //    Product = product.Name
-            //};
-
-            budget.ClientId = clientId;
-            budget.ClientName = client.Name;
-            budget.PolicyId = policyId;
-            budget.PolicyNumber = policy.PolicyNumber;
-            budget.Coverage = coverage.Name;
-            budget.Product = product.Name;
-            budget.Year = year;
-            return View(budget);
-        }
-        [HttpPost]
-        public ActionResult EditBudget(AddPolicyBudget projectBudget)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var result = _commonService.UpdateClientPolocyBudget(projectBudget);
-
-                    if (result)
-                    {
-                        return RedirectToAction("PolicyBudget", new { id = projectBudget.PolicyId });
-                    }
-                }
-
-                return View(projectBudget);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = "Error while updated budget details";
-                return View(projectBudget);
-            }
-        }
         [HttpGet]
         public JsonResult GetProducts(int coverageId)
         {
