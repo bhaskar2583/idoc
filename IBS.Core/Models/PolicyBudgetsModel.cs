@@ -32,6 +32,7 @@ namespace IBS.Core.Models
         public decimal OctBudget { get; set; }
         public decimal NovBudget { get; set; }
         public decimal DecBudget { get; set; }
+        public decimal TotalBudget { get; set; }
     }
     public class PolicyBudgetsModel
     {
@@ -52,5 +53,6 @@ namespace IBS.Core.Models
         public decimal OctBudget { get; set; }
         public decimal NovBudget { get; set; }
         public decimal DecBudget { get; set; }
+        public decimal TotalBudget { get; set; }
     }
 }

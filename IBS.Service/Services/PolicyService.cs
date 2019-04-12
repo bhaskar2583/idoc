@@ -286,6 +286,11 @@ namespace IBS.Service.Services
                     AssignBudget(isExist, b.BudgetMonth, b.BudgetValue);
                 }
             });
+            policyBudget.ForEach(model =>
+            {
+                model.TotalBudget= model.JanBudget + model.FebBudget + model.MarchBudget + model.AprilBudget + model.MayBudget + model.JunBudget + model.JulyBudget + model.AugBudget + model.SepBudget + model.OctBudget + model.NovBudget + model.DecBudget;
+            });
+
             return policyBudget;
         }
         IList<PolicyBudgetsModel> IPolicyService.GetAllPolicyBudgets(int policyId)

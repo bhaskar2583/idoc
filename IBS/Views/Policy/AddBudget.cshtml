@@ -105,6 +105,9 @@
                 <th>
                     December
                 </th>
+                <th>
+                    Total
+                </th>
 
                 <th></th>
             </tr>
@@ -147,6 +150,9 @@
             </td>
             <td>
                 @Html.TextBoxFor(midel => Model.DecBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                <label id="lblTotal">@Model.TotalBudget</label>
             </td>
             <td>
                 <a id="anchPrefill" href="javascript:void(0);">Prefill</a>
@@ -201,6 +207,7 @@
                 $("#OctBudget").val(janBudget);
                 $("#NovBudget").val(janBudget);
                 $("#DecBudget").val(janBudget);
+                $("#lblTotal").text(parseFloat(janBudget) * 12);
             });
         });
     </script>

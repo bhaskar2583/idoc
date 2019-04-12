@@ -213,6 +213,7 @@ namespace IBS.Controllers
                 model.NovBudget = policyBudget[0].NovBudget;
 
                 model.DecBudget = policyBudget[0].DecBudget;
+                model.TotalBudget = model.JanBudget + model.FebBudget + model.MarchBudget + model.AprilBudget + model.MayBudget + model.JunBudget + model.JulyBudget + model.AugBudget + model.SepBudget + model.OctBudget + model.NovBudget + model.DecBudget;
 
             }
             return View(model);
