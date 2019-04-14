@@ -43,6 +43,9 @@ namespace IBS.DependencyResolution {
 
             For<ICommonRepository>().Use<CommonRepository>();
             For<ICommonService>().Use<CommonService>();
+
+            For<ICommisionService>().Use<CommisionService>();
+            For<ICommisionRepository>().Use<CommisionRepository>();
         }
 
         #endregion

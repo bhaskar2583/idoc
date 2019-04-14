@@ -27,5 +27,6 @@ namespace IBS.Service.Repositories
         IList<ClientPolicyBudget> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year);
 
         ClientPolicie GetClientPoliciesByPolicyId(int policyId);
+
     }
 }

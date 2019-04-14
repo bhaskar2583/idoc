@@ -45,6 +45,7 @@ namespace IBS.Service.DataBaseContext
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ClientPolicie> ClientPolicies { get; set; }
         public virtual DbSet<ClientPolicyBudget> ClientPolicieBudgets { get; set; }
+        public virtual DbSet<Commision> Commisions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBinder)
         {
@@ -141,6 +142,25 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.RevDate).HasColumnName("Pb_RevDate");
 
                 entity.ToTable("ClientPolicieBudgets");
+            });
+
+            modelBinder.Entity<Commision>().Map(entity =>
+            {
+                entity.Property(p => p.Id).HasColumnName("Com_Id");
+                entity.Property(p => p.CarrierId).HasColumnName("Com_CarrierId");
+                entity.Property(p => p.PolicyId).HasColumnName("Com_PolicyId");
+                entity.Property(p => p.ClientId).HasColumnName("Com_ClientId");
+                entity.Property(p => p.ClientPolicyId).HasColumnName("Com_ClientPolicyId");
+                entity.Property(p => p.CommisionValue).HasColumnName("Com_Commision");
+                entity.Property(p => p.AppliedDate).HasColumnName("Com_AppliedDate");
+                entity.Property(p => p.PaymentId).HasColumnName("Com_PaymentId");
+                entity.Property(p => p.StatementDate).HasColumnName("Com_StatementDate");
+                entity.Property(p => p.AddUser).HasColumnName("Com_AddUser");
+                entity.Property(p => p.AddDate).HasColumnName("Com_AddDate");
+                entity.Property(p => p.RevUser).HasColumnName("Com_RevUser");
+                entity.Property(p => p.RevDate).HasColumnName("Com_RevDate");
+
+                entity.ToTable("Commision");
             });
         }
 

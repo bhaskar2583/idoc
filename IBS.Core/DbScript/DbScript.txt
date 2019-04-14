@@ -97,3 +97,23 @@ CREATE TABLE [dbo].[Products] (
     PRIMARY KEY CLUSTERED ([Pro_Id] ASC),
     CONSTRAINT [FK_Product_CovId] FOREIGN KEY ([Pro_Cov_Id]) REFERENCES [dbo].[Coverages] ([Cov_Id])
 );
+
+
+
+CREATE TABLE [dbo].[Commision] (
+    [Com_Id]             INT             IDENTITY (1, 1) NOT NULL,
+    [Com_CarrierId]      INT             NULL,
+    [Com_PolicyId]       INT             NULL,
+    [Com_ClientId]       INT             NULL,
+    [Com_ClientPolicyId] INT             NULL,
+    [Com_Commision]      DECIMAL (18, 2) NULL,
+    [Com_AppliedDate]    DATETIME        NULL,
+    [Com_PaymentId]      VARCHAR (50)    NULL,
+    [Com_StatementDate]  DATETIME        NULL,
+    [Com_AddUser]        VARCHAR (100)   NOT NULL,
+    [Com_AddDate]        DATETIME        DEFAULT (getdate()) NOT NULL,
+    [Com_RevUser]        VARCHAR (100)   NULL,
+    [Com_RevDate]        DATETIME        NULL,
+    PRIMARY KEY CLUSTERED ([Com_Id] ASC)
+);
+

@@ -207,3 +207,13 @@ table {
     background-color: #b73382;
     border-color: #2e6da4;
 }
+
+.ibs-input-24height {
+    height: 23px;
+    padding: 8px;
+    display: block;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 0px !important;
+    font-size: 12px !important;
+}

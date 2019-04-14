@@ -1,0 +1,195 @@
+﻿@model IEnumerable<IBS.Core.Models.CommisionModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm())
+{
+    <div class="row col-md-12">
+        <h2>
+            Commisions
+        </h2>
+        <hr />
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Carrier</label>
+                @Html.DropDownList(
+         "ddlCarrier",
+         new SelectList(ViewBag.Carriers, "Id", "Name"),
+         "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
+         )
+                <input id="btnSerchVisits" type="button" value="Search Visits" class="btn btn-success" style="margin-top:10px" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Statement Date:</label>
+                <input type="text" id="txtStatementDate" class="ibs-input ibs-border" />
+            </div>
+        </div>
+
+    </div>
+
+    <table class="table" id="tblCommisions">
+        <thead class="thead-dark lbl-grid-head">
+            <tr>
+                <th>
+                    Client
+                </th>
+                <th>
+                    Department
+                </th>
+                <th>
+                    Policy #
+                </th>
+                <th>
+                    Coverage
+                </th>
+                <th>
+                    Commission
+                </th>
+                <th>
+                    Applied Date
+                </th>
+                <th>
+                    Payment Id
+                </th>
+                <th>
+
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+        {
+            
+            <tr class="lbl-grid">
+                <td>
+                    @Html.HiddenFor(modelItem => item.Data.ClientId)
+                    @Html.HiddenFor(modelItem => item.Data.PolicyId)
+                    @Html.HiddenFor(modelItem => item.Data.CoverageId)
+                    @Html.HiddenFor(modelItem => item.Data.ClientPolicyId)
+                    @Html.DisplayFor(modelItem => item.Data.CleintName)
+                    @Html.HiddenFor(modelItem => item.Data.StatementDate)
+                    @Html.HiddenFor(modelItem => item.Data.CarrierId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.DivisionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.CoverageName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.Data.AppliedDate, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border datepickercss" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
+                </td>
+
+                <td></td>
+            </tr>
+        }
+    </table>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <input id="btnSubmit" type="button" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#txtStatementDate").datepicker();
+            $(".datepickercss").datepicker();
+        });
+
+        $("#btnSerchVisits").click(function () {
+            var carrier = $("#ddlCarrier").val();
+            if (carrier == "") {
+                alert("please select carrier");
+                return;
+            }
+            window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier
+        });
+        $(document).ready(function () {
+
+            $('#tblCommisions > tbody  > tr').each(function () {
+                var statementDate = $(this)[0].cells[0].childNodes[9].value;
+                $("#txtStatementDate").val(statementDate);
+                return;
+            });
+            var query = window.location.search;
+            if (query != undefined && query != "") {
+                var searchQuery = query.split('&');
+                var queryArray = searchQuery[0].split('=');
+                if (queryArray[0].indexOf("carrierId") != -1) {
+                    if (queryArray[1] != "0") {
+                        $("#ddlCarrier").val(queryArray[1]);
+                    }
+
+                }
+
+            }
+
+            $("#btnSubmit").click(function () {
+                var commisions = [];
+                $('#tblCommisions > tbody  > tr').each(function () {
+                    var clientId = $(this)[0].cells[0].childNodes[1].value;
+                    var policyid = $(this)[0].cells[0].childNodes[3].value;
+                    var coverageId = $(this)[0].cells[0].childNodes[5].value;
+                    var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
+                    var carrierId = $(this)[0].cells[0].childNodes[11].value;
+
+                    var commision = $(this)[0].cells[4].childNodes[1].value;
+                    var appoliedDate = $(this)[0].cells[5].childNodes[1].value;
+                    var paymntId = $(this)[0].cells[6].childNodes[1].value;
+                    var statementDate = $("#txtStatementDate").val();
+                    var commision = {
+                        "clientPolicyId": clientPolicyId,
+                        "CommisionValue": commision,
+                        "AppliedDate": appoliedDate,
+                        "PaymentId": paymntId,
+                        "StatementDate": statementDate,
+                        "CarrierId": carrierId
+                    }
+                    commisions.push(commision);
+                });
+                let host = window.location.origin;
+                let path = window.location.pathname;
+                $.ajax({
+                    type: "POST",
+                    url: host + path,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(commisions),
+                    success: function (commisions) {
+                        window.location.href = window.location.href;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+
+                });
+
+            });
+        });
+    </script>
+}
