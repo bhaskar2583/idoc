@@ -17,5 +17,6 @@ namespace IBS.Core.Entities
         public DateTime? AppliedDate { get; set; }
         public string PaymentId { get; set; }
         public DateTime? StatementDate { get; set; }
+        public string Status { get; set; }
     }
 }

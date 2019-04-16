@@ -18,10 +18,10 @@
             <div class="form-group">
                 <label>Carrier</label>
                 @Html.DropDownList(
-         "ddlCarrier",
-         new SelectList(ViewBag.Carriers, "Id", "Name"),
-         "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
-         )
+                "ddlCarrier",
+                new SelectList(ViewBag.Carriers, "Id", "Name"),
+                "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
+                )
                 <input id="btnSerchVisits" type="button" value="Search Visits" class="btn btn-success" style="margin-top:10px" />
             </div>
         </div>
@@ -55,6 +55,9 @@
                     Coverage
                 </th>
                 <th>
+                    Status
+                </th>
+                <th>
                     Commission
                 </th>
                 <th>
@@ -72,7 +75,7 @@
         </thead>
         @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
         {
-            
+
             <tr class="lbl-grid">
                 <td>
                     @Html.HiddenFor(modelItem => item.Data.ClientId)
@@ -82,6 +85,7 @@
                     @Html.DisplayFor(modelItem => item.Data.CleintName)
                     @Html.HiddenFor(modelItem => item.Data.StatementDate)
                     @Html.HiddenFor(modelItem => item.Data.CarrierId)
+                    @Html.HiddenFor(modelItem => item.Data.Status)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Data.DivisionName)
@@ -91,6 +95,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Data.CoverageName)
+                </td>
+                <td>
+                    @Html.DropDownListFor(
+                     modelItem => item.Data.Status,
+                     new SelectList(ViewBag.Status), "-- Select Status --", new { id = "status" + item.Index, @class = "grid-select-height" }
+                     )
                 </td>
                 <td>
                     @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
@@ -130,10 +140,13 @@
             window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier
         });
         $(document).ready(function () {
-
+            var index = 0;
             $('#tblCommisions > tbody  > tr').each(function () {
                 var statementDate = $(this)[0].cells[0].childNodes[9].value;
                 $("#txtStatementDate").val(statementDate);
+                var ststus = $(this)[0].cells[0].childNodes[13].value;
+
+                $("#status" + index).val(ststus);
                 return;
             });
             var query = window.location.search;
@@ -158,12 +171,14 @@
                     var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
                     var carrierId = $(this)[0].cells[0].childNodes[11].value;
 
-                    var commision = $(this)[0].cells[4].childNodes[1].value;
-                    var appoliedDate = $(this)[0].cells[5].childNodes[1].value;
-                    var paymntId = $(this)[0].cells[6].childNodes[1].value;
+                    var status = $(this)[0].cells[4].childNodes[1].value;
+                    var commision = $(this)[0].cells[5].childNodes[1].value;
+                    var appoliedDate = $(this)[0].cells[6].childNodes[1].value;
+                    var paymntId = $(this)[0].cells[7].childNodes[1].value;
                     var statementDate = $("#txtStatementDate").val();
                     var commision = {
                         "clientPolicyId": clientPolicyId,
+                        "Status": status,
                         "CommisionValue": commision,
                         "AppliedDate": appoliedDate,
                         "PaymentId": paymntId,

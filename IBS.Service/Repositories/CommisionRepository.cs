@@ -39,6 +39,7 @@ namespace IBS.Service.Repositories
                 data.AppliedDate = commission.AppliedDate;
                 data.RevDate = commission.RevDate;
                 data.RevUser = commission.RevUser;
+                data.Status = commission.Status;
                 _hanysContext.SaveChanges();
             }
             return true;

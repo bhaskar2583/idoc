@@ -1,5 +1,6 @@
 ﻿using IBS.Core.Models;
 using IBS.Service.Services;
+using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace IBS.Controllers
             var commisions = new List<CommisionModel>();
             if(carrierId!=null && carrierId > 0)
             {
+                ViewBag.Status = CommonUtil.GetStatus();
                 commisions = _commisionService.GetCarrierPoliciesById(Convert.ToInt32(carrierId));
             }
             return View(commisions);

@@ -63,6 +63,7 @@ namespace IBS.Service.Services
 
                     if (commision != null)
                     {
+                        commisionMode.Status = commision.Status;
                         commisionMode.CommisionValue = commision.CommisionValue;
                         commisionMode.StatementDate = commision.StatementDate;
                         commisionMode.AppliedDate = commision.AppliedDate;
@@ -95,7 +96,8 @@ namespace IBS.Service.Services
                     StatementDate = c.StatementDate,
                     PaymentId = c.PaymentId,
                     AddUser = LoginUserDetails.GetWindowsLoginUserName(),
-                    AddDate = DateUtil.GetCurrentDate()
+                    AddDate = DateUtil.GetCurrentDate(),
+                    Status=c.Status
                 };
                 _commissionRepository.Add(commission);
             });
