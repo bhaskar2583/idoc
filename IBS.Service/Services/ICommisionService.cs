@@ -1,4 +1,5 @@
-﻿using IBS.Core.Models;
+﻿using IBS.Core.Entities;
+using IBS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace IBS.Service.Services
     {
         List<CommisionModel> GetCarrierPoliciesById(int carrierId);
         bool SaveCommisions(List<CommisionModel> commissions);
+        Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId);
+        ClientPolicie GetClientPoliciesByPolicyId(int policyId);
     }
 }

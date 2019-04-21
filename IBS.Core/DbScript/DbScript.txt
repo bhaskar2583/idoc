@@ -114,6 +114,9 @@ CREATE TABLE [dbo].[Commision] (
     [Com_AddDate]        DATETIME        DEFAULT (getdate()) NOT NULL,
     [Com_RevUser]        VARCHAR (100)   NULL,
     [Com_RevDate]        DATETIME        NULL,
+    [Com_Status]         VARCHAR (50)    NULL,
     PRIMARY KEY CLUSTERED ([Com_Id] ASC)
 );
+
+
 

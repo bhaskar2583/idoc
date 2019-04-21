@@ -19,7 +19,7 @@ namespace IBS.Controllers
             _commisionService = commisionService;
         }
         // GET: Commision
-        public ActionResult Index(int? carrierId)
+        public ActionResult Index(int? carrierId,bool? isSaved)
         {
             ViewBag.Carriers = _carrierService.GetAllCarriers();
             var commisions = new List<CommisionModel>();
@@ -28,6 +28,7 @@ namespace IBS.Controllers
                 ViewBag.Status = CommonUtil.GetStatus();
                 commisions = _commisionService.GetCarrierPoliciesById(Convert.ToInt32(carrierId));
             }
+            ViewBag.PersistMessage = isSaved!=null && isSaved==true ? "Commission added successfully" : "";
             return View(commisions);
         }
 
@@ -35,8 +36,15 @@ namespace IBS.Controllers
         // post: Commision
         public ActionResult Index(List<CommisionModel> commisions)
         {
+            commisions.ForEach(c =>
+            {
+                var policy = _commisionService.GetPolicyByNoCarriageCoverage(c.PolicyNumber, c.CarrierId, c.CoverageId);
+                var clientPolicy = _commisionService.GetClientPoliciesByPolicyId(policy.Id);
+                c.ClientPolicyId = clientPolicy.Id;
+            });
             _commisionService.SaveCommisions(commisions);
-            return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId });
+            //return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId, isSaved=true });
+            return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
     }
 }

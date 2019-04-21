@@ -28,7 +28,7 @@ namespace IBS.Service.Services
         {
             var commisions = new List<CommisionModel>();
 
-            var clientPolicies = _commonRepository.GetAllClientPolicies();
+            var clientPolicies = _commonRepository.GetAllClientPolicies().Where(cp=>cp.IsActive);
             clientPolicies.ToList().ForEach(cp =>
             {
                 
@@ -68,12 +68,72 @@ namespace IBS.Service.Services
                         commisionMode.StatementDate = commision.StatementDate;
                         commisionMode.AppliedDate = commision.AppliedDate;
                         commisionMode.PaymentId = commision.PaymentId;
+
+                        commisionMode.SelectedCoverage = new Coverage()
+                        {
+                            Id = coverage.Id,
+                            Name = coverage.Name
+                        };
+                        var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId
+                        && c.PolicyNumber == commisionMode.PolicyNumber);
+                        if (isExist != null)
+                        {
+                            isExist.Coverages.Add(new Coverage()
+                            {
+                                Id = commisionMode.CoverageId,
+                                Name = commisionMode.CoverageName
+                            });
+                            commisionMode.Coverages = isExist.Coverages;
+                        }
+                        if (isExist == null)
+                        {
+                            commisionMode.Coverages.Add(new Coverage()
+                            {
+                                Id = commisionMode.CoverageId,
+                                Name = commisionMode.CoverageName
+                            });
+                        }
+
+                        commisions.Add(commisionMode);
                     }
-                    commisions.Add(commisionMode);
+                    else
+                    {
+                        var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId 
+                        && c.PolicyNumber == commisionMode.PolicyNumber);
+                        if (isExist!=null)
+                        {
+                            isExist.Coverages.Add(new Coverage()
+                            {
+                                Id = commisionMode.CoverageId,
+                                Name = commisionMode.CoverageName
+                            });
+                        }
+                        if (isExist == null)
+                        {
+                            commisionMode.Coverages.Add(new Coverage()
+                            {
+                                Id = commisionMode.CoverageId,
+                                Name = commisionMode.CoverageName
+                            });
+                            commisions.Add(commisionMode);
+                        }
+                        
+                    }
+                    
                 }
             });
 
             return commisions;
+        }
+
+        public ClientPolicie GetClientPoliciesByPolicyId(int policyId)
+        {
+            return _commonRepository.GetClientPoliciesByPolicyId(policyId);
+        }
+
+        public Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId)
+        {
+            return _policyRepository.GetPolicyByNoCarriageCoverage(policyNo, carrierId, coverageId);
         }
 
         public bool SaveCommisions(List<CommisionModel> commissions)

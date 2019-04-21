@@ -28,6 +28,7 @@
 
     </div>
 
+
     <div class="row">
 
         <div class="col-md-6">
@@ -38,7 +39,13 @@
         </div>
 
     </div>
-
+    <div class="row">
+        <div class="col-md-12" style="color:green">
+            <div class="form-group">
+                @ViewBag.PersistMessage
+            </div>
+        </div>
+    </div>
     <table class="table" id="tblCommisions">
         <thead class="thead-dark lbl-grid-head">
             <tr>
@@ -86,6 +93,9 @@
                     @Html.HiddenFor(modelItem => item.Data.StatementDate)
                     @Html.HiddenFor(modelItem => item.Data.CarrierId)
                     @Html.HiddenFor(modelItem => item.Data.Status)
+                    @Html.HiddenFor(modelItem => item.Data.PolicyNumber)
+                    @Html.HiddenFor(modelItem => item.Data.SelectedCoverage.Id)
+                    @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Data.DivisionName)
@@ -94,13 +104,19 @@
                     @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Data.CoverageName)
+                    @*@Html.DisplayFor(modelItem => item.Data.CoverageName)*@
+
+                    @Html.DropDownListFor(
+                     modelItem => item.Data.SelectedCoverage.Id,
+                     new SelectList(item.Data.Coverages, "Id", "Name"), "-- Select Coverage --", new { id = "coverage" + item.Index, @class = "grid-select-height" }
+                     )
                 </td>
                 <td>
                     @Html.DropDownListFor(
-                     modelItem => item.Data.Status,
-                     new SelectList(ViewBag.Status), "-- Select Status --", new { id = "status" + item.Index, @class = "grid-select-height" }
-                     )
+                   modelItem => item.Data.Status,
+                   new SelectList(ViewBag.Status), "-- Select Status --", new { id = "status" + item.Index, @class = "grid-select-height" }
+                   )
+
                 </td>
                 <td>
                     @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
@@ -112,7 +128,10 @@
                     @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
                 </td>
 
-                <td></td>
+                <td>
+                    <a id="anchEdit" onclick="addRow(this)">Add</a>|
+                    <a id="anchDelete" onclick="deleteRow(this)">Delete</a> |
+                </td>
             </tr>
         }
     </table>
@@ -139,14 +158,51 @@
             }
             window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier
         });
+
+        function addRow(instance) {
+            var $tr = $(instance).closest('tr');
+            var $clone = $tr.clone();
+
+            var clientId = $tr[0].cells[0].childNodes[1].value;
+            var policyNo = $tr[0].cells[0].childNodes[15].value;
+            var coverages = $tr[0].cells[0].childNodes[19].value;
+            var count = 0;
+            $('#tblCommisions > tbody  > tr').each(function () {
+
+                var cliId = $(this)[0].cells[0].childNodes[1].value;
+                var polNo = $(this)[0].cells[0].childNodes[15].value;
+                if (clientId == cliId && policyNo == polNo) {
+                    count = count + 1;
+                }
+            });
+
+            if (count >= coverages) {
+                alert('Could not add extra row it reached max coverages count');
+                return;
+            }
+            $clone.find(':text').val('');
+            $tr.after($clone);
+        }
+        function deleteRow(instance) {
+            var $tr = $(instance).closest('tr');
+            $tr.remove();
+        }
         $(document).ready(function () {
+
             var index = 0;
             $('#tblCommisions > tbody  > tr').each(function () {
                 var statementDate = $(this)[0].cells[0].childNodes[9].value;
                 $("#txtStatementDate").val(statementDate);
-                var ststus = $(this)[0].cells[0].childNodes[13].value;
 
+                var ststus = $(this)[0].cells[0].childNodes[13].value;
                 $("#status" + index).val(ststus);
+
+                var coverage = $(this)[0].cells[0].childNodes[17].value;
+                if (coverage != "0") {
+                    $("#coverage" + index).val(coverage);
+                }
+
+                index++;
                 return;
             });
             var query = window.location.search;
@@ -167,10 +223,14 @@
                 $('#tblCommisions > tbody  > tr').each(function () {
                     var clientId = $(this)[0].cells[0].childNodes[1].value;
                     var policyid = $(this)[0].cells[0].childNodes[3].value;
-                    var coverageId = $(this)[0].cells[0].childNodes[5].value;
+                    //var coverageId = $(this)[0].cells[0].childNodes[5].value;
                     var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
                     var carrierId = $(this)[0].cells[0].childNodes[11].value;
+                    var ststus = $(this)[0].cells[0].childNodes[13].value;
+                    var policyNo = $(this)[0].cells[0].childNodes[15].value;
 
+
+                    var coverageId = $(this)[0].cells[3].childNodes[1].value;
                     var status = $(this)[0].cells[4].childNodes[1].value;
                     var commision = $(this)[0].cells[5].childNodes[1].value;
                     var appoliedDate = $(this)[0].cells[6].childNodes[1].value;
@@ -183,7 +243,10 @@
                         "AppliedDate": appoliedDate,
                         "PaymentId": paymntId,
                         "StatementDate": statementDate,
-                        "CarrierId": carrierId
+                        "CarrierId": carrierId,
+                        "PolicyNumber": policyNo,
+                        "ClientId": clientId,
+                        "CoverageId": coverageId
                     }
                     commisions.push(commision);
                 });
@@ -196,7 +259,10 @@
                     dataType: "json",
                     data: JSON.stringify(commisions),
                     success: function (commisions) {
-                        window.location.href = window.location.href;
+                        var carrier = $("#ddlCarrier").val();
+
+                        window.location.href = window.location.origin + window.location.pathname
+                            + "?carrierId=" + carrier + "&isSaved=true"
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         console.log(errorThrown);

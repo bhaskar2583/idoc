@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IBS.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,5 +30,16 @@ namespace IBS.Core.Models
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string Status { get; set; }
+
+        public List<Coverage> Coverages { get; set; }
+        public Coverage SelectedCoverage { get; set; }
+        public List<Product> Products { get; set; }
+        public Product SelectedProduct { get; set; }
+        public CommisionModel()
+        {
+            SelectedCoverage = new Coverage();
+               Coverages = new List<Coverage>();
+            Products = new List<Product>();
+        }
     }
 }
