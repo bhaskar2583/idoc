@@ -27,6 +27,8 @@ namespace IBS.Controllers
             {
                 ViewBag.Status = CommonUtil.GetStatus();
                 commisions = _commisionService.GetCarrierPoliciesById(Convert.ToInt32(carrierId));
+
+                
             }
             ViewBag.PersistMessage = isSaved!=null && isSaved==true ? "Commission added successfully" : "";
             return View(commisions);

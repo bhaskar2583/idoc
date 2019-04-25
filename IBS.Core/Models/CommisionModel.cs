@@ -38,7 +38,7 @@ namespace IBS.Core.Models
         public CommisionModel()
         {
             SelectedCoverage = new Coverage();
-               Coverages = new List<Coverage>();
+            Coverages = new List<Coverage>();
             Products = new List<Product>();
         }
     }

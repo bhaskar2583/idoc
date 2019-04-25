@@ -122,7 +122,40 @@ namespace IBS.Service.Services
                     
                 }
             });
-
+            //Product management
+            commisions.ForEach(c =>
+            {
+                if (c.SelectedCoverage != null && c.SelectedCoverage.Id > 0)
+                {
+                    var policy = _policyRepository.GetById(c.PolicyId);
+                    var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == c.SelectedCoverage.Id);
+                    products.ToList().ForEach(p =>
+                    {
+                        c.Products.Add(new Product()
+                        {
+                            Id = p.ProductId,
+                            Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
+                        });
+                    });
+                }
+                else
+                {
+                    var coverage = c.Coverages.FirstOrDefault();
+                    if (coverage != null)
+                    {
+                        var policy = _policyRepository.GetById(c.PolicyId);
+                        var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == coverage.Id);
+                        products.ToList().ForEach(p =>
+                        {
+                            c.Products.Add(new Product()
+                            {
+                                Id = p.ProductId,
+                                Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
+                            });
+                        });
+                    }
+                }
+            });
             return commisions;
         }
 

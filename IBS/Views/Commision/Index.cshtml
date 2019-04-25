@@ -62,7 +62,7 @@
                     Coverage
                 </th>
                 <th>
-                    Status
+                    Product
                 </th>
                 <th>
                     Commission
@@ -83,56 +83,62 @@
         @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
         {
 
-            <tr class="lbl-grid">
-                <td>
-                    @Html.HiddenFor(modelItem => item.Data.ClientId)
-                    @Html.HiddenFor(modelItem => item.Data.PolicyId)
-                    @Html.HiddenFor(modelItem => item.Data.CoverageId)
-                    @Html.HiddenFor(modelItem => item.Data.ClientPolicyId)
-                    @Html.DisplayFor(modelItem => item.Data.CleintName)
-                    @Html.HiddenFor(modelItem => item.Data.StatementDate)
-                    @Html.HiddenFor(modelItem => item.Data.CarrierId)
-                    @Html.HiddenFor(modelItem => item.Data.Status)
-                    @Html.HiddenFor(modelItem => item.Data.PolicyNumber)
-                    @Html.HiddenFor(modelItem => item.Data.SelectedCoverage.Id)
-                    @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Data.DivisionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.Data.CoverageName)*@
+        <tr class="lbl-grid">
+            <td>
+                @Html.HiddenFor(modelItem => item.Data.ClientId)
+                @Html.HiddenFor(modelItem => item.Data.PolicyId)
+                @Html.HiddenFor(modelItem => item.Data.CoverageId)
+                @Html.HiddenFor(modelItem => item.Data.ClientPolicyId)
+                @Html.DisplayFor(modelItem => item.Data.CleintName)
+                @Html.HiddenFor(modelItem => item.Data.StatementDate)
+                @Html.HiddenFor(modelItem => item.Data.CarrierId)
+                @Html.HiddenFor(modelItem => item.Data.Status)
+                @Html.HiddenFor(modelItem => item.Data.PolicyNumber)
+                @Html.HiddenFor(modelItem => item.Data.SelectedCoverage.Id)
+                @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.DivisionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+            </td>
+            <td>
 
-                    @Html.DropDownListFor(
-                     modelItem => item.Data.SelectedCoverage.Id,
-                     new SelectList(item.Data.Coverages, "Id", "Name"), "-- Select Coverage --", new { id = "coverage" + item.Index, @class = "grid-select-height" }
-                     )
-                </td>
-                <td>
-                    @Html.DropDownListFor(
-                   modelItem => item.Data.Status,
-                   new SelectList(ViewBag.Status), "-- Select Status --", new { id = "status" + item.Index, @class = "grid-select-height" }
-                   )
+                @Html.DropDownListFor(
+                 modelItem => item.Data.SelectedCoverage.Id,
+                 new SelectList(item.Data.Coverages, "Id", "Name"), new { id = "coverage" + item.Index, @class = "grid-select-height" }
+                 )
+            </td>
+            <td>
 
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.Data.AppliedDate, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border datepickercss" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
-                </td>
+                @Html.DropDownListFor(
+                 modelItem => item.Data.SelectedProduct.Id,
+                 new SelectList(item.Data.Products, "Id", "Name"), new { id = "product" + item.Index, @class = "grid-select-height" }
+                 )
+            </td>
+            @*<td>
+            @Html.DropDownListFor(
+           modelItem => item.Data.Status,
+           new SelectList(ViewBag.Status), "-- Select Status --", new { id = "status" + item.Index, @class = "grid-select-height" }
+           )
 
-                <td>
-                    <a id="anchEdit" onclick="addRow(this)">Add</a>|
-                    <a id="anchDelete" onclick="deleteRow(this)">Delete</a> |
-                </td>
-            </tr>
+        </td>*@
+            <td>
+                @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.Data.AppliedDate, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border datepickercss" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
+            </td>
+
+            <td>
+                <a id="anchEdit" onclick="addRow(this)">Add</a>|
+                <a id="anchDelete" onclick="deleteRow(this)">Delete</a> |
+            </td>
+        </tr>
         }
     </table>
     <div class="row">
@@ -176,10 +182,10 @@
                 }
             });
 
-            if (count >= coverages) {
-                alert('Could not add extra row it reached max coverages count');
-                return;
-            }
+            //if (count >= coverages) {
+            //    alert('Could not add extra row it reached max coverages count');
+            //    return;
+            //}
             $clone.find(':text').val('');
             $tr.after($clone);
         }
