@@ -14,5 +14,6 @@ namespace IBS.Service.Services
         bool SaveCommisions(List<CommisionModel> commissions);
         Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId);
         ClientPolicie GetClientPoliciesByPolicyId(int policyId);
+        List<Product> GetProductsOfPolicy(string client, string policy, string coverage);
     }
 }

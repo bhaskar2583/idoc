@@ -48,5 +48,14 @@ namespace IBS.Controllers
             //return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId, isSaved=true });
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        // post: Commision
+        public ActionResult ProductsOfPolicy(string client,string policyNo,string coverage)
+        {
+            var products = _commisionService.GetProductsOfPolicy(client, policyNo, coverage);
+            products = products.Distinct().ToList();
+            //return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId, isSaved=true });
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
     }
 }

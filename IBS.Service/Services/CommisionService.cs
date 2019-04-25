@@ -169,6 +169,35 @@ namespace IBS.Service.Services
             return _policyRepository.GetPolicyByNoCarriageCoverage(policyNo, carrierId, coverageId);
         }
 
+        public List<Product> GetProductsOfPolicy(string client, string policyNo, string coverage)
+        {
+            var products = new List<Product>();
+            var clientPolicies = _commonRepository.GetAllClientPolicies().Where(cp => cp.IsActive 
+            && cp.ClientId==Convert.ToInt32(client)).ToList();
+
+            clientPolicies.ForEach(cp => {
+                var policyDetails = _policyRepository.GetById(cp.PolicieId);
+                int covId = Convert.ToInt32(coverage);
+                var polocies = _policyRepository.GetAll().Where(p => p.PolicyNumber == policyNo
+                && p.CoverageId == covId);
+                polocies.ToList().ForEach(p =>
+                {
+                    var isExist = products.FirstOrDefault(pr => pr.Id == p.ProductId);
+                    if (isExist==null)
+                    {
+                        products.Add(new Product()
+                        {
+                            Id = p.ProductId,
+                            Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
+                        });
+                    }
+                    
+                });
+            });
+            return products;
+            
+        }
+
         public bool SaveCommisions(List<CommisionModel> commissions)
         {
             commissions.ForEach(c =>
