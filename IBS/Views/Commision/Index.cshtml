@@ -95,7 +95,9 @@
                 @Html.HiddenFor(modelItem => item.Data.Status)
                 @Html.HiddenFor(modelItem => item.Data.PolicyNumber)
                 @Html.HiddenFor(modelItem => item.Data.SelectedCoverage.Id)
+
                 @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
+                @Html.HiddenFor(modelItem => item.Data.SelectedProduct.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data.DivisionName)
@@ -107,14 +109,14 @@
 
                 @Html.DropDownListFor(
                  modelItem => item.Data.SelectedCoverage.Id,
-                 new SelectList(item.Data.Coverages, "Id", "Name"), new { id = "coverage" + item.Index, @class = "grid-select-height" }
+                 new SelectList(item.Data.Coverages, "Id", "Name"), "-- Select Coverage --", new { id = "coverage" + item.Index, @class = "grid-select-height" }
                  )
             </td>
             <td>
 
                 @Html.DropDownListFor(
                  modelItem => item.Data.SelectedProduct.Id,
-                 new SelectList(item.Data.Products, "Id", "Name"), new { id = "product" + item.Index, @class = "grid-select-height" }
+                 new SelectList(item.Data.Products, "Id", "Name"), "-- Select Product--", new { id = "product" + item.Index, @class = "grid-select-height" }
                  )
             </td>
             @*<td>
@@ -124,7 +126,7 @@
            )
 
         </td>*@
-            <td>
+            <td style="width:15%">
                 @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
             </td>
             <td>
@@ -170,6 +172,7 @@
             var $clone = $tr.clone();
 
             var clientId = $tr[0].cells[0].childNodes[1].value;
+            var policyid = $tr[0].cells[0].childNodes[3].value;
             var policyNo = $tr[0].cells[0].childNodes[15].value;
             var coverages = $tr[0].cells[0].childNodes[19].value;
             var count = 0;
@@ -180,6 +183,9 @@
                 if (clientId == cliId && policyNo == polNo) {
                     count = count + 1;
                 }
+
+               
+
             });
 
             //if (count >= coverages) {
@@ -187,12 +193,73 @@
             //    return;
             //}
             $clone.find(':text').val('');
+            $clone[0].cells[8].innerHTML = $clone[0].cells[8].innerHTML.replace('|', '');
+            $clone[0].cells[8].innerHTML = $clone[0].cells[8].innerHTML.replace('Add', '');
+            $clone.attr('newid', clientId + policyid);
             $tr.after($clone);
         }
         function deleteRow(instance) {
+
             var $tr = $(instance).closest('tr');
-            $tr.remove();
+            var oClientId = $tr[0].cells[0].childNodes[1].value;
+            var oPolicyid = $tr[0].cells[0].childNodes[3].value;
+            var isaddedRow = $tr.attr('newid');
+
+            if (isaddedRow) {
+                $tr.remove();
+            } else {
+                alert('You cannot delete initial rows');
+                //var rowsExist = false;
+                //$('#tblCommisions > tbody  > tr').each(function () {
+                //    var isNewId = $(this).attr('newid');
+
+                //    if (isNewId && isNewId == oClientId + oPolicyid) {
+                //        rowsExist = true;
+                //    }
+                //});
+
+                //if (rowsExist) {
+                //    alert('please remove child nodes before delete parent node');
+                //}
+
+                //if (!rowsExist) {
+                //    $tr.remove();
+                //}
+            }
+            //$tr.remove();
         }
+
+        $(document).on('change', "[id*=coverage]", function () {
+            var $tr = $(this).closest('tr');
+            var $clone = $tr.clone();
+
+            var clientId = $tr[0].cells[0].childNodes[1].value;
+            var policyNo = $tr[0].cells[0].childNodes[15].value;
+            var coverages = $(this).val();
+            let host = window.location.origin;
+            let path = window.location.pathname;
+            $.ajax({
+                type: "POST",
+                url: "/Commision/ProductsOfPolicy?client=" + clientId + "&policyNo=" + policyNo + "&coverage=" + coverages,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var product = $tr[0].cells[4].childNodes[1];
+                    $(product).empty();
+                    $(product).append($("<option></option>").val("").html("--Select--"))
+                    for (var i = 0; i < data.length; i++) {
+                        $(product).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+
+            });
+
+        });
+
         $(document).ready(function () {
 
             var index = 0;
@@ -206,6 +273,11 @@
                 var coverage = $(this)[0].cells[0].childNodes[17].value;
                 if (coverage != "0") {
                     $("#coverage" + index).val(coverage);
+                }
+
+                var product = $(this)[0].cells[0].childNodes[21].value;
+                if (product != "0") {
+                    $("#product" + index).val(product);
                 }
 
                 index++;
@@ -223,35 +295,7 @@
                 }
 
             }
-            $("[id*=coverage]").change(function () {
-                var $tr = $(this).closest('tr');
-                var $clone = $tr.clone();
-
-                var clientId = $tr[0].cells[0].childNodes[1].value;
-                var policyNo = $tr[0].cells[0].childNodes[15].value;
-                var coverages = $(this).val();
-                let host = window.location.origin;
-                let path = window.location.pathname;
-                $.ajax({
-                    type: "POST",
-                    url: "/Commision/ProductsOfPolicy?client=" + clientId + "&policyNo=" + policyNo + "&coverage=" + coverages,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                        var product = $tr[0].cells[4].childNodes[1];
-                        $(product).empty();
-                        for (var i = 0; i < data.length; i++) {
-                            $(product).append($("<option></option>").val(data[i].Id).html(data[i].Name));  
-                        }
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                    }
-
-                });
-
-            });
+          
             $("#btnSubmit").click(function () {
                 var commisions = [];
                 $('#tblCommisions > tbody  > tr').each(function () {
@@ -280,7 +324,8 @@
                         "CarrierId": carrierId,
                         "PolicyNumber": policyNo,
                         "ClientId": clientId,
-                        "CoverageId": coverageId
+                        "CoverageId": coverageId,
+                        "ProductId": status
                     }
                     commisions.push(commision);
                 });

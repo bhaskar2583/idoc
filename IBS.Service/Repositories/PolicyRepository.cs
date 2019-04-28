@@ -48,11 +48,12 @@ namespace IBS.Service.Repositories
             return entity;
         }
 
-        public Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId)
+        public Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId,int product)
         {
             var entity = GetAll().FirstOrDefault(c => c.PolicyNumber == policyNo
             && c.CarId==carrierId
-            && c.CoverageId==coverageId);
+            && c.CoverageId==coverageId
+            && c.ProductId==product);
 
             return entity;
         }

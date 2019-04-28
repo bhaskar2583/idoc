@@ -14,6 +14,6 @@ namespace IBS.Service.Repositories
         bool Add(Policie policy);
         bool Update(Policie policy);
         bool Delete(int id);
-        Policie GetPolicyByNoCarriageCoverage(string policyo, int carrierId, int coverageId);
+        Policie GetPolicyByNoCarriageCoverage(string policyo, int carrierId, int coverageId,int product);
     }
 }

@@ -74,6 +74,12 @@ namespace IBS.Service.Services
                             Id = coverage.Id,
                             Name = coverage.Name
                         };
+
+                        commisionMode.SelectedProduct = new Product()
+                        {
+                            Id=product.Id,
+                            Name=product.Name
+                        };
                         var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId
                         && c.PolicyNumber == commisionMode.PolicyNumber);
                         if (isExist != null)
@@ -127,34 +133,37 @@ namespace IBS.Service.Services
             {
                 if (c.SelectedCoverage != null && c.SelectedCoverage.Id > 0)
                 {
-                    var policy = _policyRepository.GetById(c.PolicyId);
-                    var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == c.SelectedCoverage.Id);
-                    products.ToList().ForEach(p =>
-                    {
-                        c.Products.Add(new Product()
-                        {
-                            Id = p.ProductId,
-                            Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
-                        });
-                    });
+                    //var policy = _policyRepository.GetById(c.PolicyId);
+                    //var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == c.SelectedCoverage.Id);
+                    //products.ToList().ForEach(p =>
+                    //{
+                    //    c.Products.Add(new Product()
+                    //    {
+                    //        Id = p.ProductId,
+                    //        Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
+                    //    });
+                    //});
+
+                    var products = GetProductsOfPolicy(Convert.ToString(c.ClientId), c.PolicyNumber,Convert.ToString(c.CoverageId));
+                    c.Products = products;
                 }
-                else
-                {
-                    var coverage = c.Coverages.FirstOrDefault();
-                    if (coverage != null)
-                    {
-                        var policy = _policyRepository.GetById(c.PolicyId);
-                        var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == coverage.Id);
-                        products.ToList().ForEach(p =>
-                        {
-                            c.Products.Add(new Product()
-                            {
-                                Id = p.ProductId,
-                                Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
-                            });
-                        });
-                    }
-                }
+                //else
+                //{
+                //    var coverage = c.Coverages.FirstOrDefault();
+                //    if (coverage != null)
+                //    {
+                //        var policy = _policyRepository.GetById(c.PolicyId);
+                //        var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == coverage.Id);
+                //        products.ToList().ForEach(p =>
+                //        {
+                //            c.Products.Add(new Product()
+                //            {
+                //                Id = p.ProductId,
+                //                Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
+                //            });
+                //        });
+                //    }
+                //}
             });
             return commisions;
         }
@@ -164,9 +173,9 @@ namespace IBS.Service.Services
             return _commonRepository.GetClientPoliciesByPolicyId(policyId);
         }
 
-        public Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId)
+        public Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId,int product)
         {
-            return _policyRepository.GetPolicyByNoCarriageCoverage(policyNo, carrierId, coverageId);
+            return _policyRepository.GetPolicyByNoCarriageCoverage(policyNo, carrierId, coverageId,product);
         }
 
         public List<Product> GetProductsOfPolicy(string client, string policyNo, string coverage)
@@ -177,22 +186,20 @@ namespace IBS.Service.Services
 
             clientPolicies.ForEach(cp => {
                 var policyDetails = _policyRepository.GetById(cp.PolicieId);
-                int covId = Convert.ToInt32(coverage);
-                var polocies = _policyRepository.GetAll().Where(p => p.PolicyNumber == policyNo
-                && p.CoverageId == covId);
-                polocies.ToList().ForEach(p =>
+
+                if(policyDetails.PolicyNumber==policyNo && Convert.ToString(policyDetails.CoverageId) == coverage)
                 {
-                    var isExist = products.FirstOrDefault(pr => pr.Id == p.ProductId);
-                    if (isExist==null)
+                    var isExist = products.FirstOrDefault(pr => pr.Id == policyDetails.ProductId);
+                    if (isExist == null)
                     {
                         products.Add(new Product()
                         {
-                            Id = p.ProductId,
-                            Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
+                            Id = policyDetails.ProductId,
+                            Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == policyDetails.ProductId).Name
                         });
                     }
-                    
-                });
+                }
+                
             });
             return products;
             

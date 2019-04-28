@@ -21,30 +21,39 @@ namespace IBS.Controllers
         // GET: Commision
         public ActionResult Index(int? carrierId,bool? isSaved)
         {
-            ViewBag.Carriers = _carrierService.GetAllCarriers();
             var commisions = new List<CommisionModel>();
-            if(carrierId!=null && carrierId > 0)
+            try
             {
-                ViewBag.Status = CommonUtil.GetStatus();
-                commisions = _commisionService.GetCarrierPoliciesById(Convert.ToInt32(carrierId));
-
+                ViewBag.Carriers = _carrierService.GetAllCarriers();
                 
+                if (carrierId != null && carrierId > 0)
+                {
+                    ViewBag.Status = CommonUtil.GetStatus();
+                    commisions = _commisionService.GetCarrierPoliciesById(Convert.ToInt32(carrierId));
+                }
+                ViewBag.PersistMessage = isSaved != null && isSaved == true ? "Commission added successfully" : "";
+                return View(commisions);
             }
-            ViewBag.PersistMessage = isSaved!=null && isSaved==true ? "Commission added successfully" : "";
-            return View(commisions);
+            catch (Exception ex)
+            {
+                return View(commisions);
+            }
+           
         }
 
         [HttpPost]
         // post: Commision
         public ActionResult Index(List<CommisionModel> commisions)
         {
-            commisions.ForEach(c =>
+            var savedCommisions = commisions.Where(cpm => cpm.CoverageId != null && cpm.CoverageId > 0
+             && cpm.ProductId != null && cpm.ProductId > 0).ToList();
+            savedCommisions.ForEach(c =>
             {
-                var policy = _commisionService.GetPolicyByNoCarriageCoverage(c.PolicyNumber, c.CarrierId, c.CoverageId);
+                var policy = _commisionService.GetPolicyByNoCarriageCoverage(c.PolicyNumber, c.CarrierId, c.CoverageId,c.ProductId);
                 var clientPolicy = _commisionService.GetClientPoliciesByPolicyId(policy.Id);
                 c.ClientPolicyId = clientPolicy.Id;
             });
-            _commisionService.SaveCommisions(commisions);
+            _commisionService.SaveCommisions(savedCommisions);
             //return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId, isSaved=true });
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
@@ -54,7 +63,6 @@ namespace IBS.Controllers
         {
             var products = _commisionService.GetProductsOfPolicy(client, policyNo, coverage);
             products = products.Distinct().ToList();
-            //return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId, isSaved=true });
             return Json(products, JsonRequestBehavior.AllowGet);
         }
     }

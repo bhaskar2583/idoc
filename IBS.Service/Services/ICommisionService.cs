@@ -12,7 +12,7 @@ namespace IBS.Service.Services
     {
         List<CommisionModel> GetCarrierPoliciesById(int carrierId);
         bool SaveCommisions(List<CommisionModel> commissions);
-        Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId);
+        Policie GetPolicyByNoCarriageCoverage(string policyNo, int carrierId, int coverageId,int product);
         ClientPolicie GetClientPoliciesByPolicyId(int policyId);
         List<Product> GetProductsOfPolicy(string client, string policy, string coverage);
     }
