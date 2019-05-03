@@ -59,73 +59,93 @@ namespace IBS.Service.Services
                     commisionMode.ClientPolicyId = cp.Id;
                     commisionMode.CarrierId = carrierId;
 
-                    var commision = _commissionRepository.GetByClientPolicyId(commisionMode.ClientPolicyId);
+                    //var commision = _commissionRepository.GetByClientPolicyId(commisionMode.ClientPolicyId);
 
-                    if (commision != null)
-                    {
-                        commisionMode.Status = commision.Status;
-                        commisionMode.CommisionValue = commision.CommisionValue;
-                        commisionMode.StatementDate = commision.StatementDate;
-                        commisionMode.AppliedDate = commision.AppliedDate;
-                        commisionMode.PaymentId = commision.PaymentId;
+                    //if (commision != null)
+                    //{
+                    //    commisionMode.Status = commision.Status;
+                    //    commisionMode.CommisionValue = commision.CommisionValue;
+                    //    commisionMode.StatementDate = commision.StatementDate;
+                    //    commisionMode.AppliedDate = commision.AppliedDate;
+                    //    commisionMode.PaymentId = commision.PaymentId;
 
-                        commisionMode.SelectedCoverage = new Coverage()
-                        {
-                            Id = coverage.Id,
-                            Name = coverage.Name
-                        };
+                    //    commisionMode.SelectedCoverage = new Coverage()
+                    //    {
+                    //        Id = coverage.Id,
+                    //        Name = coverage.Name
+                    //    };
 
-                        commisionMode.SelectedProduct = new Product()
-                        {
-                            Id=product.Id,
-                            Name=product.Name
-                        };
-                        var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId
+                    //    commisionMode.SelectedProduct = new Product()
+                    //    {
+                    //        Id=product.Id,
+                    //        Name=product.Name
+                    //    };
+                    //    var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId
+                    //    && c.PolicyNumber == commisionMode.PolicyNumber);
+                    //    if (isExist != null)
+                    //    {
+                    //        isExist.Coverages.Add(new Coverage()
+                    //        {
+                    //            Id = commisionMode.CoverageId,
+                    //            Name = commisionMode.CoverageName
+                    //        });
+                    //        commisionMode.Coverages = isExist.Coverages;
+                    //    }
+                    //    if (isExist == null)
+                    //    {
+                    //        commisionMode.Coverages.Add(new Coverage()
+                    //        {
+                    //            Id = commisionMode.CoverageId,
+                    //            Name = commisionMode.CoverageName
+                    //        });
+                    //    }
+
+                    //    commisions.Add(commisionMode);
+                    //}
+                    //else
+                    //{
+                    //    var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId 
+                    //    && c.PolicyNumber == commisionMode.PolicyNumber);
+                    //    if (isExist!=null)
+                    //    {
+                    //        isExist.Coverages.Add(new Coverage()
+                    //        {
+                    //            Id = commisionMode.CoverageId,
+                    //            Name = commisionMode.CoverageName
+                    //        });
+                    //    }
+                    //    if (isExist == null)
+                    //    {
+                    //        commisionMode.Coverages.Add(new Coverage()
+                    //        {
+                    //            Id = commisionMode.CoverageId,
+                    //            Name = commisionMode.CoverageName
+                    //        });
+                    //        commisions.Add(commisionMode);
+                    //    }
+                        
+                    //}
+
+                    var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId
                         && c.PolicyNumber == commisionMode.PolicyNumber);
-                        if (isExist != null)
+                    if (isExist != null)
+                    {
+                        isExist.Coverages.Add(new Coverage()
                         {
-                            isExist.Coverages.Add(new Coverage()
-                            {
-                                Id = commisionMode.CoverageId,
-                                Name = commisionMode.CoverageName
-                            });
-                            commisionMode.Coverages = isExist.Coverages;
-                        }
-                        if (isExist == null)
+                            Id = commisionMode.CoverageId,
+                            Name = commisionMode.CoverageName
+                        });
+                    }
+                    if (isExist == null)
+                    {
+                        commisionMode.Coverages.Add(new Coverage()
                         {
-                            commisionMode.Coverages.Add(new Coverage()
-                            {
-                                Id = commisionMode.CoverageId,
-                                Name = commisionMode.CoverageName
-                            });
-                        }
-
+                            Id = commisionMode.CoverageId,
+                            Name = commisionMode.CoverageName
+                        });
                         commisions.Add(commisionMode);
                     }
-                    else
-                    {
-                        var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId 
-                        && c.PolicyNumber == commisionMode.PolicyNumber);
-                        if (isExist!=null)
-                        {
-                            isExist.Coverages.Add(new Coverage()
-                            {
-                                Id = commisionMode.CoverageId,
-                                Name = commisionMode.CoverageName
-                            });
-                        }
-                        if (isExist == null)
-                        {
-                            commisionMode.Coverages.Add(new Coverage()
-                            {
-                                Id = commisionMode.CoverageId,
-                                Name = commisionMode.CoverageName
-                            });
-                            commisions.Add(commisionMode);
-                        }
-                        
-                    }
-                    
+
                 }
             });
             //Product management

@@ -52,7 +52,7 @@
                 <th>
                     Client
                 </th>
-                <th>
+                <th style="display:none">
                     Department
                 </th>
                 <th>
@@ -99,7 +99,7 @@
                 @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
                 @Html.HiddenFor(modelItem => item.Data.SelectedProduct.Id)
             </td>
-            <td>
+            <td style="display:none">
                 @Html.DisplayFor(modelItem => item.Data.DivisionName)
             </td>
             <td>
