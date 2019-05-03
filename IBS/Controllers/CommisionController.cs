@@ -46,7 +46,7 @@ namespace IBS.Controllers
         public ActionResult Index(List<CommisionModel> commisions)
         {
             var savedCommisions = commisions.Where(cpm => cpm.CoverageId != null && cpm.CoverageId > 0
-             && cpm.ProductId != null && cpm.ProductId > 0).ToList();
+             && cpm.ProductId != null && cpm.ProductId > 0 && cpm.StatementDate!=null && cpm.CommisionValue!=null && cpm.CommisionValue>0).ToList();
             savedCommisions.ForEach(c =>
             {
                 var policy = _commisionService.GetPolicyByNoCarriageCoverage(c.PolicyNumber, c.CarrierId, c.CoverageId,c.ProductId);
