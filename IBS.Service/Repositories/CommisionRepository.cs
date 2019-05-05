@@ -38,12 +38,12 @@ namespace IBS.Service.Repositories
             if (data != null)
             {
                 data.CommisionValue = commission.CommisionValue;
-                data.PaymentId = commission.PaymentId;
-                data.StatementDate = commission.StatementDate;
+                //data.PaymentId = commission.PaymentId;
+                //data.StatementDate = commission.StatementDate;
                 data.AppliedDate = commission.AppliedDate;
                 data.RevDate = commission.RevDate;
                 data.RevUser = commission.RevUser;
-                data.Status = commission.Status;
+                //data.Status = commission.Status;
                 _hanysContext.SaveChanges();
             }
             return true;

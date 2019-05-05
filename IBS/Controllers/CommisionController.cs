@@ -66,9 +66,21 @@ namespace IBS.Controllers
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult EditCommissions(int? carrierId, string smd,string pId)
+        public ActionResult EditCommissions(int? carrierId, string smd,string pId, bool? isSaved)
         {
             var commisions = new List<CommisionModel>();
+            ViewBag.carrierStatementDates = new List<SelectListCommon>();
+            ViewBag.carrierStatementDatePayments = new List<SelectListCommon>();
+
+            if (carrierId != null)
+            {
+                ViewBag.carrierStatementDates= _commisionService.GetCarrierStatementDates(Convert.ToString(carrierId));
+            }
+
+            if (!string.IsNullOrEmpty(smd))
+            {
+                ViewBag.carrierStatementDatePayments = _commisionService.GetCarrierStatementDatePayments(Convert.ToString(carrierId), smd);
+            }
             try
             {
                 ViewBag.Carriers = _carrierService.GetAllCarriers();
@@ -78,7 +90,7 @@ namespace IBS.Controllers
                     ViewBag.Status = CommonUtil.GetStatus();
                     commisions = _commisionService.GetAllSavedCommissionsForCarrier(Convert.ToInt32(carrierId));
                 }
-                //ViewBag.PersistMessage = isSaved != null && isSaved == true ? "Commission added successfully" : "";
+                ViewBag.PersistMessage = isSaved != null && isSaved == true ? "Commissions updated successfully" : "";
                 commisions = commisions.Where(c => c.CoverageId == carrierId).ToList();
                 if (!string.IsNullOrEmpty(smd) && commisions!=null && commisions.Count>0)
                 {
@@ -95,6 +107,33 @@ namespace IBS.Controllers
                 return View(commisions);
             }
 
+        }
+
+        [HttpPost]
+        // post: Commision
+        public ActionResult EditCommissions(List<CommisionModel> commisions)
+        {
+           
+            _commisionService.SaveCommisions(commisions);
+            return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        // post: Commision
+        public ActionResult carrierStatementDates(string carId)
+        {
+            var smDates = _commisionService.GetCarrierStatementDates(carId);
+            smDates = smDates.Distinct().ToList();
+            return Json(smDates, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        // post: Commision
+        public ActionResult carrierStatementDatePaymentNo(string carId, string smId)
+        {
+            var payments = _commisionService.GetCarrierStatementDatePayments(carId,smId);
+            payments = payments.Distinct().ToList();
+            return Json(payments, JsonRequestBehavior.AllowGet);
         }
     }
 }

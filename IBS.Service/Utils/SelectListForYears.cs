@@ -11,4 +11,9 @@ namespace IBS.Service.Utils
         public int Id { get; set; }
         public string Name { get; set; }
     }
+    public class SelectListCommon
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

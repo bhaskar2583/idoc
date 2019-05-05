@@ -33,7 +33,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Statement Date:</label>
-                <input type="text" id="txtStatementDate" class="ibs-input ibs-border" />
+                @Html.DropDownList(
+                "txtStatementDate",
+                new SelectList(ViewBag.carrierStatementDates, "Id", "Name"),
+                "-- Please select a statement date --", new { @class = "ibs-input ibs-border" }
+                )
+                @*<input type="text" id="txtStatementDate" class="ibs-input ibs-border" />*@
             </div>
         </div>
 
@@ -43,7 +48,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>payment id:</label>
-                <input type="text" id="txtPaymentId" class="ibs-input ibs-border" />
+                @*<input type="text" id="txtPaymentId" class="ibs-input ibs-border" />*@
+                @Html.DropDownList(
+                "txtPaymentId",
+                new SelectList(ViewBag.carrierStatementDatePayments, "Id", "Name"),
+                "-- Please select a paymentid --", new { @class = "ibs-input ibs-border" }
+                )
             </div>
         </div>
 
@@ -169,13 +179,65 @@
                 alert("please select carrier");
                 return;
             }
-            var statementDate = $("#txtStatementDate").val();
-            var paymentId = $("#txtPaymentId").val();
+            var statementDate = $("#txtStatementDate option:selected").text();
+            var paymentId = $("#txtPaymentId option:selected").text();
             window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + statementDate + "&pId=" + paymentId
         });
 
      
         $(document).ready(function () {
+
+            $("#ddlCarrier").change(function () {
+                var carrierId = $("#ddlCarrier").val();
+                $("#txtPaymentId").empty();
+                $("#txtStatementDate").empty();
+                $.ajax({
+                    type: "POST",
+                    url: "/Commision/carrierStatementDates?carId=" + carrierId,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        var smDate = $("#txtStatementDate");
+                        $(smDate).empty();
+                        $(smDate).append($("<option></option>").val("").html("--Please select a statement date--"))
+                        for (var i = 0; i < data.length; i++) {
+                            $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+
+                });
+
+            });
+
+            $("#txtStatementDate").change(function () {
+                var carrierId = $("#ddlCarrier").val();
+                var txtStatementDate = $("#txtStatementDate option:selected").text();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Commision/carrierStatementDatePaymentNo?carId=" + carrierId + "&smId=" + txtStatementDate,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        var payment = $("#txtPaymentId");
+                        $(payment).empty();
+                        $(payment).append($("<option></option>").val("").html("--Please select a paymentid--"))
+                        for (var i = 0; i < data.length; i++) {
+                            $(payment).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+
+                });
+
+            });
 
             var query = window.location.search;
             if (query != undefined && query != "") {
@@ -191,8 +253,8 @@
                 var smt = searchQuery[1];
                 if (smt.indexOf("smd") != -1) {
                     var d = smt.split('=');
-                    if (d != "" && d!="0") {
-                        $("#txtStatementDate").val(d[1]);
+                    if (d != "" && d != "0") {
+                        $("#txtStatementDate option:contains(" + d[1] + ")").attr('selected', 'selected');
                     }
 
                 }
@@ -200,7 +262,7 @@
                 if (pmt.indexOf("pId") != -1) {
                     var d = pmt.split('=');
                     if (d != "" && d != "0") {
-                        $("#txtPaymentId").val(d[1]);
+                        $("#txtPaymentId option:contains(" + d[1] + ")").attr('selected', 'selected');
                     }
 
                 }
@@ -210,44 +272,19 @@
                 var commisions = [];
                 var isInvalidRow = false;
                 $('#tblCommisions > tbody  > tr').each(function () {
-                    var clientId = $(this)[0].cells[0].childNodes[1].value;
-                    var policyid = $(this)[0].cells[0].childNodes[3].value;
-                    //var coverageId = $(this)[0].cells[0].childNodes[5].value;
+                   
                     var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
-                    var carrierId = $(this)[0].cells[0].childNodes[11].value;
-                    var ststus = $(this)[0].cells[0].childNodes[13].value;
-                    var policyNo = $(this)[0].cells[0].childNodes[15].value;
+                    var commision = $(this)[0].cells[6].childNodes[1].value;
+                    var appoliedDate = $(this)[0].cells[7].childNodes[1].value;
 
-
-                    var coverageId = $(this)[0].cells[3].childNodes[1].value;
-                    var status = $(this)[0].cells[4].childNodes[1].value;
-                    var commision = $(this)[0].cells[5].childNodes[1].value;
-                    var appoliedDate = $(this)[0].cells[6].childNodes[1].value;
-                    var paymntId = $(this)[0].cells[7].childNodes[1].value;
-                    var statementDate = $("#txtStatementDate").val();
-
-                    if (statementDate == "" || commision == "" || paymntId == "") {
-                        isInvalidRow = true;
-                    }
                     var commision = {
                         "clientPolicyId": clientPolicyId,
-                        "Status": status,
                         "CommisionValue": commision,
-                        "AppliedDate": appoliedDate,
-                        "PaymentId": paymntId,
-                        "StatementDate": statementDate,
-                        "CarrierId": carrierId,
-                        "PolicyNumber": policyNo,
-                        "ClientId": clientId,
-                        "CoverageId": coverageId,
-                        "ProductId": status
+                        "AppliedDate": appoliedDate
                     }
                     commisions.push(commision);
                 });
-                if (isInvalidRow) {
-                    alert('either of statement date, commission or payment id missied. please check');
-                    return;
-                }
+               
                 let host = window.location.origin;
                 let path = window.location.pathname;
                 $.ajax({
@@ -258,9 +295,11 @@
                     data: JSON.stringify(commisions),
                     success: function (commisions) {
                         var carrier = $("#ddlCarrier").val();
+                        var smt = $("#txtStatementDate option:selected").text();
+                        var pmt = $("#txtPaymentId option:selected").text();
 
-                        window.location.href = window.location.origin + window.location.pathname
-                            + "?carrierId=" + carrier + "&isSaved=true"
+
+                        window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + smt + "&pId=" + pmt +"&isSaved=true"
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         console.log(errorThrown);
