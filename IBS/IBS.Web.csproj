@@ -224,6 +224,7 @@
     <Content Include="Views\Policy\ViewPolicyDetails.cshtml" />
     <Content Include="Views\Policy\PolicyBudgets.cshtml" />
     <Content Include="Views\Commision\Index.cshtml" />
+    <Content Include="Views\Commision\EditCommissions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

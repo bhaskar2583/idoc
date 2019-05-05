@@ -13,5 +13,6 @@ namespace IBS.Service.Repositories
         bool Add(Commision commission);
         Commision GetByClientPolicyId(int clientPolicyId);
         bool Update(CommisionModel commission);
+        List<Commision> GetSavedCommisionsForCarrier(int carrierId);
     }
 }

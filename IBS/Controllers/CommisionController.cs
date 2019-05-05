@@ -65,5 +65,36 @@ namespace IBS.Controllers
             products = products.Distinct().ToList();
             return Json(products, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult EditCommissions(int? carrierId, string smd,string pId)
+        {
+            var commisions = new List<CommisionModel>();
+            try
+            {
+                ViewBag.Carriers = _carrierService.GetAllCarriers();
+
+                if (carrierId != null && carrierId > 0)
+                {
+                    ViewBag.Status = CommonUtil.GetStatus();
+                    commisions = _commisionService.GetAllSavedCommissionsForCarrier(Convert.ToInt32(carrierId));
+                }
+                //ViewBag.PersistMessage = isSaved != null && isSaved == true ? "Commission added successfully" : "";
+                commisions = commisions.Where(c => c.CoverageId == carrierId).ToList();
+                if (!string.IsNullOrEmpty(smd) && commisions!=null && commisions.Count>0)
+                {
+                    commisions = commisions.Where(c => c.StatementDateAsString == smd).ToList();
+                }
+                if (!string.IsNullOrEmpty(pId) && commisions != null && commisions.Count > 0)
+                {
+                    commisions = commisions.Where(c => c.PaymentId == pId).ToList();
+                }
+                return View(commisions);
+            }
+            catch (Exception ex)
+            {
+                return View(commisions);
+            }
+
+        }
     }
 }

@@ -48,6 +48,11 @@ namespace IBS.Service.Repositories
             return _hanysContext.ClientPolicies.Where(cov => cov.ClientId == clientId).ToList();
         }
 
+        public IList<ClientPolicie> GetAllClientPoliciesByIndexId(int id)
+        {
+            return _hanysContext.ClientPolicies.Where(cov => cov.Id == id).ToList();
+        }
+
         public IList<Coverage> GetAllCoverages()
         {
             return _hanysContext.Coverages.ToList();

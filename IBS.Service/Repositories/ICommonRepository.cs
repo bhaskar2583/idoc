@@ -9,6 +9,7 @@ namespace IBS.Service.Repositories
 {
     public interface ICommonRepository
     {
+        IList<ClientPolicie> GetAllClientPoliciesByIndexId(int id);
         IList<Coverage> GetAllCoverages();
         IList<Product> GetAllProducts();
         IList<Product> GetAllProductsByCoverageId(int coverageId);

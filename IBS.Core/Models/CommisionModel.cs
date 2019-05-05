@@ -23,8 +23,10 @@ namespace IBS.Core.Models
         public decimal? CommisionValue { get; set; }
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? AppliedDate { get; set; }
+        public string AppliedDateAsString { get; set; }
         public string PaymentId { get; set; }
         public DateTime? StatementDate { get; set; }
+        public string StatementDateAsString { get; set; }
         public int CoverageId { get; set; }
         public string CoverageName { get; set; }
         public int ProductId { get; set; }

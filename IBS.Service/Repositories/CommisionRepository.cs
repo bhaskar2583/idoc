@@ -27,6 +27,10 @@ namespace IBS.Service.Repositories
         {
             return _hanysContext.Commisions.FirstOrDefault(cov => cov.ClientPolicyId == clientPolicyId);
         }
+        public List<Commision> GetSavedCommisionsForCarrier(int carrierId)
+        {
+            return _hanysContext.Commisions.ToList();//.Where(cov => cov.CarrierId == carrierId).ToList();
+        }
 
         public bool Update(CommisionModel commission)
         {

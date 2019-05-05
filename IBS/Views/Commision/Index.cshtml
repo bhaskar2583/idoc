@@ -298,6 +298,7 @@
           
             $("#btnSubmit").click(function () {
                 var commisions = [];
+                var isInvalidRow = false;
                 $('#tblCommisions > tbody  > tr').each(function () {
                     var clientId = $(this)[0].cells[0].childNodes[1].value;
                     var policyid = $(this)[0].cells[0].childNodes[3].value;
@@ -314,6 +315,10 @@
                     var appoliedDate = $(this)[0].cells[6].childNodes[1].value;
                     var paymntId = $(this)[0].cells[7].childNodes[1].value;
                     var statementDate = $("#txtStatementDate").val();
+
+                    if (statementDate == "" || commision == "" || paymntId=="") {
+                        isInvalidRow = true;
+                    }
                     var commision = {
                         "clientPolicyId": clientPolicyId,
                         "Status": status,
@@ -329,6 +334,10 @@
                     }
                     commisions.push(commision);
                 });
+                if (isInvalidRow) {
+                    alert('either of statement date, commission or payment id missied. please check');
+                    return;
+                }
                 let host = window.location.origin;
                 let path = window.location.pathname;
                 $.ajax({
