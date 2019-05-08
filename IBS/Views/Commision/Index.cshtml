@@ -316,7 +316,7 @@
                     var paymntId = $(this)[0].cells[7].childNodes[1].value;
                     var statementDate = $("#txtStatementDate").val();
 
-                    if (statementDate == "" || commision == "" || paymntId=="") {
+                    if (commision != "" && (statementDate == "" ||  paymntId=="")) {
                         isInvalidRow = true;
                     }
                     var commision = {
