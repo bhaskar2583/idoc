@@ -136,7 +136,7 @@
                 @Html.DisplayFor(modelItem => item.Data.CoverageName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Data.ProductName)
+                @Html.DisplayFor(modelItem => item.Data.SelectedCorporateProduct.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data.StatementDateAsString)
@@ -200,7 +200,7 @@
                         console.log(data);
                         var smDate = $("#txtStatementDate");
                         $(smDate).empty();
-                        $(smDate).append($("<option></option>").val("").html("--Please select a statement date--"))
+                        $(smDate).append($("<option></option>").val("").html("-- Please select a statement date --"))
                         for (var i = 0; i < data.length; i++) {
                             $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                         }
@@ -226,7 +226,7 @@
                         console.log(data);
                         var payment = $("#txtPaymentId");
                         $(payment).empty();
-                        $(payment).append($("<option></option>").val("").html("--Please select a paymentid--"))
+                        $(payment).append($("<option></option>").val("").html("-- Please select a paymentid --"))
                         for (var i = 0; i < data.length; i++) {
                             $(payment).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                         }

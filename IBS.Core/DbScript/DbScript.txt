@@ -120,3 +120,24 @@ CREATE TABLE [dbo].[Commision] (
 
 
 
+CREATE TABLE [dbo].[Products] (
+    [Pro_Id]     INT           IDENTITY (1, 1) NOT NULL,
+    [Pro_Name]   VARCHAR (500) NOT NULL,
+    [Pro_Cov_Id] INT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([Pro_Id] ASC),
+    CONSTRAINT [FK_Product_CovId] FOREIGN KEY ([Pro_Cov_Id]) REFERENCES [dbo].[Coverages] ([Cov_Id])
+);
+
+CREATE TABLE [dbo].[CorporateProducts] (
+    [Cp_Id]     INT           IDENTITY (1, 1) NOT NULL,
+    [Cp_Name]   VARCHAR (500) NULL,
+    [Cp_Cov_Id] INT           NULL,
+    PRIMARY KEY CLUSTERED ([Cp_Id] ASC)
+);
+
+CREATE TABLE [dbo].[CorporateProductsXProducts] (
+    [Id]         INT IDENTITY (1, 1) NOT NULL,
+    [Cop_Pro_Id] INT NULL,
+    [Pro_Id]     INT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);

@@ -20,5 +20,6 @@ namespace IBS.Service.Services
         List<Product> GetProductsOfPolicy(string client, string policy, string coverage);
         List<SelectListCommon> GetCarrierStatementDates(string carrierId);
         List<SelectListCommon> GetCarrierStatementDatePayments(string carrierId,string statementDate);
+        IList<CorporateProduct> GetAllCorporateProducts();
     }
 }

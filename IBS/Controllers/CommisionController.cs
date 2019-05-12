@@ -13,10 +13,12 @@ namespace IBS.Controllers
     {
         private readonly ICarrierService _carrierService;
         private readonly ICommisionService _commisionService;
-        public CommisionController(ICarrierService carrierService, ICommisionService commisionService)
+        private readonly ICommonService _commonService;
+        public CommisionController(ICarrierService carrierService, ICommisionService commisionService, ICommonService commonService)
         {
             _carrierService = carrierService;
             _commisionService = commisionService;
+            _commonService = commonService;
         }
         // GET: Commision
         public ActionResult Index(int? carrierId,bool? isSaved)
@@ -45,13 +47,19 @@ namespace IBS.Controllers
         // post: Commision
         public ActionResult Index(List<CommisionModel> commisions)
         {
-            var savedCommisions = commisions.Where(cpm => cpm.CoverageId != null && cpm.CoverageId > 0
-             && cpm.ProductId != null && cpm.ProductId > 0 && cpm.StatementDate!=null && cpm.CommisionValue!=null && cpm.CommisionValue>0).ToList();
+            var savedCommisions = commisions.Where(cpm => cpm.ProductId != null && cpm.ProductId > 0 && cpm.StatementDate!=null && cpm.CommisionValue!=null && cpm.CommisionValue>0).ToList();
             savedCommisions.ForEach(c =>
             {
-                var policy = _commisionService.GetPolicyByNoCarriageCoverage(c.PolicyNumber, c.CarrierId, c.CoverageId,c.ProductId);
-                var clientPolicy = _commisionService.GetClientPoliciesByPolicyId(policy.Id);
-                c.ClientPolicyId = clientPolicy.Id;
+                var coverage = _commisionService.GetAllCorporateProducts().ToList().FirstOrDefault(cp => cp.Id == c.ProductId);
+                var corporateProducts = _commonService.GetAllCorporateXProducts().ToList().FirstOrDefault(cp => cp.CorporateProductId == c.ProductId);
+                if (corporateProducts != null)
+                {
+                    var policy = _commisionService.GetPolicyByNoCarriageCoverage(c.PolicyNumber, c.CarrierId, coverage.CoverageId, corporateProducts.ProductId);
+                    var clientPolicy = _commisionService.GetClientPoliciesByPolicyId(policy.Id);
+                    c.ClientPolicyId = clientPolicy.Id;
+                }
+
+
             });
             _commisionService.SaveCommisions(savedCommisions);
             //return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId, isSaved=true });
@@ -91,12 +99,12 @@ namespace IBS.Controllers
                     commisions = _commisionService.GetAllSavedCommissionsForCarrier(Convert.ToInt32(carrierId));
                 }
                 ViewBag.PersistMessage = isSaved != null && isSaved == true ? "Commissions updated successfully" : "";
-                commisions = commisions.Where(c => c.CoverageId == carrierId).ToList();
-                if (!string.IsNullOrEmpty(smd) && commisions!=null && commisions.Count>0)
+                commisions = commisions.Where(c => c.CarrierId == carrierId).ToList();
+                if (!string.IsNullOrEmpty(smd) && commisions!=null && commisions.Count>0 && smd!= "-- Please select a statement date --")
                 {
                     commisions = commisions.Where(c => c.StatementDateAsString == smd).ToList();
                 }
-                if (!string.IsNullOrEmpty(pId) && commisions != null && commisions.Count > 0)
+                if (!string.IsNullOrEmpty(pId) && commisions != null && commisions.Count > 0 && pId!= "-- Please select a paymentid --")
                 {
                     commisions = commisions.Where(c => c.PaymentId == pId).ToList();
                 }

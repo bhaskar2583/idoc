@@ -12,4 +12,16 @@ namespace IBS.Core.Entities
         public string Name { get; set; }
         public int CoverageId { get; set; }
     }
+    public class CorporateProduct
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int CoverageId { get; set; }
+    }
+    public class CorporateProductsXProduct
+    {
+        public int Id { get; set; }
+        public int CorporateProductId { get; set; }
+        public int ProductId { get; set; }
+    }
 }

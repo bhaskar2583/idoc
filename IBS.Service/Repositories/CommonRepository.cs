@@ -150,5 +150,26 @@ namespace IBS.Service.Repositories
         {
             return _hanysContext.ClientPolicies.FirstOrDefault(cp => cp.PolicieId == policyId);
         }
+
+        public IList<CorporateProduct> GetAllCorporateProducts()
+        {
+            return _hanysContext.CorporateProduct.ToList();
+        }
+
+        public IList<CorporateProduct> GetAllCorporateProductsByCoverageId(int coverageId)
+        {
+            return _hanysContext.CorporateProduct.Where(cp => cp.CoverageId == coverageId).ToList();
+        }
+
+        public CorporateProduct GetCorporateProductById(int productId)
+        {
+            return _hanysContext.CorporateProduct.FirstOrDefault(cp => cp.Id == productId);
+        }
+
+
+        IList<CorporateProductsXProduct> ICommonRepository.GetAllCorporateXProducts()
+        {
+            return _hanysContext.CorporateProductsXProducts.ToList();
+        }
     }
 }

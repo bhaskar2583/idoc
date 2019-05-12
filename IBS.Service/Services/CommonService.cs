@@ -192,5 +192,10 @@ namespace IBS.Service.Services
         {
             return _commonRepository.GetClientPoliciesByPolicyId(policyId);
         }
+
+        public IList<CorporateProductsXProduct> GetAllCorporateXProducts()
+        {
+            return _commonRepository.GetAllCorporateXProducts();
+        }
     }
 }

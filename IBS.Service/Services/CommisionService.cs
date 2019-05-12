@@ -44,8 +44,7 @@ namespace IBS.Service.Services
                 var product = _commonRepository.GetProductById(policyDetails.ProductId);
                 var coverage = _commonRepository.GetCoverageById(policyDetails.CoverageId);
                 var clientDetails = _clientRepository.GetById(cpDetails.ClientId);
-
-
+              
 
                 commissionModel.Add(new CommisionModel()
                 {
@@ -72,6 +71,24 @@ namespace IBS.Service.Services
                     PaymentId = dc.PaymentId
 
                 });
+            });
+            
+            commissionModel.ForEach(cm =>
+            {
+                var carrierProduct = _commonRepository.GetAllCorporateXProducts().FirstOrDefault(cp => cp.ProductId == cm.ProductId);
+                if (carrierProduct != null)
+                {
+                    var cp = _commonRepository.GetAllCorporateProducts().FirstOrDefault(cpp => cpp.Id == carrierProduct.CorporateProductId);
+                    if (cp != null)
+                    {
+                        cm.SelectedCorporateProduct = new CorporateProduct()
+                        {
+                            Id = cp.Id,
+                            Name = cp.Name
+                        }; 
+                    }
+                }
+
             });
             return commissionModel;
         }
@@ -111,89 +128,24 @@ namespace IBS.Service.Services
                     commisionMode.ClientPolicyId = cp.Id;
                     commisionMode.CarrierId = carrierId;
 
-                //var commision = _commissionRepository.GetByClientPolicyId(commisionMode.ClientPolicyId);
-
-                //if (commision != null)
-                //{
-                //    commisionMode.Status = commision.Status;
-                //    commisionMode.CommisionValue = commision.CommisionValue;
-                //    commisionMode.StatementDate = commision.StatementDate;
-                //    commisionMode.AppliedDate = commision.AppliedDate;
-                //    commisionMode.PaymentId = commision.PaymentId;
-
-                //    commisionMode.SelectedCoverage = new Coverage()
-                //    {
-                //        Id = coverage.Id,
-                //        Name = coverage.Name
-                //    };
-
-                //    commisionMode.SelectedProduct = new Product()
-                //    {
-                //        Id=product.Id,
-                //        Name=product.Name
-                //    };
-                //    var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId
-                //    && c.PolicyNumber == commisionMode.PolicyNumber);
-                //    if (isExist != null)
-                //    {
-                //        isExist.Coverages.Add(new Coverage()
-                //        {
-                //            Id = commisionMode.CoverageId,
-                //            Name = commisionMode.CoverageName
-                //        });
-                //        commisionMode.Coverages = isExist.Coverages;
-                //    }
-                //    if (isExist == null)
-                //    {
-                //        commisionMode.Coverages.Add(new Coverage()
-                //        {
-                //            Id = commisionMode.CoverageId,
-                //            Name = commisionMode.CoverageName
-                //        });
-                //    }
-
-                //    commisions.Add(commisionMode);
-                //}
-                //else
-                //{
-                //    var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId 
-                //    && c.PolicyNumber == commisionMode.PolicyNumber);
-                //    if (isExist!=null)
-                //    {
-                //        isExist.Coverages.Add(new Coverage()
-                //        {
-                //            Id = commisionMode.CoverageId,
-                //            Name = commisionMode.CoverageName
-                //        });
-                //    }
-                //    if (isExist == null)
-                //    {
-                //        commisionMode.Coverages.Add(new Coverage()
-                //        {
-                //            Id = commisionMode.CoverageId,
-                //            Name = commisionMode.CoverageName
-                //        });
-                //        commisions.Add(commisionMode);
-                //    }
-
-                //}
+               
 
                 var isExist = commisions.FirstOrDefault(c => c.ClientId == commisionMode.ClientId
                     && c.PolicyNumber == commisionMode.PolicyNumber);
                     if (isExist != null)
                     {
-                        isExist.Coverages.Add(new Coverage()
+                        isExist.Products.Add(new Product()
                         {
-                            Id = commisionMode.CoverageId,
-                            Name = commisionMode.CoverageName
+                            Id = commisionMode.ProductId,
+                            Name = commisionMode.ProductName
                         });
                     }
                     if (isExist == null)
                     {
-                        commisionMode.Coverages.Add(new Coverage()
+                        commisionMode.Products.Add(new Product()
                         {
-                            Id = commisionMode.CoverageId,
-                            Name = commisionMode.CoverageName
+                            Id = commisionMode.ProductId,
+                            Name = commisionMode.ProductName
                         });
                         commisions.Add(commisionMode);
                     }
@@ -203,40 +155,30 @@ namespace IBS.Service.Services
             //Product management
             commisions.ForEach(c =>
             {
-                if (c.SelectedCoverage != null && c.SelectedCoverage.Id > 0)
+                c.Products.ForEach(cp =>
                 {
-                //var policy = _policyRepository.GetById(c.PolicyId);
-                //var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == c.SelectedCoverage.Id);
-                //products.ToList().ForEach(p =>
+                    var cpProduct = _commonRepository.GetAllCorporateXProducts().FirstOrDefault(cxp => cxp.ProductId == cp.Id);
+                    if (cpProduct != null)
+                    {
+                        var cProduct = _commonRepository.GetAllCorporateProducts().FirstOrDefault(p => p.Id == cpProduct.CorporateProductId);
+                        if (cProduct != null)
+                        {
+                            var isExit = c.CorporateProducts.FirstOrDefault(cpp => cpp.Id == cProduct.Id);
+                            if (isExit == null)
+                            {
+                                c.CorporateProducts.Add(cProduct);
+                            }
+                        }
+                    }
+                });
+                //if (c.SelectedCoverage != null && c.SelectedCoverage.Id > 0)
                 //{
-                //    c.Products.Add(new Product()
-                //    {
-                //        Id = p.ProductId,
-                //        Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
-                //    });
-                //});
-
-                var products = GetProductsOfPolicy(Convert.ToString(c.ClientId), c.PolicyNumber, Convert.ToString(c.CoverageId));
-                    c.Products = products;
-                }
-            //else
-            //{
-            //    var coverage = c.Coverages.FirstOrDefault();
-            //    if (coverage != null)
-            //    {
-            //        var policy = _policyRepository.GetById(c.PolicyId);
-            //        var products = _policyRepository.GetAll().Where(p => p.PolicyNumber == policy.PolicyNumber && p.CoverageId == coverage.Id);
-            //        products.ToList().ForEach(p =>
-            //        {
-            //            c.Products.Add(new Product()
-            //            {
-            //                Id = p.ProductId,
-            //                Name = _commonRepository.GetAllProducts().FirstOrDefault(pro => pro.Id == p.ProductId).Name
-            //            });
-            //        });
-            //    }
-            //}
-        });
+                
+                //var products = GetProductsOfPolicy(Convert.ToString(c.ClientId), c.PolicyNumber, Convert.ToString(c.CoverageId));
+                //    c.Products = products;
+                //}
+           
+             });
             return commisions;
         }
 
@@ -380,6 +322,11 @@ namespace IBS.Service.Services
             });
 
             return payments;
+        }
+
+        public IList<CorporateProduct> GetAllCorporateProducts()
+        {
+            return _commonRepository.GetAllCorporateProducts();
         }
     }
 }

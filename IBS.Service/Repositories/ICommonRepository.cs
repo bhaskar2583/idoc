@@ -29,5 +29,12 @@ namespace IBS.Service.Repositories
 
         ClientPolicie GetClientPoliciesByPolicyId(int policyId);
 
+
+        IList<CorporateProduct> GetAllCorporateProducts();
+        IList<CorporateProduct> GetAllCorporateProductsByCoverageId(int coverageId);
+        CorporateProduct GetCorporateProductById(int productId);
+
+        IList<CorporateProductsXProduct> GetAllCorporateXProducts();
+
     }
 }

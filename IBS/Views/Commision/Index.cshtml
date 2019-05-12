@@ -58,7 +58,7 @@
                 <th>
                     Policy #
                 </th>
-                <th>
+                <th style="display:none">
                     Coverage
                 </th>
                 <th>
@@ -105,7 +105,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
             </td>
-            <td>
+            <td style="display:none">
 
                 @Html.DropDownListFor(
                  modelItem => item.Data.SelectedCoverage.Id,
@@ -116,7 +116,7 @@
 
                 @Html.DropDownListFor(
                  modelItem => item.Data.SelectedProduct.Id,
-                 new SelectList(item.Data.Products, "Id", "Name"), "-- Select Product--", new { id = "product" + item.Index, @class = "grid-select-height" }
+                 new SelectList(item.Data.CorporateProducts, "Id", "Name"), "-- Select Product--", new { id = "product" + item.Index, @class = "grid-select-height" }
                  )
             </td>
             @*<td>

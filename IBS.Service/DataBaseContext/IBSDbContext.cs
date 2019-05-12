@@ -47,6 +47,9 @@ namespace IBS.Service.DataBaseContext
         public virtual DbSet<ClientPolicyBudget> ClientPolicieBudgets { get; set; }
         public virtual DbSet<Commision> Commisions { get; set; }
 
+        public virtual DbSet<CorporateProduct> CorporateProduct { get; set; }
+        public virtual DbSet<CorporateProductsXProduct> CorporateProductsXProducts { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBinder)
         {
             modelBinder.Entity<Carrier>().Map(entity =>
@@ -162,6 +165,22 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.Status).HasColumnName("Com_Status");
 
                 entity.ToTable("Commision");
+            });
+
+            modelBinder.Entity<CorporateProduct>().Map(entity =>
+            {
+                entity.Property(p => p.Id).HasColumnName("Cp_Id");
+                entity.Property(p => p.Name).HasColumnName("Cp_Name");
+                entity.Property(p => p.CoverageId).HasColumnName("Cp_Cov_Id");
+                entity.ToTable("CorporateProducts");
+            });
+
+            modelBinder.Entity<CorporateProductsXProduct>().Map(entity =>
+            {
+                entity.Property(p => p.Id).HasColumnName("Id");
+                entity.Property(p => p.CorporateProductId).HasColumnName("Cop_Pro_Id");
+                entity.Property(p => p.ProductId).HasColumnName("Pro_Id");
+                entity.ToTable("CorporateProductsXProducts");
             });
         }
 

@@ -36,12 +36,15 @@ namespace IBS.Core.Models
         public List<Coverage> Coverages { get; set; }
         public Coverage SelectedCoverage { get; set; }
         public List<Product> Products { get; set; }
+        public List<CorporateProduct> CorporateProducts { get; set; }
         public Product SelectedProduct { get; set; }
+        public CorporateProduct SelectedCorporateProduct { get; set; }
         public CommisionModel()
         {
             SelectedCoverage = new Coverage();
             Coverages = new List<Coverage>();
             Products = new List<Product>();
+            CorporateProducts = new List<CorporateProduct>();
         }
     }
 }
