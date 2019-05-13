@@ -58,7 +58,7 @@
                 <th>
                     Policy #
                 </th>
-                <th style="display:none">
+                <th>
                     Coverage
                 </th>
                 <th>
@@ -105,12 +105,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
             </td>
-            <td style="display:none">
-
-                @Html.DropDownListFor(
+            <td>
+                <div>
+                    ---
+                </div>
+                @*@Html.DropDownListFor(
                  modelItem => item.Data.SelectedCoverage.Id,
                  new SelectList(item.Data.Coverages, "Id", "Name"), "-- Select Coverage --", new { id = "coverage" + item.Index, @class = "grid-select-height" }
-                 )
+                 )*@
             </td>
             <td>
 
@@ -209,24 +211,8 @@
                 $tr.remove();
             } else {
                 alert('You cannot delete initial rows');
-                //var rowsExist = false;
-                //$('#tblCommisions > tbody  > tr').each(function () {
-                //    var isNewId = $(this).attr('newid');
-
-                //    if (isNewId && isNewId == oClientId + oPolicyid) {
-                //        rowsExist = true;
-                //    }
-                //});
-
-                //if (rowsExist) {
-                //    alert('please remove child nodes before delete parent node');
-                //}
-
-                //if (!rowsExist) {
-                //    $tr.remove();
-                //}
+              
             }
-            //$tr.remove();
         }
 
         $(document).on('change', "[id*=coverage]", function () {
@@ -259,6 +245,42 @@
             });
 
         });
+
+        $(document).on('change', "[id*=product]", function () {
+            var $tr = $(this).closest('tr');
+            var $clone = $tr.clone();
+
+            var clientId = $tr[0].cells[0].childNodes[1].value;
+            var policyNo = $tr[0].cells[0].childNodes[15].value;
+            var coveargeCell = $tr[0].cells[3].childNodes[1];
+            var product = $(this).val();
+
+            if (product == "") {
+                coveargeCell.textContent = "---";
+                return;
+            }
+            //var coverages = $(this).val();
+            let host = window.location.origin;
+            let path = window.location.pathname;
+            $.ajax({
+                type: "POST",
+                url: "/Commision/GetCoverage?productId=" + product,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var covearge = $tr[0].cells[3].childNodes[1];
+                    //$(covearge).innerHTML = data.Name;
+                    covearge.textContent = data.Name;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+
+            });
+
+        });
+
 
         $(document).ready(function () {
 

@@ -143,5 +143,14 @@ namespace IBS.Controllers
             payments = payments.Distinct().ToList();
             return Json(payments, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        // post: Commision
+        public ActionResult GetCoverage(int productId)
+        {
+            var covId = _commonService.GetCorporateProductById(productId).CoverageId;
+            var coverage = _commonService.GetCoverageById(covId);
+            return Json(coverage, JsonRequestBehavior.AllowGet);
+        }
     }
 }

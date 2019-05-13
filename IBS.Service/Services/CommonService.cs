@@ -197,5 +197,10 @@ namespace IBS.Service.Services
         {
             return _commonRepository.GetAllCorporateXProducts();
         }
+
+        public CorporateProduct GetCorporateProductById(int productId)
+        {
+          return  _commonRepository.GetCorporateProductById(productId);
+        }
     }
 }
