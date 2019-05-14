@@ -20,5 +20,6 @@ namespace IBS.Core.Entities
 
         public int CoverageId { get; set; }
         public int ProductId { get; set; }
+
     }
 }

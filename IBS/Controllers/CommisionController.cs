@@ -152,5 +152,13 @@ namespace IBS.Controllers
             var coverage = _commonService.GetCoverageById(covId);
             return Json(coverage, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        // post: Commision
+        public ActionResult DeleteCommision(int commissionId)
+        {
+            var covId = _commonService.DeleteCommission(commissionId);
+            return Json(_commonService.GetCoverageById(1), JsonRequestBehavior.AllowGet);
+        }
     }
 }

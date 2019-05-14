@@ -35,6 +35,7 @@ namespace IBS.Service.Repositories
         CorporateProduct GetCorporateProductById(int productId);
 
         IList<CorporateProductsXProduct> GetAllCorporateXProducts();
+        bool DeleteCommission(int clientPolicyId);
 
     }
 }

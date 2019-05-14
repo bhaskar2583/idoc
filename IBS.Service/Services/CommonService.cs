@@ -202,5 +202,10 @@ namespace IBS.Service.Services
         {
           return  _commonRepository.GetCorporateProductById(productId);
         }
+
+        public bool DeleteCommission(int clientPolicyId)
+        {
+            return _commonRepository.DeleteCommission(clientPolicyId);
+        }
     }
 }

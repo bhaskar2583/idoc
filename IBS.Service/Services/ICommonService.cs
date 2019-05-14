@@ -28,5 +28,6 @@ namespace IBS.Service.Services
 
         IList<CorporateProductsXProduct> GetAllCorporateXProducts();
         CorporateProduct GetCorporateProductById(int productId);
+        bool DeleteCommission(int  clientPolicyId);
     }
 }

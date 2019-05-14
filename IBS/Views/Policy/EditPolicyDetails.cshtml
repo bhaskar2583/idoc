@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                @Html.HiddenFor(model => model.IsActive);
+                @*@Html.HiddenFor(model => model.IsActive);*@
                 @Html.LabelFor(model => model.PolicyNumber)<span class="hash-redcolor">*</span>
                 @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.PolicyNumber, "", new { @class = "text-danger" })
@@ -91,6 +91,16 @@
                 "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
                 )
                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsActive)<br />
+                @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>

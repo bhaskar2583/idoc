@@ -171,5 +171,15 @@ namespace IBS.Service.Repositories
         {
             return _hanysContext.CorporateProductsXProducts.ToList();
         }
+
+        public bool DeleteCommission(int clientPolicyId)
+        {
+            var commission = _hanysContext.Commisions.FirstOrDefault(c => c.ClientPolicyId == clientPolicyId);
+            _hanysContext.Commisions.Attach(commission);
+            _hanysContext.Commisions.Remove(commission);
+            _hanysContext.SaveChanges();
+
+            return true;
+        }
     }
 }

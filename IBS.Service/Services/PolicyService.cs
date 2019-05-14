@@ -183,6 +183,7 @@ namespace IBS.Service.Services
                 AddDate = policy.AddDate,
                 RevDate = DateUtil.GetCurrentDate(),
                 RevUser = LoginUserDetails.GetWindowsLoginUserName()
+                
             };
 
             return _policyRepository.Update(entity);

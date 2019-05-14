@@ -105,7 +105,7 @@
                 <th style="display:none">
                     Payment Id
                 </th>
-
+                <th></th>
 
             </tr>
         </thead>
@@ -154,7 +154,11 @@
             <td style="display:none">
                 @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
             </td>
+            <td>
+                @*@Html.ActionLink("Delete", "DeleteCommision", new { id = item.Data.ClientPolicyId }) |*@
 
+                <a id="anchDelete" onclick="deleteCommission(@item.Data.ClientPolicyId)">Delete |</a>
+            </td>
         </tr>
         }
     </table>
@@ -168,6 +172,21 @@
 
     </div>
     <script type="text/javascript">
+        function deleteCommission(clientPolicyId) {
+            $.ajax({
+                type: "POST",
+                url: "/Commision/DeleteCommision?commissionId=" + clientPolicyId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+
+            });
+        }
         $(function () {
             $("#txtStatementDate").datepicker();
             $(".datepickercss").datepicker();
