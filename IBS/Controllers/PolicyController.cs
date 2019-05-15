@@ -161,7 +161,7 @@ namespace IBS.Controllers
             var policy = _policyService.GetById(policyId);
             
             var coverage = _commonService.GetCoverageById(policy.CoverageId);
-            var product = _commonService.GetCoverageById(policy.ProductId);
+            var product = _commonService.GetProductById(policy.ProductId);
             var yearsSelectItems = new List<SelectListItem>();
             var years = DateUtil.GetPreviousYearsSelectList(5);
            
