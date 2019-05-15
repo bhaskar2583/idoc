@@ -61,7 +61,7 @@ namespace IBS.Controllers
 
 
             });
-            _commisionService.SaveCommisions(savedCommisions);
+            _commisionService.SaveCommisions(savedCommisions,false);
             //return RedirectToAction("Index", new { carrierId = commisions[0].CarrierId, isSaved=true });
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
@@ -122,7 +122,7 @@ namespace IBS.Controllers
         public ActionResult EditCommissions(List<CommisionModel> commisions)
         {
            
-            _commisionService.SaveCommisions(commisions);
+            _commisionService.SaveCommisions(commisions,true);
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
 

@@ -220,18 +220,22 @@ namespace IBS.Service.Services
 
         }
 
-        public bool SaveCommisions(List<CommisionModel> commissions)
+        public bool SaveCommisions(List<CommisionModel> commissions,bool save)
         {
             commissions.ForEach(c =>
             {
-                var isExist = _commissionRepository.GetByClientPolicyId(c.ClientPolicyId);
-                if (isExist != null)
+                if (save)
                 {
-                    c.RevUser = LoginUserDetails.GetWindowsLoginUserName();
-                    c.RevDate = DateUtil.GetCurrentDate();
-                    _commissionRepository.Update(c);
-                    return;
+                    var isExist = _commissionRepository.GetByClientPolicyId(c.ClientPolicyId);
+                    if (isExist != null)
+                    {
+                        c.RevUser = LoginUserDetails.GetWindowsLoginUserName();
+                        c.RevDate = DateUtil.GetCurrentDate();
+                        _commissionRepository.Update(c);
+                        return;
+                    }
                 }
+
                 var commission = new Commision()
                 {
                     ClientPolicyId = c.ClientPolicyId,
