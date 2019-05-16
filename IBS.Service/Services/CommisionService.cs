@@ -280,15 +280,19 @@ namespace IBS.Service.Services
 
                 if (policyDetails.CarId == Convert.ToInt32(carrierId))
                 {
-                    var commisions = _commissionRepository.GetByClientPolicyId(cp.Id);
+                    var commisions = _commissionRepository.GetByAllClientPolicyId(cp.Id);
 
                     if (commisions != null)
                     {
-                        smDates.Add(new SelectListCommon()
+                        commisions.ForEach(c =>
                         {
-                            Id = commisions.Id,
-                            Name = GetDateFormat(commisions.StatementDate)
+                            smDates.Add(new SelectListCommon()
+                            {
+                                Id = c.Id,
+                                Name = GetDateFormat(c.StatementDate)
+                            });
                         });
+                        
                     }
                 }
             });
@@ -307,19 +311,25 @@ namespace IBS.Service.Services
 
                 if (policyDetails.CarId == Convert.ToInt32(carrierId))
                 {
-                    var commisions = _commissionRepository.GetByClientPolicyId(cp.Id);
+                    var commisions = _commissionRepository.GetByAllClientPolicyId(cp.Id);
 
                     if (commisions != null )
                     {
-                        var smDate = GetDateFormat(commisions.StatementDate);
-                        if(smDate== statementDate)
+
+                        commisions.ForEach(c =>
                         {
-                            payments.Add(new SelectListCommon()
+                            var smDate = GetDateFormat(c.StatementDate);
+                            if (smDate == statementDate)
                             {
-                                Id = commisions.Id,
-                                Name = commisions.PaymentId
-                            });
-                        }
+                                payments.Add(new SelectListCommon()
+                                {
+                                    Id = c.Id,
+                                    Name = c.PaymentId
+                                });
+                            }
+
+                        });
+                        
                         
                     }
                 }

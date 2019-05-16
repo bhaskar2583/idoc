@@ -59,9 +59,15 @@
                 @Html.EditorFor(model => model.Year, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
             </div>
         </div>
-        
-    </div>
 
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="color:green">
+            <div class="form-group">
+                @ViewBag.Message
+            </div>
+        </div>
+    </div>
 
 
 
@@ -164,7 +170,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <input id="btnSave" type="submit" value="Save" class="btn btn-success" />
+                <input id="btnSave" type="submit" value="Save" class="btn btn-success" onclick="addBudget()" />
             </div>
         </div>
     </div>
@@ -182,18 +188,35 @@
         </div>
 
     </div>
-    <div class="row">
-        <div class="col-md-12" style="color:green">
-            <div class="form-group">
-                @ViewBag.Message
-            </div>
-        </div>
-    </div>
+
 
 
     <script type="text/javascript">
-
+        function addBudget() {
+            var year = $("#Year").val();
+            if (year == 0 || year == "0") {
+                alert('please select year');
+                return false;
+            } else {
+                return true;
+            }
+        }
         $(document).ready(function () {
+
+            var janBudget = parseFloat($("#JanBudget").val());
+            var feb = parseFloat($("#FebBudget").val());
+            var mar = parseFloat($("#MarchBudget").val());
+            var apr = parseFloat($("#AprilBudget").val());
+            var may = parseFloat($("#MayBudget").val());
+            var jun = parseFloat($("#JunBudget").val());
+            var july = parseFloat($("#JulyBudget").val());
+            var aug = parseFloat($("#AugBudget").val());
+            var sep = parseFloat($("#SepBudget").val());
+            var oct = parseFloat($("#OctBudget").val());
+            var nov = parseFloat($("#NovBudget").val());
+        var dec = parseFloat($("#DecBudget").val());
+        $("#lblTotal").text(parseFloat(janBudget) + feb + mar + apr + may + jun + july + aug + sep + oct + nov+dec);
+
             $("#anchPrefill").click(function () {
                 var janBudget = $("#JanBudget").val();
                 $("#FebBudget").val(janBudget);

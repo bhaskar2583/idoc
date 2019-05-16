@@ -232,6 +232,10 @@ namespace IBS.Controllers
                         ViewBag.Message = "budget details added successfully";
                     }
                 }
+                else
+                {
+                    ViewBag.Message = "Error while adding budget details";
+                }
                 var years = DateUtil.GetPreviousYearsSelectList(5);
                 ViewBag.Years = new SelectList(years, "Id", "Name");
                 var client = _clinetService.GetById(projectBudget.ClientId);
