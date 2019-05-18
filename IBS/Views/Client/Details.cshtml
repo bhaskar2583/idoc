@@ -84,6 +84,12 @@
                 let path = window.location.pathname.split('/');
                 let apiPath = host + "/" + path[0] + "/" + path[1];
 
+                var isProd = false;
+                if (isProd) {
+                    host = window.location.origin;
+                    apiPath = host + "/IBS/Client";
+                }
+
                 if (polocieId == "") {
                     $("#lblError").attr("style", "display:block");
                     return;

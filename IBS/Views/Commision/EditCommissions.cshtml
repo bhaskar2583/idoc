@@ -173,9 +173,19 @@
     </div>
     <script type="text/javascript">
         function deleteCommission(clientPolicyId) {
+
+            var host = window.location.origin;
+            var apiPath = host + "/Commision";
+
+            var isProd = false;
+            if (isProd) {
+                host = window.location.origin;
+                apiPath = host + "/IBS/Commision";
+            }
+
             $.ajax({
                 type: "POST",
-                url: "/Commision/DeleteCommision?commissionId=" + clientPolicyId,
+                url: apiPath+"/DeleteCommision?commissionId=" + clientPolicyId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -210,9 +220,19 @@
                 var carrierId = $("#ddlCarrier").val();
                 $("#txtPaymentId").empty();
                 $("#txtStatementDate").empty();
+
+                var host = window.location.origin;
+                var apiPath = host + "/Commision";
+
+                var isProd = false;
+                if (isProd) {
+                    host = window.location.origin;
+                    apiPath = host + "/IBS/Commision";
+                }
+
                 $.ajax({
                     type: "POST",
-                    url: "/Commision/carrierStatementDates?carId=" + carrierId,
+                    url: apiPath+"/carrierStatementDates?carId=" + carrierId,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
@@ -235,10 +255,18 @@
             $("#txtStatementDate").change(function () {
                 var carrierId = $("#ddlCarrier").val();
                 var txtStatementDate = $("#txtStatementDate option:selected").text();
+                var host = window.location.origin;
+                var apiPath = host + "/Commision";
+
+                var isProd = false;
+                if (isProd) {
+                    host = window.location.origin;
+                    apiPath = host + "/IBS/Commision";
+                }
 
                 $.ajax({
                     type: "POST",
-                    url: "/Commision/carrierStatementDatePaymentNo?carId=" + carrierId + "&smId=" + txtStatementDate,
+                    url: apiPath+"/carrierStatementDatePaymentNo?carId=" + carrierId + "&smId=" + txtStatementDate,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
@@ -303,12 +331,17 @@
                     }
                     commisions.push(commision);
                 });
-               
+                var isProd = false;
                 let host = window.location.origin;
                 let path = window.location.pathname;
+                var apiPath = host + path;
+                if (isProd) {
+                    host = window.location.origin;
+                    apiPath = host + "/IBS/Commision";
+                }
                 $.ajax({
                     type: "POST",
-                    url: host + path,
+                    url: apiPath,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     data: JSON.stringify(commisions),

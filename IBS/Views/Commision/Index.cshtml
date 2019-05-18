@@ -222,11 +222,19 @@
             var clientId = $tr[0].cells[0].childNodes[1].value;
             var policyNo = $tr[0].cells[0].childNodes[15].value;
             var coverages = $(this).val();
+
             let host = window.location.origin;
-            let path = window.location.pathname;
+            let apiPath = host +"/Commision";
+
+            var isProd = false;
+            if (isProd) {
+                host = window.location.origin;
+                apiPath = host + "/IBS/Commision";
+            }
+
             $.ajax({
                 type: "POST",
-                url: "/Commision/ProductsOfPolicy?client=" + clientId + "&policyNo=" + policyNo + "&coverage=" + coverages,
+                url: apiPath+ "/ProductsOfPolicy ? client = " + clientId + " & policyNo=" + policyNo + "& coverage=" + coverages,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -261,10 +269,17 @@
             }
             //var coverages = $(this).val();
             let host = window.location.origin;
-            let path = window.location.pathname;
+            let apiPath = host + "/Commision";
+
+            var isProd = false;
+            if (isProd) {
+                host = window.location.origin;
+                apiPath = host + "/IBS/Commision";
+            }
+
             $.ajax({
                 type: "POST",
-                url: "/Commision/GetCoverage?productId=" + product,
+                url: apiPath+"/GetCoverage?productId=" + product,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -362,9 +377,16 @@
                 }
                 let host = window.location.origin;
                 let path = window.location.pathname;
+                var apiPath = host + path;
+
+                var isProd = false;
+                if (isProd) {
+                    host = window.location.origin;
+                    apiPath = host + "/IBS/Commision";
+                }
                 $.ajax({
                     type: "POST",
-                    url: host + path,
+                    url: apiPath,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     data: JSON.stringify(commisions),

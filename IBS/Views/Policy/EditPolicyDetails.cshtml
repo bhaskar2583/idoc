@@ -150,6 +150,12 @@
             let path = window.location.pathname.split('/');
             let apiPath = host + "/" + path[0] + "/" + path[1];
 
+            var isProd = false;
+            if (isProd) {
+                host = window.location.origin;
+                apiPath = host + "/IBS/Policy";
+            }
+
             var coverageId = $("#CoverageId").val();
             $("#ProductId").empty();
             $("#ProductId").append($('<option></option>').val("").html("-- Please select a product --"));

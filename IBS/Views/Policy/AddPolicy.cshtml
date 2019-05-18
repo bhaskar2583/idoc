@@ -130,9 +130,20 @@
         $("#CoverageId").change(function () {
             var coverageId = $("#CoverageId").val();
             $("#ProductId").empty();
+
+            let host = window.location.origin;
+            let path = window.location.pathname;
+            var apiPath = host + path;
+
+            var isProd = false;
+            if (isProd) {
+                host = window.location.origin;
+                apiPath = host + "/IBS/Policy";
+            }
+
             $("#ProductId").append($('<option></option>').val("").html("-- Please select a product --"));
             $.ajax({
-                url: 'GetProducts',
+                url: apiPath+'/GetProducts',
                 type: "GET",
                 dataType: "JSON",
                 data: { coverageId: coverageId },
