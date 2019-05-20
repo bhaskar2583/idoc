@@ -48,6 +48,8 @@ namespace IBS.Service.Services
 
                 commissionModel.Add(new CommisionModel()
                 {
+                    ReconcilationPaymentDate=dc.ReconcilationDate,
+                    ReconsilationStatus=string.IsNullOrEmpty(dc.ReconcilationStatus)?"Pending":"Completed",
                     ClientId = dc.ClientId,
                     CoverageId = coverage.Id,
                     CoverageName = coverage.Name,
@@ -259,9 +261,10 @@ namespace IBS.Service.Services
                 var isExist = _commissionRepository.GetByClientPolicyId(c.ClientPolicyId);
                 if (isExist != null)
                 {
+                    c.ReconsilationStatus = "Completed";
                     c.RevUser = LoginUserDetails.GetWindowsLoginUserName();
                     c.RevDate = DateUtil.GetCurrentDate();
-                    _commissionRepository.Update(c);
+                    _commissionRepository.UpdateCommissionReconsilation(c);
                     return;
                 }
                 

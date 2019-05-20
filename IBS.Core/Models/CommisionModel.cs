@@ -39,6 +39,10 @@ namespace IBS.Core.Models
         public List<CorporateProduct> CorporateProducts { get; set; }
         public Product SelectedProduct { get; set; }
         public CorporateProduct SelectedCorporateProduct { get; set; }
+
+        public DateTime? ReconcilationPaymentDate { get; set; }
+        public string ReconcilationPaymentDateAsString { get; set; }
+        public string ReconsilationStatus{ get; set; }
         public CommisionModel()
         {
             SelectedCoverage = new Coverage();

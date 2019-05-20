@@ -18,5 +18,8 @@ namespace IBS.Core.Entities
         public string PaymentId { get; set; }
         public DateTime? StatementDate { get; set; }
         public string Status { get; set; }
+
+        public DateTime? ReconcilationDate { get; set; }
+        public string ReconcilationStatus { get; set; }
     }
 }

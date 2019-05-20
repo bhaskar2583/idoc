@@ -52,5 +52,33 @@ namespace IBS.Service.Repositories
             }
             return true;
         }
+
+        public bool UpdateCommissionReconsilation(CommisionModel commission)
+        {
+            try
+            {
+                var data = _hanysContext.Commisions.Where(c => c.ClientPolicyId == commission.ClientPolicyId).ToList();
+                if (data != null)
+                {
+                    data.ForEach(d =>
+                    {
+                        d.CommisionValue = commission.CommisionValue;
+                        d.ReconcilationDate = commission.AppliedDate;
+                        d.ReconcilationStatus = commission.ReconsilationStatus;
+                        d.RevDate = commission.RevDate;
+                        d.RevUser = commission.RevUser;
+                        _hanysContext.SaveChanges();
+                    });
+                    
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+           
+            return true;
+        }
     }
 }

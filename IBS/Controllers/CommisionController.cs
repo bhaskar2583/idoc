@@ -160,5 +160,58 @@ namespace IBS.Controllers
             var covId = _commonService.DeleteCommission(commissionId);
             return Json(_commonService.GetCoverageById(1), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ReconcilationCommissions(int? carrierId, string smd, string pId, bool? isSaved)
+        {
+            var commisions = new List<CommisionModel>();
+            ViewBag.carrierStatementDates = new List<SelectListCommon>();
+            ViewBag.carrierStatementDatePayments = new List<SelectListCommon>();
+
+            if (carrierId != null)
+            {
+                ViewBag.carrierStatementDates = _commisionService.GetCarrierStatementDates(Convert.ToString(carrierId));
+            }
+
+            if (!string.IsNullOrEmpty(smd))
+            {
+                ViewBag.carrierStatementDatePayments = _commisionService.GetCarrierStatementDatePayments(Convert.ToString(carrierId), smd);
+            }
+            try
+            {
+                ViewBag.Carriers = _carrierService.GetAllCarriers();
+
+                if (carrierId != null && carrierId > 0)
+                {
+                    ViewBag.Status = CommonUtil.GetStatus();
+                    commisions = _commisionService.GetAllSavedCommissionsForCarrier(Convert.ToInt32(carrierId));
+                }
+                ViewBag.PersistMessage = isSaved != null && isSaved == true ? "Commissions updated successfully" : "";
+                commisions = commisions.Where(c => c.CarrierId == carrierId).ToList();
+                if (!string.IsNullOrEmpty(smd) && commisions != null && commisions.Count > 0 && smd != "-- Please select a statement date --")
+                {
+                    commisions = commisions.Where(c => c.StatementDateAsString == smd).ToList();
+                }
+                if (!string.IsNullOrEmpty(pId) && commisions != null && commisions.Count > 0 && pId != "-- Please select a paymentid --")
+                {
+                    commisions = commisions.Where(c => c.PaymentId == pId).ToList();
+                }
+                return View(commisions);
+            }
+            catch (Exception ex)
+            {
+                return View(commisions);
+            }
+
+        }
+
+        [HttpPost]
+        // post: Commision
+        public ActionResult ReconcilationCommissions(List<CommisionModel> commisions)
+        {
+
+            _commisionService.UpdateCommisions(commisions);
+            return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
