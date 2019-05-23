@@ -57,7 +57,7 @@ namespace IBS.Service.Repositories
         {
             try
             {
-                var data = _hanysContext.Commisions.Where(c => c.ClientPolicyId == commission.ClientPolicyId).ToList();
+                var data = _hanysContext.Commisions.Where(c => c.Id == commission.Id).ToList();
                 if (data != null)
                 {
                     data.ForEach(d =>

@@ -126,6 +126,7 @@
 
                     @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
                     @Html.HiddenFor(modelItem => item.Data.SelectedProduct.Id)
+                    @Html.HiddenFor(modelItem => item.Data.Id)
                 </td>
 
                 <td>
@@ -231,6 +232,13 @@
             $('#tblCommisions tr:last').after("<tr><td colspan='7'></td><td>Total</td><td>" + commisionTotal + "</td></tr>");
             $("#ddlCarrier").change(function () {
                 var carrierId = $("#ddlCarrier").val();
+
+                if (carrierId == "") {
+                    $("#txtPaymentId").empty();
+                    $("#txtStatementDate").empty();
+                    return;
+                }
+
                 $("#txtPaymentId").empty();
                 $("#txtStatementDate").empty();
 
@@ -335,12 +343,14 @@
                     if ($(this)[0].cells[0].childNodes[7] != undefined) {
                         var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
                         var commision = $(this)[0].cells[8].childNodes[1].value;
+                        var Id = $(this)[0].cells[8].childNodes[25].value;
                         var appoliedDate = $("#txtpaymentDate").val();
 
                         var commision = {
                             "clientPolicyId": clientPolicyId,
                             "CommisionValue": commision,
-                            "AppliedDate": appoliedDate
+                            "AppliedDate": appoliedDate,
+                            "Id": Id
                         }
                         commisions.push(commision);
                     }

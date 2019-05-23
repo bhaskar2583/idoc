@@ -149,7 +149,8 @@
                 @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
             </td>
             <td>
-                @Html.TextBoxFor(modelItem => item.Data.AppliedDateAsString, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border datepickercss" })
+                @Html.TextBoxFor(modelItem => item.Data.AppliedDateAsString, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border" })
+                <span>MM/DD/YYYY(12/25/2018)</span>
             </td>
             <td style="display:none">
                 @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
@@ -216,8 +217,40 @@
      
         $(document).ready(function () {
 
+            var commisionTotal = parseFloat(0);
+            $("[id*=CommisionValue]").blur(function () {
+                commisionTotal = 0;
+                $("[id*=CommisionValue]").each(function () {
+
+                    if ($(this).val() != "") {
+                        var cT = parseFloat($(this).val());
+                        commisionTotal = commisionTotal + cT;
+                    }
+
+                });
+
+                $("#tdTotal").text(commisionTotal);
+            });
+
+            $("[id*=CommisionValue]").each(function () {
+
+                if ($(this).val() != "") {
+                    var cT = parseFloat($(this).val());
+                    commisionTotal = commisionTotal + cT;
+                }
+
+            });
+            $('#tblCommisions tr:last').after("<tr><td colspan='7'></td><td style='text-align:right'>Total Commissions</td><td id='tdTotal'>" + commisionTotal + "</td></tr>");
+
+
             $("#ddlCarrier").change(function () {
                 var carrierId = $("#ddlCarrier").val();
+
+                if (carrierId == "") {
+                    $("#txtPaymentId").empty();
+                    $("#txtStatementDate").empty();
+                    return;
+                }
                 $("#txtPaymentId").empty();
                 $("#txtStatementDate").empty();
 
@@ -319,17 +352,19 @@
                 var commisions = [];
                 var isInvalidRow = false;
                 $('#tblCommisions > tbody  > tr').each(function () {
-                   
-                    var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
-                    var commision = $(this)[0].cells[6].childNodes[1].value;
-                    var appoliedDate = $(this)[0].cells[7].childNodes[1].value;
+                    if ($(this)[0].cells[0].childNodes[7] != undefined) {
+                        var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
+                        var commision = $(this)[0].cells[6].childNodes[1].value;
+                        var appoliedDate = $(this)[0].cells[7].childNodes[1].value;
 
-                    var commision = {
-                        "clientPolicyId": clientPolicyId,
-                        "CommisionValue": commision,
-                        "AppliedDate": appoliedDate
+                        var commision = {
+                            "clientPolicyId": clientPolicyId,
+                            "CommisionValue": commision,
+                            "AppliedDate": appoliedDate
+                        }
+                        commisions.push(commision);
                     }
-                    commisions.push(commision);
+                   
                 });
                 var isProd = false;
                 let host = window.location.origin;

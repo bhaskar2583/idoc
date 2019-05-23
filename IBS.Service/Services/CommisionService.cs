@@ -48,6 +48,7 @@ namespace IBS.Service.Services
 
                 commissionModel.Add(new CommisionModel()
                 {
+                    Id=dc.Id,
                     ReconcilationPaymentDate=dc.ReconcilationDate,
                     ReconsilationStatus=string.IsNullOrEmpty(dc.ReconcilationStatus)?"Pending":"Completed",
                     ClientId = dc.ClientId,
