@@ -17,6 +17,19 @@ namespace IBS.Service.Repositories
             _hanysContext = new IBSDbContext();
         }
 
+        public bool AddCoverages(Coverage coverage)
+        {
+            _hanysContext.Coverages.Add(coverage);
+            _hanysContext.SaveChanges();
+            return true;
+        }
+        public bool AddProduct(Product product)
+        {
+            _hanysContext.Products.Add(product);
+            _hanysContext.SaveChanges();
+            return true;
+        }
+
         public bool AddClientPolocie(ClientPolicie clientPolicie)
         {
            _hanysContext.ClientPolicies.Add(clientPolicie);
@@ -56,7 +69,7 @@ namespace IBS.Service.Repositories
         public IList<Coverage> GetAllCoverages()
         {
             return _hanysContext.Coverages.ToList();
-         }
+        }
 
         public IList<Product> GetAllProducts()
         {

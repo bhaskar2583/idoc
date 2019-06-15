@@ -9,6 +9,8 @@ namespace IBS.Service.Repositories
 {
     public interface ICommonRepository
     {
+        bool AddCoverages(Coverage coverage);
+        bool AddProduct(Product product);
         IList<ClientPolicie> GetAllClientPoliciesByIndexId(int id);
         IList<Coverage> GetAllCoverages();
         IList<Product> GetAllProducts();
