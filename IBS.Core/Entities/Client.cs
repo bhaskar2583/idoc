@@ -12,5 +12,6 @@ namespace IBS.Core.Entities
         public string Name { get; set; }
         public string Division { get; set; }
         public bool IsActive { get; set; }
+        public string SfiId { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.AddDate).HasColumnName("Car_AddDate");
                 entity.Property(p => p.RevUser).HasColumnName("Car_RevUser");
                 entity.Property(p => p.RevDate).HasColumnName("Car_RevDate");
-
+                entity.Property(p => p.SfiId).HasColumnName("Car_SfiId");
                 entity.ToTable("carriers");
             });
             modelBinder.Entity<Policie>().Map(entity =>
@@ -87,7 +87,6 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.RevDate).HasColumnName("Pol_RevDate");
                 entity.Property(p => p.CoverageId).HasColumnName("Pol_Cov_Id");
                 entity.Property(p => p.ProductId).HasColumnName("Pol_Pro_Id");
-
                 entity.ToTable("policies");
             });
             modelBinder.Entity<Client>().Map(entity =>
@@ -100,7 +99,7 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.AddDate).HasColumnName("Cli_AddDate");
                 entity.Property(p => p.RevUser).HasColumnName("Cli_RevUser");
                 entity.Property(p => p.RevDate).HasColumnName("Cli_RevDate");
-
+                entity.Property(p => p.SfiId).HasColumnName("Cli_SfiId");
                 entity.ToTable("Clients");
             });
             modelBinder.Entity<Coverage>().Map(entity =>

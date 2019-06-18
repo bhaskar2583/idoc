@@ -18,5 +18,6 @@ namespace IBS.Core.Entities
         public string ZipCode { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public string SfiId { get; set; }
     }
 }

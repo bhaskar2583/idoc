@@ -15,11 +15,10 @@ namespace IBS.Core.Entities
         public string PolicyType { get; set; }
         public int CarId { get; set; }
         public DateTime EffectiveDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public bool? IsGroupInsurance { get; set; }
 
         public int CoverageId { get; set; }
         public int ProductId { get; set; }
-
     }
 }
