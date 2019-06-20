@@ -78,7 +78,7 @@ namespace IBS.Service.Services
                     Name = c.Name,
                     Division = c.Division
                 };
-
+                if(!string.IsNullOrEmpty(c.Division))
                 client.SelectedDevision = client.Divisions.FirstOrDefault(d => d.Id == Convert.ToInt32(c.Division));
 
                 clients.Add(client);
