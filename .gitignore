@@ -1,0 +1,8 @@
+/packages
+/.vs
+/IBS/bin
+/IBS/obj
+/IBS.Core/obj
+/IBS.Core/bin
+/IBS.Service/obj
+/IBS.Service/bin

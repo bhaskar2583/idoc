@@ -1,0 +1,182 @@
+﻿
+@model IEnumerable<IBS.Core.Models.PolicyBudgetsModel>
+
+@{
+    ViewBag.Title = "PolicyBudgets";
+}
+<div class="row col-md-12">
+    <h2>
+        Policy Budget
+    </h2>
+    <hr />
+</div>
+
+<div class="row col-md-12">
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Budget Year</label>
+            @Html.DropDownList(
+            "ddlYears",
+            new SelectList(ViewBag.Years), "-- ALL --", new { @class = "ibs-input ibs-border" }
+            )
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div>
+            <label>Client</label>
+            @Html.DropDownList(
+            "ddlClient",
+            new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
+            )
+        </div>
+    </div>
+</div>
+<div class="row col-md-12">
+    <div class="col-md-6">
+        <input id="btnSearchPolicy" type="submit" value="Search" class="btn btn-success margin-tb-20" />
+    </div>
+</div>
+<div class="row col-md-12">
+    <table class="table table-bordered table-hover responsive">
+        <thead class="thead-dark lbl-grid-head">
+            <tr>
+                <th>
+                    Policy Number
+                </th>
+                <th>
+                    Year
+                </th>
+                <th>
+                    January
+                </th>
+                <th>
+                    February
+                </th>
+                <th>
+                    March
+                </th>
+                <th>
+                    April
+                </th>
+                <th>
+                    May
+                </th>
+                <th>
+                    June
+                </th>
+                <th>
+                    July
+                </th>
+                <th>
+                    August
+                </th>
+                <th>
+                    September
+                </th>
+                <th>
+                    October
+                </th>
+                <th>
+                    November
+                </th>
+                <th>
+                    December
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.JanBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.FebBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.MarchBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.AprilBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.MayBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.JunBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.JulyBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.AugBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.SepBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.OctBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.NovBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.DecBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "PolicyBudget", new { id = item.Data.PolicyId, year = item.Data.Year })
+                    @*@Html.ActionLink("Edit", "EditBudget", new { ClientId = item.Data.ClientId, PolicyId = item.Data.PolicyId, Year = item.Data.Year }) |*@
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<script type="text/javascript">
+    function Search() {
+        var searchKey = $("#txtSearchText").val();
+        var searchStatusKey = $("input[name='status']:checked").val();
+        window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
+    };
+    $(document).ready(function () {
+        var query = window.location.search;
+        if (query != undefined && query != "") {
+            var searchQuery = query.split('&');
+            var queryArray = searchQuery[0].split('=');
+            if (queryArray[0].indexOf("year") != -1) {
+                if (queryArray[1] != "0") {
+                    $("#ddlYears").val(queryArray[1]);
+                }
+
+            }
+            if (searchQuery[2].indexOf("clientId") != -1) {
+                var clientIdArray = searchQuery[2].split('=');
+                if (clientIdArray[1] != "0") {
+                    $("#ddlClient").val(clientIdArray[1]);
+                }
+            }
+        }
+        $("#btnSearchPolicy").click(function () {
+            var year = $("#ddlYears").val();
+            if (year == "") {
+                year = 0;
+            }
+
+            var clientId = $("#ddlClient").val();
+            if (clientId == "") {
+                clientId = 0;
+            }
+            window.location.href = window.location.origin + window.location.pathname + "?year=" + year + "&policyId=0" + "&clientId=" + clientId;;
+        });
+    });
+</script>
+

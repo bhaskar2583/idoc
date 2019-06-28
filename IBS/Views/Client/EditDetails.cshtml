@@ -1,0 +1,111 @@
+﻿
+@model IBS.Core.Models.ClientModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row col-md-12">
+    <h2>
+        Edit Details
+    </h2>
+    <hr />
+</div>
+<div class="row col-md-12">
+    <div class="row col-md-6">
+        <h3>
+            Client :<u>@Html.DisplayFor(Model => Model.Name)</u>
+        </h3>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Select Policie</label><span class="hash-redcolor">*</span>
+            @Html.HiddenFor(model => model.Id):
+            @Html.DropDownList(
+                "ddlPolicieId",
+                new SelectList(ViewBag.Polocies, "Id", "PolicyNumber"),
+                "-- Please select a policy to Add--", new { @class = "ibs-input ibs-border" }
+                )
+            <label id="lblError" class="hash-redcolor">Please select policy</label>
+        </div>
+        <div class="col-md-6 form-group text-align-right">
+            <input id="btnAddPolicie" type="submit" value="Add Policy" class="btn btn-success margin-tb-20" />
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead class="thead-dark lbl-grid-head">
+        <tr>
+            <th>
+                Policy Number
+            </th>
+            <th>
+                Partner
+            </th>
+            <th>
+                Coverage Type
+            </th>
+            <th>
+                Product Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Policies.Select((x, i) => new { Data = x, Index = i }))
+    {
+        @Html.HiddenFor(modelItem => item.Data.Id)
+        <tr>
+            @*<td>
+                    @Html.DisplayFor(Model => Model.Name)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.SelectedCarrier.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.SelectedCarrier.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.SelectedProduct.Name)
+            </td>
+            <td>
+                @Html.ActionLink("View", " ")|
+                @Html.ActionLink("Edit", " EditDetails")
+            </td>
+        </tr>
+    }
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+            $("#lblError").attr("style", "display:none");
+            $("#btnAddPolicie").click(function () {
+                var clientId = $("#Id").val();
+                var policieId = $("#ddlPolicieId").val();
+                let host = window.location.origin;
+                let path = window.location.pathname.split('/');
+                let apiPath = host + "/" + path[0] + "/" + path[1];
+                if (policieId == "") {
+                    $("#lblError").attr("style", "display:block");
+                    return;
+                }
+                $("#lblError").attr("style", "display:none");
+                $.ajax({
+                    type: "POST",
+                    url: apiPath+"/AddClientPolicie?clientId=" + clientId + "&policieId=" + policieId,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        window.location.href = window.location.href;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                });
+            });
+        });
+</script>
+

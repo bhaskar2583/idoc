@@ -1,0 +1,150 @@
+﻿@model IBS.Core.Models.PolicyModel
+
+@{
+    ViewBag.Title = "AddPolicy";
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="row col-md-12">
+        <h2>
+            Edit Policy
+        </h2>
+        <hr />
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.HiddenFor(model => model.IsActive)
+                @Html.LabelFor(model => model.PolicyNumber)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.PolicyNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Partner</b><span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.CarId,
+                new SelectList(Model.Carriers, "Id", "Name"),
+                "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Coverage Type</b><span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.CoverageId,
+                new SelectList(Model.Coverages, "Id", "Name"),
+                "-- Please select a coverages --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.CoverageId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Product Type</b><span class="hash-redcolor">*</span><br />
+                @Html.DropDownListFor(
+                model => model.ProductId,
+                new SelectList(Model.Products, "Id", "Name"),
+                "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
+                )
+                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.EffectiveDate)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.EndDate)<span class="hash-redcolor">*</span>
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>GIT</b><br />
+                @Html.EditorFor(model => model.IsGroupInsurance, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.IsGroupInsurance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })<br />
+            @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control chekcbox-width-32" } })
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input id="btnSave" type="submit" value="Update" class="btn btn-success" />
+                <input id="btnCancel" type="submit" value="Cancel" class="btn btn-warning" onclick="location.href='@Url.Action("Index", "Policy")';return false;" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="color:green">
+            <div class="form-group">
+                @ViewBag.Message
+            </div>
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink("Back to Policy List", "Index")
+    </div>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#EffectiveDate").datepicker();
+        $("#EndDate").datepicker();
+    });
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            var name = $("#Name").val();
+            if (name == "") {
+                alert("please enter policy name");
+                return false;
+            }
+            return true;
+        });
+        $("#CoverageId").change(function () {
+            let host = window.location.origin;
+            let path = window.location.pathname.split('/');
+            let apiPath = host + "/" + path[0] + "/" + path[1];
+            var coverageId = $("#CoverageId").val();
+            $("#ProductId").empty();
+            $("#ProductId").append($('<option></option>').val("").html("-- Please select a product --"));
+            $.ajax({
+                url: apiPath + '/GetProducts',
+                type: "GET",
+                dataType: "JSON",
+                data: { coverageId: coverageId },
+                success: function (data) {
+                    $.each(data, function (index, product) {
+                        $("#ProductId").append(
+                            $('<option></option>').val(product.Id).html(product.Name));
+                    });
+                }
+            });
+        });
+    });
+</script>

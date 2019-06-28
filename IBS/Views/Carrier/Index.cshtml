@@ -1,0 +1,109 @@
+﻿@model IEnumerable<IBS.Core.Models.CarrierModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row col-md-12">
+    <h2>
+        Partners
+    </h2>
+    <hr />
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label>Partner Name: </label>
+        <input type="text" class="form-control-new" id="txtSearchText" style="width:25%" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label>Partner Status: </label>
+        <input type="radio" name="status" value="Active" checked> <label>Active</label>
+        <input type="radio" name="status" value="InActive"> <label>InActive</label>
+        <input type="radio" name="status" value="None"> <label>All</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <input id="btnSearch" type="submit" value="Search" class="btn btn-success" onclick="SearchCarriers()" />
+    </div>
+    <div class="col-md-6 form-group text-align-right">
+
+        <input id="btnAddCarrier" type="button" value="Add Partner" class="btn btn-primary"
+               onclick="location.href='@Url.Action("AddCarrier", "Carrier")';return false;" />
+    </div>
+
+</div>
+<table class="table table-bordered table-hover responsive">
+    <thead class="thead-dark lbl-grid-head">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Phone
+            </th>
+            @*<th>
+                Email
+            </th>*@
+            <th>
+                Address
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+    {
+        @Html.HiddenFor(modelItem => item.Data.Id)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Phone)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Data.Email)
+            </td>*@
+            <td>
+                <b class="b-custom">Street</b>: <label> @Html.DisplayFor(modelItem => item.Data.AddressLine1)</label><br />
+                @*<b>AddressLine 2</b>:  @if (!string.IsNullOrEmpty(item.Data.AddressLine2))
+                {
+                    @Html.DisplayFor(modelItem => item.Data.AddressLine2)
+                }
+                @if (string.IsNullOrEmpty(item.Data.AddressLine2))
+                {
+                    <label>-----</label>
+                }<br />*@
+                <b class="b-custom">City</b>: <label> @Html.DisplayFor(modelItem => item.Data.City) </label><br />
+                <b class="b-custom">State</b>: <label> @Html.DisplayFor(modelItem => item.Data.State)</label><br />
+                <b class="b-custom">ZipCode</b>: <label>  @Html.DisplayFor(modelItem => item.Data.ZipCode) </label><br />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCarrierDetails", new { id = item.Data.Id }) 
+            </td>
+        </tr>
+    }
+</table>
+
+<script type="text/javascript">
+    function SearchCarriers() {
+        var searchCarrierKey = $("#txtSearchText").val();
+        var searchStatusKey = $("input[name='status']:checked").val();
+        window.location.href = window.location.origin + window.location.pathname + "?carrierSearchkey=" + searchCarrierKey + "&statusSearchkey=" + searchStatusKey;
+    };
+    $(document).ready(function () {
+        var searchString = window.location.search;
+        if (searchString != "") {
+            var searchArray = window.location.search.substring(1).split('&');
+            var carrerName = searchArray[0].split('=');
+            var status = searchArray[1].split('=');
+            $("#txtSearchText").val(carrerName[1]);
+            var name = "status";
+            $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
+        }
+    });
+</script>

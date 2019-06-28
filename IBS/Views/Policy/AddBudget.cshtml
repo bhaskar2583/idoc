@@ -1,0 +1,237 @@
+﻿@model IBS.Core.Models.AddPolicyBudget
+
+@{
+    ViewBag.Title = "AddBudget";
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="row col-md-12">
+        <h2>
+            Policy Budget
+        </h2>
+        <hr />
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClientName)<br />
+                @Html.HiddenFor(model => model.ClientId)
+                @Html.HiddenFor(model => model.ClientPolicyId)
+                @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PolicyNumber)<br />
+                @Html.HiddenFor(model => model.PolicyId)
+                @Html.HiddenFor(model => model.PolicyNumber)
+                @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Coverage)<br />
+                @Html.HiddenFor(model => model.Coverage)
+                @Html.EditorFor(model => model.Coverage, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Product)<br />
+                @Html.HiddenFor(model => model.Product)
+                @Html.EditorFor(model => model.Product, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Year)<br />
+                @Html.HiddenFor(model => model.Year)
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="color:green">
+            <div class="form-group">
+                @ViewBag.Message
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <table class="table table-bordered table-hover responsive">
+        <thead class="thead-dark lbl-grid-head">
+            <tr>
+
+                <th>
+                    JAN
+                </th>
+                <th>
+                    FEB
+                </th>
+                <th>
+                    March
+                </th>
+                <th>
+                    April
+                </th>
+                <th>
+                    May
+                </th>
+                <th>
+                    June
+                </th>
+                <th>
+                    July
+                </th>
+                <th>
+                    August
+                </th>
+                <th>
+                    September
+                </th>
+                <th>
+                    October
+                </th>
+                <th>
+                    November
+                </th>
+                <th>
+                    December
+                </th>
+                <th>
+                    Total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tr @*class="lbl-grid"*@>
+            <td>
+                @Html.TextBoxFor(midel => Model.JanBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.FebBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.MarchBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.AprilBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.MayBudget, new { style = " width:70px; " })
+
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.JunBudget, new { style = " width:70px; " })
+            </td>
+
+            <td>
+                @Html.TextBoxFor(midel => Model.JulyBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.AugBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.SepBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.OctBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.NovBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                @Html.TextBoxFor(midel => Model.DecBudget, new { style = " width:70px; " })
+            </td>
+            <td>
+                <label id="lblTotal">@Model.TotalBudget</label>
+            </td>
+            <td>
+                <a id="anchPrefill" href="javascript:void(0);">Auto Fill</a>
+            </td>
+
+        </tr>
+    </table>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input id="btnSave" type="submit" value="Save" class="btn btn-success" onclick="addBudget()" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                @foreach (var year in ViewBag.Years.Items)
+                {
+                    <a href="@Url.Action("AddBudget", "Policy", new { policyId =Model.PolicyId, clientId =Model.ClientId, ClientPolicyId =0, year =year.Id})">@year.Name</a><br />
+                }
+
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        function addBudget() {
+            var year = $("#Year").val();
+            if (year == 0 || year == "0") {
+                alert('please select year');
+                return false;
+            } else {
+                return true;
+            }
+        }
+        $(document).ready(function () {
+            var janBudget = parseFloat($("#JanBudget").val());
+            var feb = parseFloat($("#FebBudget").val());
+            var mar = parseFloat($("#MarchBudget").val());
+            var apr = parseFloat($("#AprilBudget").val());
+            var may = parseFloat($("#MayBudget").val());
+            var jun = parseFloat($("#JunBudget").val());
+            var july = parseFloat($("#JulyBudget").val());
+            var aug = parseFloat($("#AugBudget").val());
+            var sep = parseFloat($("#SepBudget").val());
+            var oct = parseFloat($("#OctBudget").val());
+            var nov = parseFloat($("#NovBudget").val());
+            var dec = parseFloat($("#DecBudget").val());
+            var total = parseFloat(janBudget) + feb + mar + apr + may + jun + july + aug + sep + oct + nov + dec;
+
+            total = parseFloat(total).toFixed(2);
+            $("#lblTotal").text(total);
+            $("#anchPrefill").click(function () {
+                var janBudget = $("#JanBudget").val();
+                $("#FebBudget").val(janBudget);
+                $("#MarchBudget").val(janBudget);
+                $("#AprilBudget").val(janBudget);
+                $("#MayBudget").val(janBudget);
+                $("#JunBudget").val(janBudget);
+                $("#JulyBudget").val(janBudget);
+                $("#AugBudget").val(janBudget);
+                $("#SepBudget").val(janBudget);
+                $("#OctBudget").val(janBudget);
+                $("#NovBudget").val(janBudget);
+                $("#DecBudget").val(janBudget);
+                var total = parseFloat(janBudget).toFixed(2) * 12;
+                total = parseFloat(total).toFixed(2);
+                $("#lblTotal").text(total);
+            });
+        });
+    </script>
+}
