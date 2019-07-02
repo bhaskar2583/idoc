@@ -209,11 +209,27 @@
         });
         $(document).ready(function () {
             var commisionTotal = parseFloat(0);
+
+            $("[id*=CommisionValue]").blur(function () {
+                commisionTotal = 0;
+                $("[id*=CommisionValue]").each(function () {
+                    if ($(this).val() != "") {
+                        var cT = parseFloat($(this).val());
+                        commisionTotal = commisionTotal + cT;
+                        cT = parseFloat(cT).toFixed(2);
+                        $(this).val(cT)
+                    }
+                });
+                commisionTotal = parseFloat(commisionTotal).toFixed(2);
+                $("#tdTotal").text(commisionTotal);
+            });
+
             $("[id*=CommisionValue]").each(function () {
                 var cT = parseFloat($(this).val());
                 commisionTotal = commisionTotal + cT;
             });
-            $('#tblCommisions tr:last').after("<tr><td colspan='7'></td><td>Total</td><td>" + commisionTotal + "</td></tr>");
+            commisionTotal = parseFloat(commisionTotal).toFixed(2);
+            $('#tblCommisions tr:last').after("<tr><td colspan='7'></td><td>Total</td><td id='tdTotal'>" + commisionTotal + "</td></tr>");
             $("#ddlCarrier").change(function () {
                 var carrierId = $("#ddlCarrier").val();
                 if (carrierId == "") {

@@ -120,42 +120,42 @@
         </thead>
         <tr @*class="lbl-grid"*@>
             <td>
-                @Html.TextBoxFor(midel => Model.JanBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.JanBudget, new { style = " width:70px; ",@class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.FebBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.FebBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.MarchBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.MarchBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.AprilBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.AprilBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.MayBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.MayBudget, new { style = " width:70px; ", @class = "floatnon" })
 
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.JunBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.JunBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
 
             <td>
-                @Html.TextBoxFor(midel => Model.JulyBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.JulyBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.AugBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.AugBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.SepBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.SepBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.OctBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.OctBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.NovBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.NovBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
-                @Html.TextBoxFor(midel => Model.DecBudget, new { style = " width:70px; " })
+                @Html.TextBoxFor(midel => Model.DecBudget, new { style = " width:70px; ", @class = "floatnon" })
             </td>
             <td>
                 <label id="lblTotal">@Model.TotalBudget</label>
@@ -231,6 +231,14 @@
                 var total = parseFloat(janBudget).toFixed(2) * 12;
                 total = parseFloat(total).toFixed(2);
                 $("#lblTotal").text(total);
+            });
+
+            $(".floatnon").blur(function () {
+                if ($(this).val() != "") {
+                    var cT = parseFloat($(this).val());
+                    cT = parseFloat(cT).toFixed(2);
+                    $(this).val(cT)
+                }
             });
         });
     </script>
