@@ -131,6 +131,7 @@ namespace IBS.Controllers
         public ActionResult carrierStatementDates(string carId)
         {
             var smDates = _commisionService.GetCarrierStatementDates(carId);
+
             smDates = smDates.Distinct().ToList();
             return Json(smDates, JsonRequestBehavior.AllowGet);
         }
@@ -161,7 +162,7 @@ namespace IBS.Controllers
             return Json(_commonService.GetCoverageById(1), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ReconcilationCommissions(int? carrierId, string smd, string pId, bool? isSaved)
+        public ActionResult ReconcilationCommissions(int? type,int? carrierId, string smd, string pId, bool? isSaved)
         {
             var commisions = new List<CommisionModel>();
             ViewBag.carrierStatementDates = new List<SelectListCommon>();
@@ -194,6 +195,15 @@ namespace IBS.Controllers
                 if (!string.IsNullOrEmpty(pId) && commisions != null && commisions.Count > 0 && pId != "-- Please select a paymentid --")
                 {
                     commisions = commisions.Where(c => c.PaymentId == pId).ToList();
+                }
+
+                if (type == 1)
+                {
+                    commisions = commisions.Where(c => c.ReconsilationStatus == null).ToList();
+                }
+                if (type == 2)
+                {
+                    commisions = commisions.Where(c => c.ReconsilationStatus != null).ToList();
                 }
                 return View(commisions);
             }

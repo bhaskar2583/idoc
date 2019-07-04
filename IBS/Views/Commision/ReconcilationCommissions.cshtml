@@ -205,7 +205,24 @@
             }
             var statementDate = $("#txtStatementDate option:selected").text();
             var paymentId = $("#txtPaymentId option:selected").text();
-            window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + statementDate + "&pId=" + paymentId
+            var paams = window.location.search;
+            var type = 1;
+            if (paams != "") {
+                var paamAay = paams.split('&');
+                
+                
+                if (paamAay[0]!="") {
+                    var indecess = paamAay[0].replace('?', '');
+                    type = indecess.split('=')[1];
+
+                    if (type == "1") {
+                        type = 1;
+                    } else {
+                        type = 2;
+                    }
+                }
+            }
+            window.location.href = window.location.origin + window.location.pathname + "?type=" + type + "&carrierId=" + carrier + "&smd=" + statementDate + "&pId=" + paymentId;
         });
         $(document).ready(function () {
             var commisionTotal = parseFloat(0);
@@ -325,7 +342,7 @@
                     if ($(this)[0].cells[0].childNodes[7] != undefined) {
                         var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
                         var commision = $(this)[0].cells[8].childNodes[1].value;
-                        var Id = $(this)[0].cells[8].childNodes[25].value;
+                        var Id = $(this)[0].cells[0].childNodes[23].value;
                         var appoliedDate = $("#txtpaymentDate").val();
                         var commision = {
                             "clientPolicyId": clientPolicyId,

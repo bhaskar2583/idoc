@@ -37,14 +37,16 @@
                             <li>@Html.ActionLink("Edit Commisions", "EditCommissions", "Commision")</li>
                         </ul>
                     </li>
+
                     <li>
-                        @Html.ActionLink("Reconciliation", "ReconcilationCommissions", "Commision")
-                        @*<a href="#" class="dropdown-toggle" data-toggle="dropdown">Reconciliation<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li>@Html.ActionLink("Open", "ReconciliationCommissions", "Commision")</li>
-            <li>@Html.ActionLink("Verified", "", "")</li>
-        </ul>*@
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reconcilation<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li> @Html.ActionLink("Open", "ReconcilationCommissions", "Commision", new{type = 1},null)</li>
+                            <li> @Html.ActionLink("Verified", "ReconcilationCommissions", "Commision", new { type = 2 },null)</li>
+                        </ul>
                     </li>
+
+                  
                 </ul>
             </div>
         </div>

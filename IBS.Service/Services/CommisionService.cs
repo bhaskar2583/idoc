@@ -305,11 +305,18 @@ namespace IBS.Service.Services
                     {
                         commisions.ForEach(c =>
                         {
-                            smDates.Add(new SelectListCommon()
+                            var sDate = GetDateFormat(c.StatementDate);
+
+                            var isExist = smDates.FirstOrDefault(s => s.Name == sDate);
+                            if (isExist == null)
                             {
-                                Id = c.Id,
-                                Name = GetDateFormat(c.StatementDate)
-                            });
+                                smDates.Add(new SelectListCommon()
+                                {
+                                    Id = c.Id,
+                                    Name = GetDateFormat(c.StatementDate)
+                                });
+                            }
+                           
                         });
 
                     }
@@ -340,11 +347,16 @@ namespace IBS.Service.Services
                             var smDate = GetDateFormat(c.StatementDate);
                             if (smDate == statementDate)
                             {
-                                payments.Add(new SelectListCommon()
+                                var isExist = payments.FirstOrDefault(p => p.Name == c.PaymentId);
+                                if (isExist == null)
                                 {
-                                    Id = c.Id,
-                                    Name = c.PaymentId
-                                });
+                                    payments.Add(new SelectListCommon()
+                                    {
+                                        Id = c.Id,
+                                        Name = c.PaymentId
+                                    });
+                                }
+                                
                             }
 
                         });
