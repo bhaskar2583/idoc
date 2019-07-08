@@ -20,6 +20,7 @@ namespace IBS.Core.Models
         public int DivisionId { get; set; }
         public string DivisionName { get; set; }
         public int ClientPolicyId { get; set; }
+        public string CommisionString { get; set; }
         public decimal? CommisionValue { get; set; }
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? AppliedDate { get; set; }

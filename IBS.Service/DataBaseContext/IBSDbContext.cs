@@ -165,6 +165,7 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.RevDate).HasColumnName("Com_RevDate");
                 entity.Property(p => p.ReconcilationDate).HasColumnName("Com_ReconcilationDate");
                 entity.Property(p => p.ReconcilationStatus).HasColumnName("Com_ReconcilationStatus");
+                entity.Property(p => p.CommisionString).HasColumnName("Com_CommisionString");
 
                 entity.ToTable("Commission");
             });

@@ -13,6 +13,7 @@ namespace IBS.Core.Entities
         public int PolicyId { get; set; }
         public int ClientId { get; set; }
         public int ClientPolicyId { get; set; }
+        public string CommisionString { get; set; }
         public decimal? CommisionValue { get; set; }
         public DateTime? AppliedDate { get; set; }
         public string PaymentId { get; set; }

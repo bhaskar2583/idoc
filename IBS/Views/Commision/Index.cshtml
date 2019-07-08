@@ -80,6 +80,9 @@
                     Commission
                 </th>
                 <th>
+                    Commission Total
+                </th>
+                <th>
                     Applied Date
                 </th>
                 <th style="display:none">
@@ -95,66 +98,71 @@
         @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
         {
 
-            <tr class="lbl-grid">
-                <td>
-                    @Html.HiddenFor(modelItem => item.Data.ClientId)
-                    @Html.HiddenFor(modelItem => item.Data.PolicyId)
-                    @Html.HiddenFor(modelItem => item.Data.CoverageId)
-                    @Html.HiddenFor(modelItem => item.Data.ClientPolicyId)
-                    @Html.DisplayFor(modelItem => item.Data.CleintName)
-                    @Html.HiddenFor(modelItem => item.Data.StatementDate)
-                    @Html.HiddenFor(modelItem => item.Data.CarrierId)
-                    @Html.HiddenFor(modelItem => item.Data.Status)
-                    @Html.HiddenFor(modelItem => item.Data.PolicyNumber)
-                    @Html.HiddenFor(modelItem => item.Data.SelectedCoverage.Id)
+        <tr class="lbl-grid">
+            <td>
+                @Html.HiddenFor(modelItem => item.Data.ClientId)
+                @Html.HiddenFor(modelItem => item.Data.PolicyId)
+                @Html.HiddenFor(modelItem => item.Data.CoverageId)
+                @Html.HiddenFor(modelItem => item.Data.ClientPolicyId)
+                @Html.DisplayFor(modelItem => item.Data.CleintName)
+                @Html.HiddenFor(modelItem => item.Data.StatementDate)
+                @Html.HiddenFor(modelItem => item.Data.CarrierId)
+                @Html.HiddenFor(modelItem => item.Data.Status)
+                @Html.HiddenFor(modelItem => item.Data.PolicyNumber)
+                @Html.HiddenFor(modelItem => item.Data.SelectedCoverage.Id)
 
-                    @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
-                    @Html.HiddenFor(modelItem => item.Data.SelectedProduct.Id)
-                </td>
-                <td style="display:none">
-                    @Html.DisplayFor(modelItem => item.Data.DivisionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
-                </td>
-                <td>
-                    <div>
-                        ---
-                    </div>
-                    @*@Html.DropDownListFor(
-                        modelItem => item.Data.SelectedCoverage.Id,
-                        new SelectList(item.Data.Coverages, "Id", "Name"), "-- Select Coverage --", new { id = "coverage" + item.Index, @class = "grid-select-height" }
-                        )*@
-                </td>
-                <td>
+                @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
+                @Html.HiddenFor(modelItem => item.Data.SelectedProduct.Id)
+            </td>
+            <td style="display:none">
+                @Html.DisplayFor(modelItem => item.Data.DivisionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+            </td>
+            <td>
+                <div>
+                    ---
+                </div>
+                @*@Html.DropDownListFor(
+            modelItem => item.Data.SelectedCoverage.Id,
+            new SelectList(item.Data.Coverages, "Id", "Name"), "-- Select Coverage --", new { id = "coverage" + item.Index, @class = "grid-select-height" }
+            )*@
+            </td>
+            <td>
 
-                    @Html.DropDownListFor(
-                     modelItem => item.Data.SelectedProduct.Id,
-                     new SelectList(item.Data.CorporateProducts, "Id", "Name"), "-- Select Product--", new { id = "product" + item.Index, @class = "grid-select-height" }
-                     )
-                </td>
-                @*<td>
-                        @Html.DropDownListFor(
-                       modelItem => item.Data.Status,
-                       new SelectList(ViewBag.Status), "-- Select Status --", new { id = "status" + item.Index, @class = "grid-select-height" }
-                       )
-                    </td>*@
-                <td style="width:15%">
-                    @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.Data.AppliedDate, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border" })<br />
-                    <span>MM/DD/YYYY(12/25/2018)</span>
-                </td>
-                <td style="display:none">
-                    @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
-                </td>
+                @Html.DropDownListFor(
+                 modelItem => item.Data.SelectedProduct.Id,
+                 new SelectList(item.Data.CorporateProducts, "Id", "Name"), "-- Select Product--", new { id = "product" + item.Index, @class = "grid-select-height" }
+                 )
+            </td>
 
-                <td>
-                    <a id="anchEdit" onclick="addRow(this)">Add</a>|
-                    <a id="anchDelete" onclick="deleteRow(this)">Delete</a> |
-                </td>
-            </tr>
+            <td style="width:15%">
+                @Html.TextBoxFor(modelItem => item.Data.CommisionString, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
+            </td>
+
+            @*<td>
+            @Html.DropDownListFor(
+           modelItem => item.Data.Status,
+           new SelectList(ViewBag.Status), "-- Select Status --", new { id = "status" + item.Index, @class = "grid-select-height" }
+           )
+        </td>*@
+            <td style="width:15%">
+                @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionTotal" + item.Index, @class = "ibs-input-24height ibs-border" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.Data.AppliedDate, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border" })<br />
+                <span>MM/DD/YYYY(12/25/2018)</span>
+            </td>
+            <td style="display:none">
+                @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
+            </td>
+
+            <td>
+                <a id="anchEdit" onclick="addRow(this)">Add</a>|
+                <a id="anchDelete" onclick="deleteRow(this)">Delete</a> |
+            </td>
+        </tr>
         }
     </table>
     <div class="row">
@@ -202,8 +210,8 @@
             //    return;
             //}
             $clone.find(':text').val('');
-            $clone[0].cells[8].innerHTML = $clone[0].cells[8].innerHTML.replace('|', '');
-            $clone[0].cells[8].innerHTML = $clone[0].cells[8].innerHTML.replace('Add', '');
+            $clone[0].cells[9].innerHTML = $clone[0].cells[9].innerHTML.replace('|', '');
+            $clone[0].cells[9].innerHTML = $clone[0].cells[9].innerHTML.replace('Add', '');
             $clone.attr('newid', clientId + policyid);
             $tr.after($clone);
         }
@@ -310,17 +318,34 @@
             $("[id*=CommisionValue]").blur(function () {
                 commisionTotal = 0;
                 $("[id*=CommisionValue]").each(function () {
+                    var cTotal = 0;
+                    if ($(this).val() != "") {
+
+                        var values = $(this).val().split('+');
+                        cTotal = 0;
+                        for (var i = 0; i < values.length; i++) {
+                            cTotal = cTotal + parseInt(values[i]);
+                        }
+                        cTotal = parseFloat(cTotal);
+                        //commisionTotal = commisionTotal + cT;
+                        //cT = parseFloat(cT).toFixed(2);
+                        //$(this).val(cT)
+                    }
+                    cTotal = parseFloat(cTotal).toFixed(2);
+                    $(this).closest('tr')[0].cells[6].childNodes[1].value = cTotal;
+                });
+
+                $("[id*=CommisionTotal]").each(function () {
                     if ($(this).val() != "") {
                         var cT = parseFloat($(this).val());
                         commisionTotal = commisionTotal + cT;
-                        cT = parseFloat(cT).toFixed(2);
-                        $(this).val(cT)
                     }
                 });
+
                 commisionTotal = parseFloat(commisionTotal).toFixed(2);
                 $("#tdTotal").text(commisionTotal);
             });
-            $("[id*=CommisionValue]").each(function () {
+            $("[id*=CommisionTotal]").each(function () {
                 if ($(this).val() != "") {
                     var cT = parseFloat($(this).val());
                     commisionTotal = commisionTotal + cT;
@@ -352,16 +377,18 @@
                         var policyNo = $(this)[0].cells[0].childNodes[15].value;
                         var coverageId = $(this)[0].cells[3].childNodes[1].value;
                         var status = $(this)[0].cells[4].childNodes[1].value;
-                        var commision = $(this)[0].cells[5].childNodes[1].value;
-                        var appoliedDate = $(this)[0].cells[6].childNodes[1].value;
+                        var commisionString = $(this)[0].cells[5].childNodes[1].value;
+                        var commision = $(this)[0].cells[6].childNodes[1].value;
+                        var appoliedDate = $(this)[0].cells[7].childNodes[1].value;
                         var paymntId = $("#txtPaymentIdNew").val();//$(this)[0].cells[7].childNodes[1].value;
                         var statementDate = $("#txtStatementDate").val();
-                        if (commision != "" && (statementDate == "" || paymntId == "")) {
+                        if (commision != "" && commision != "0.00" && (statementDate == "" || paymntId == "")) {
                             isInvalidRow = true;
                         }
                         var commision = {
                             "clientPolicyId": clientPolicyId,
                             "Status": status,
+                            "CommisionString": commisionString,
                             "CommisionValue": commision,
                             "AppliedDate": appoliedDate,
                             "PaymentId": paymntId,

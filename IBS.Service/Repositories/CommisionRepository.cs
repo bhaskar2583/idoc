@@ -41,6 +41,7 @@ namespace IBS.Service.Repositories
             if (data != null)
             {
                 data.CommisionValue = commission.CommisionValue;
+                data.CommisionString = commission.CommisionString;
                 //data.PaymentId = commission.PaymentId;
                 //data.StatementDate = commission.StatementDate;
                 data.AppliedDate = commission.AppliedDate;

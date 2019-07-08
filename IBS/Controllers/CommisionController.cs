@@ -199,11 +199,11 @@ namespace IBS.Controllers
 
                 if (type == 1)
                 {
-                    commisions = commisions.Where(c => c.ReconsilationStatus == null).ToList();
+                    commisions = commisions.Where(c => c.ReconsilationStatus == "Open").ToList();
                 }
                 if (type == 2)
                 {
-                    commisions = commisions.Where(c => c.ReconsilationStatus != null).ToList();
+                    commisions = commisions.Where(c => c.ReconsilationStatus == "Verified").ToList();
                 }
                 return View(commisions);
             }

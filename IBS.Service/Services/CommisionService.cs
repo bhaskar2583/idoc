@@ -69,6 +69,7 @@ namespace IBS.Service.Services
                     CarrierId = policyDetails.CarId,
 
                     CommisionValue = dc.CommisionValue,
+                    CommisionString = dc.CommisionString,
                     StatementDateAsString = GetDateFormat(dc.StatementDate),
                     AppliedDate = dc.AppliedDate,
                     AppliedDateAsString = GetDateFormat(dc.AppliedDate),
@@ -258,6 +259,7 @@ namespace IBS.Service.Services
                 {
                     ClientPolicyId = c.ClientPolicyId,
                     CommisionValue = c.CommisionValue,
+                    CommisionString=c.CommisionString,
                     AppliedDate = c.AppliedDate,
                     StatementDate = c.StatementDate,
                     PaymentId = c.PaymentId,
