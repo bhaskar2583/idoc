@@ -90,6 +90,9 @@
                     Commission
                 </th>
                 <th>
+                    Commission Total
+                </th>
+                <th>
                     Applied Date
                 </th>
                 <th style="display:none">
@@ -136,8 +139,13 @@
                 </td>
 
                 <td style="width:15%">
-                    @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
+                    @Html.TextBoxFor(modelItem => item.Data.CommisionString, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
                 </td>
+
+                <td style="width:15%">
+                    @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionTotal" + item.Index, @class = "ibs-input-24height ibs-border" })
+                </td>
+
                 <td>
                     @Html.TextBoxFor(modelItem => item.Data.AppliedDateAsString, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border" })
                     @*<span>MM/DD/YYYY(12/25/2018)</span>*@
@@ -204,25 +212,41 @@
             $("[id*=CommisionValue]").blur(function () {
                 commisionTotal = 0;
                 $("[id*=CommisionValue]").each(function () {
+                    var cTotal = 0;
+                    if ($(this).val() != "") {
+
+                        var values = $(this).val().split('+');
+                        cTotal = 0;
+                        for (var i = 0; i < values.length; i++) {
+                            cTotal = cTotal + parseInt(values[i]);
+                        }
+                        cTotal = parseFloat(cTotal);
+                        //commisionTotal = commisionTotal + cT;
+                        //cT = parseFloat(cT).toFixed(2);
+                        //$(this).val(cT)
+                    }
+                    cTotal = parseFloat(cTotal).toFixed(2);
+                    $(this).closest('tr')[0].cells[7].childNodes[1].value = cTotal;
+                });
+
+                $("[id*=CommisionTotal]").each(function () {
                     if ($(this).val() != "") {
                         var cT = parseFloat($(this).val());
                         commisionTotal = commisionTotal + cT;
-                        cT = parseFloat(cT).toFixed(2);
-                        $(this).val(cT)
                     }
                 });
 
                 var commisionTotal = parseFloat(commisionTotal).toFixed(2);
                 $("#tdTotal").text(commisionTotal);
             });
-            $("[id*=CommisionValue]").each(function () {
+            $("[id*=CommisionTotal]").each(function () {
                 if ($(this).val() != "") {
                     var cT = parseFloat($(this).val());
                     commisionTotal = commisionTotal + cT;
                 }
             });
             var commisionTotal = parseFloat(commisionTotal).toFixed(2);
-            $('#tblCommisions tr:last').after("<tr><td colspan='5'></td><td style='text-align:right'>Total Commissions</td><td id='tdTotal'>" + commisionTotal + "</td></tr>");
+            $('#tblCommisions tr:last').after("<tr><td colspan='6'></td><td style='text-align:right'>Total Commissions</td><td id='tdTotal'>" + commisionTotal + "</td></tr>");
             $("#ddlCarrier").change(function () {
                 var carrierId = $("#ddlCarrier").val();
                 if (carrierId == "") {
@@ -317,11 +341,13 @@
                 $('#tblCommisions > tbody  > tr').each(function () {
                     if ($(this)[0].cells[0].childNodes[7] != undefined) {
                         var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
-                        var commision = $(this)[0].cells[6].childNodes[1].value;
-                        var appoliedDate = $(this)[0].cells[7].childNodes[1].value;
+                        var commisionString = $(this)[0].cells[6].childNodes[1].value;
+                        var commision = $(this)[0].cells[7].childNodes[1].value;
+                        var appoliedDate = $(this)[0].cells[8].childNodes[1].value;
                         var commision = {
                             "clientPolicyId": clientPolicyId,
                             "CommisionValue": commision,
+                            "CommisionString": commisionString,
                             "AppliedDate": appoliedDate
                         }
                         commisions.push(commision);
@@ -346,6 +372,7 @@
                         var carrier = $("#ddlCarrier").val();
                         var smt = $("#txtStatementDate option:selected").text();
                         var pmt = $("#txtPaymentId option:selected").text();
+
                         window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + smt + "&pId=" + pmt + "&isSaved=true"
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {

@@ -311,23 +311,24 @@
                     }
                 });
             });
+            debugger;
             var query = window.location.search;
             if (query != undefined && query != "") {
                 var searchQuery = query.split('&');
-                var queryArray = searchQuery[0].split('=');
+                var queryArray = searchQuery[1].split('=');
                 if (queryArray[0].indexOf("carrierId") != -1) {
                     if (queryArray[1] != "0") {
                         $("#ddlCarrier").val(queryArray[1]);
                     }
                 }
-                var smt = searchQuery[1];
+                var smt = searchQuery[2];
                 if (smt.indexOf("smd") != -1) {
                     var d = smt.split('=');
                     if (d != "" && d != "0") {
                         $("#txtStatementDate option:contains(" + d[1] + ")").attr('selected', 'selected');
                     }
                 }
-                var pmt = searchQuery[2];
+                var pmt = searchQuery[3];
                 if (pmt.indexOf("pId") != -1) {
                     var d = pmt.split('=');
                     if (d != "" && d != "0") {
@@ -372,7 +373,20 @@
                         var carrier = $("#ddlCarrier").val();
                         var smt = $("#txtStatementDate option:selected").text();
                         var pmt = $("#txtPaymentId option:selected").text();
-                        window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + smt + "&pId=" + pmt + "&isSaved=true"
+
+                        var type = 1;
+                        var query = window.location.search;
+                        if (query != undefined && query != "") {
+                            var searchQuery = query.split('&');
+                            var queryArray = searchQuery[0].split('=');
+                            if (queryArray[0].indexOf("type") != -1) {
+                                if (queryArray[1] == "2") {
+                                    type = 2;
+                                }
+                            }
+                        }
+
+                        window.location.href = window.location.origin + window.location.pathname + "?type=" + type + "&carrierId=" + carrier + "&smd=" + smt + "&pId=" + pmt + "&isSaved=true"
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         console.log(errorThrown);
