@@ -112,7 +112,7 @@
                     @Html.HiddenFor(modelItem => item.Data.CoverageId)
                     @Html.HiddenFor(modelItem => item.Data.ClientPolicyId)
                     @Html.DisplayFor(modelItem => item.Data.CleintName)
-                    @Html.HiddenFor(modelItem => item.Data.StatementDate)
+                    @Html.HiddenFor(modelItem => item.Data.StatementDateAsString)
                     @Html.HiddenFor(modelItem => item.Data.CarrierId)
                     @Html.HiddenFor(modelItem => item.Data.Status)
                     @Html.HiddenFor(modelItem => item.Data.PolicyNumber)
@@ -218,14 +218,12 @@
                         var values = $(this).val().split('+');
                         cTotal = 0;
                         for (var i = 0; i < values.length; i++) {
-                            cTotal = cTotal + parseInt(values[i]);
+                            cTotal = parseFloat(parseFloat(cTotal).toFixed(2)) + parseFloat(parseFloat(values[i]).toFixed(2));
                         }
-                        cTotal = parseFloat(cTotal);
-                        //commisionTotal = commisionTotal + cT;
-                        //cT = parseFloat(cT).toFixed(2);
-                        //$(this).val(cT)
+                        cTotal = parseFloat(cTotal).toFixed(2);
                     }
                     cTotal = parseFloat(cTotal).toFixed(2);
+                    if (cTotal != "0.00")
                     $(this).closest('tr')[0].cells[7].childNodes[1].value = cTotal;
                 });
 
@@ -344,10 +342,12 @@
                         var commisionString = $(this)[0].cells[6].childNodes[1].value;
                         var commision = $(this)[0].cells[7].childNodes[1].value;
                         var appoliedDate = $(this)[0].cells[8].childNodes[1].value;
+                        var statementDate = $(this)[0].cells[0].childNodes[7].value;
                         var commision = {
                             "clientPolicyId": clientPolicyId,
                             "CommisionValue": commision,
                             "CommisionString": commisionString,
+                            "StatementDate": statementDate,
                             "AppliedDate": appoliedDate
                         }
                         commisions.push(commision);

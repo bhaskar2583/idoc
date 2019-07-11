@@ -222,6 +222,17 @@
             var isaddedRow = $tr.attr('newid');
             if (isaddedRow) {
                 $tr.remove();
+                var commisionTotal = 0.00;
+                $("[id*=CommisionTotal]").each(function () {
+                    if ($(this).val() != "") {
+                        var cT = parseFloat($(this).val());
+                        commisionTotal = commisionTotal + cT;
+                    }
+                });
+
+                commisionTotal = parseFloat(commisionTotal).toFixed(2);
+                $("#tdTotal").text(commisionTotal);
+
             } else {
                 alert('You cannot delete initial rows');
             }
@@ -293,6 +304,36 @@
                 }
             });
         });
+
+        $(document).on('blur', '[id*=CommisionValue]', function () {
+            commisionTotal = 0;
+            $("[id*=CommisionValue]").each(function () {
+                var cTotal = 0;
+                if ($(this).val() != "") {
+
+                    var values = $(this).val().split('+');
+                    cTotal = 0;
+                    for (var i = 0; i < values.length; i++) {
+                        cTotal = parseFloat(parseFloat(cTotal).toFixed(2)) + parseFloat(parseFloat(values[i]).toFixed(2));
+                    }
+                    cTotal = parseFloat(cTotal).toFixed(2);
+                }
+                cTotal = parseFloat(cTotal).toFixed(2);
+                if (cTotal != "0.00")
+                    $(this).closest('tr')[0].cells[6].childNodes[1].value = cTotal;
+            });
+
+            $("[id*=CommisionTotal]").each(function () {
+                if ($(this).val() != "") {
+                    var cT = parseFloat($(this).val());
+                    commisionTotal = commisionTotal + cT;
+                }
+            });
+
+            commisionTotal = parseFloat(commisionTotal).toFixed(2);
+            $("#tdTotal").text(commisionTotal);
+        });
+
         $(document).ready(function () {
 
             var index = 0;
@@ -315,36 +356,9 @@
                 }
             });
             var commisionTotal = parseFloat(0);
-            $("[id*=CommisionValue]").blur(function () {
-                commisionTotal = 0;
-                $("[id*=CommisionValue]").each(function () {
-                    var cTotal = 0;
-                    if ($(this).val() != "") {
-
-                        var values = $(this).val().split('+');
-                        cTotal = 0;
-                        for (var i = 0; i < values.length; i++) {
-                            cTotal = cTotal + parseInt(values[i]);
-                        }
-                        cTotal = parseFloat(cTotal);
-                        //commisionTotal = commisionTotal + cT;
-                        //cT = parseFloat(cT).toFixed(2);
-                        //$(this).val(cT)
-                    }
-                    cTotal = parseFloat(cTotal).toFixed(2);
-                    $(this).closest('tr')[0].cells[6].childNodes[1].value = cTotal;
-                });
-
-                $("[id*=CommisionTotal]").each(function () {
-                    if ($(this).val() != "") {
-                        var cT = parseFloat($(this).val());
-                        commisionTotal = commisionTotal + cT;
-                    }
-                });
-
-                commisionTotal = parseFloat(commisionTotal).toFixed(2);
-                $("#tdTotal").text(commisionTotal);
-            });
+            //$("[id*=CommisionValue]").blur(function () {
+                
+            //});
             $("[id*=CommisionTotal]").each(function () {
                 if ($(this).val() != "") {
                     var cT = parseFloat($(this).val());
