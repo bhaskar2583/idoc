@@ -33,6 +33,19 @@ namespace IBS.Service.Services
             DateTime dt = Convert.ToDateTime(date);
             return dt.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
         }
+
+        private string GetDateFormatMMYYYY(DateTime? date)
+        {
+            if (date == null)
+                return string.Empty;
+
+            DateTime dt = Convert.ToDateTime(date);
+            var dateAsMMDD = dt.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            string[] dateArray = dateAsMMDD.Split('/');
+            dateAsMMDD = dateArray[0] + "/" + dateArray[2];
+            return dateAsMMDD;
+        }
         public List<CommisionModel> GetAllSavedCommissionsForCarrier(int carrierId)
         {
             var commissionModel = new List<CommisionModel>();
@@ -72,7 +85,7 @@ namespace IBS.Service.Services
                     CommisionString = dc.CommisionString,
                     StatementDateAsString = GetDateFormat(dc.StatementDate),
                     AppliedDate = dc.AppliedDate,
-                    AppliedDateAsString = GetDateFormat(dc.AppliedDate),
+                    AppliedDateAsString = GetDateFormatMMYYYY(dc.AppliedDate),
                     PaymentId = dc.PaymentId
 
                 });

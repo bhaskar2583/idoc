@@ -152,7 +152,7 @@
             </td>
             <td>
                 @Html.TextBoxFor(modelItem => item.Data.AppliedDate, new { id = "txtAppliedDate" + item.Index, @class = "ibs-input-24height ibs-border" })<br />
-                <span>MM/DD/YYYY(12/25/2018)</span>
+                <span>MM/YYYY(12/2018)</span>
             </td>
             <td style="display:none">
                 @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
@@ -398,6 +398,11 @@
                         var statementDate = $("#txtStatementDate").val();
                         if (commision != "" && commision != "0.00" && (statementDate == "" || paymntId == "")) {
                             isInvalidRow = true;
+                        }
+
+                        if (appoliedDate != "") {
+                            var appDate = appoliedDate.split('/');
+                            appoliedDate = appDate[0] + "/01/" + appDate[1];
                         }
                         var commision = {
                             "clientPolicyId": clientPolicyId,

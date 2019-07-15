@@ -343,6 +343,12 @@
                         var commision = $(this)[0].cells[7].childNodes[1].value;
                         var appoliedDate = $(this)[0].cells[8].childNodes[1].value;
                         var statementDate = $(this)[0].cells[0].childNodes[7].value;
+
+                        if (appoliedDate != "") {
+                            var appDate = appoliedDate.split('/');
+                            appoliedDate = appDate[0] + "/01/" + appDate[1];
+                        }
+
                         var commision = {
                             "clientPolicyId": clientPolicyId,
                             "CommisionValue": commision,
