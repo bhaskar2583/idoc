@@ -101,7 +101,7 @@ namespace IBS.Controllers
                 _policyService.ModifyPolicy(policy);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
                 _policyService.MapCarriers(policy);
                 _policyService.MapCoverages(policy);

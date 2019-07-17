@@ -63,6 +63,7 @@ namespace IBS.Service.Services
                 {
                     Id = dc.Id,
                     ReconcilationPaymentDate = dc.ReconcilationDate,
+                    ReconcilationPaymentDateAsString = GetDateFormat(dc.ReconcilationDate),
                     ReconsilationStatus = string.IsNullOrEmpty(dc.ReconcilationStatus) ? "Open" : "Verified",
 
                     ClientId = dc.ClientId,

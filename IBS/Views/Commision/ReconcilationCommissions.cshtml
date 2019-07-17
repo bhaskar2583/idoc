@@ -6,7 +6,7 @@
 @using (Html.BeginForm())
 {
     <div class="row col-md-12">
-        <h2>
+        <h2 id="h2Tag">
             Reconcilation
         </h2>
         <hr />
@@ -97,6 +97,9 @@
                 <th>
                     Commission
                 </th>
+                <th id="tdPDate">
+                    payment date
+                </th>
             </tr>
         </thead>
         @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
@@ -118,6 +121,7 @@
                     @Html.HiddenFor(modelItem => item.Data.Coverages.Count)
                     @Html.HiddenFor(modelItem => item.Data.SelectedProduct.Id)
                     @Html.HiddenFor(modelItem => item.Data.Id)
+                    @Html.HiddenFor(modelItem => item.Data.ReconcilationPaymentDateAsString)
                 </td>
 
                 <td>
@@ -147,11 +151,14 @@
                 <td style="width:15%">
                     @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
                 </td>
+                <td id="tdPDate">
+                    @Html.DisplayFor(modelItem => item.Data.ReconcilationPaymentDateAsString)
+                </td>
             </tr>
         }
     </table>
 
-    <div class="row">
+    <div class="row" id="divPaymentDate">
 
         <div class="col-md-6">
             <div class="form-group">
@@ -226,6 +233,31 @@
         });
         $(document).ready(function () {
             var commisionTotal = parseFloat(0);
+
+
+            var paams = window.location.search;
+            var type = 1;
+            if (paams != "") {
+                var paamAay = paams.split('&');
+
+
+                if (paamAay[0] != "") {
+                    var indecess = paamAay[0].replace('?', '');
+                    type = indecess.split('=')[1];
+
+                    if (type == "1") {
+                        $("#txtpaymentDate").show();
+                        $("#h2Tag").text('Open Reconciliation');
+                        $("#tdPDate").hide();
+                    } else {
+                        $("#h2Tag").text('Verified Reconciliation');
+                        $("#txtpaymentDate").hide();
+                        $("#tdPDate").show();
+                        $("[id*=CommisionValue]").attr("disabled", "disabled");
+                    }
+                }
+            }
+
 
             $("[id*=CommisionValue]").blur(function () {
                 commisionTotal = 0;
