@@ -23,10 +23,33 @@ namespace IBS.Service.Repositories
             _hanysContext.SaveChanges();
             return true;
         }
+
+        public bool UpdateCoverages(Coverage coverage)
+        {
+            var data = _hanysContext.Coverages.FirstOrDefault(c => c.Id == coverage.Id);
+            if (data != null)
+            {
+                data.Name = coverage.Name;
+                _hanysContext.SaveChanges();
+            }
+            return true;
+        }
         public bool AddProduct(Product product)
         {
             _hanysContext.Products.Add(product);
             _hanysContext.SaveChanges();
+            return true;
+        }
+
+        public bool UpdateProduct(Product product)
+        {
+            var data = _hanysContext.Products.FirstOrDefault(c => c.Id == product.Id);
+            if (data != null)
+            {
+                data.Name = product.Name;
+                data.CoverageId = product.CoverageId;
+                _hanysContext.SaveChanges();
+            }
             return true;
         }
 
