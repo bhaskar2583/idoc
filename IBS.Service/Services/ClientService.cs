@@ -152,7 +152,7 @@ namespace IBS.Service.Services
 
             if (!string.IsNullOrEmpty(searchClientName))
             {
-                source = source.Where(c => c.Name.ToLower().Contains(searchClientName)).ToList();
+                source = source.Where(c => c.Name.ToLower().Contains(searchClientName.ToLower())).ToList();
             }
 
             switch (searchStatus)

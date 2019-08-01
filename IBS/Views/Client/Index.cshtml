@@ -79,7 +79,8 @@
             var searchArray = window.location.search.substring(1).split('&');
             var clientName = searchArray[0].split('=');
             var status = searchArray[1].split('=');
-            $("#txtSearchText").val(clientName[1]);
+            var text = decodeURIComponent((clientName[1]).replace(/\+/g, '%20'));
+            $("#txtSearchText").val(text);
             var name = "status";
             $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
         }
