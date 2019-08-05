@@ -1,5 +1,6 @@
 ﻿using IBS.Core.Entities;
 using IBS.Core.Models;
+using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,11 @@ namespace IBS.Service.Repositories
         List<Commision> GetSavedCommisionsForCarrier(int carrierId);
         List<Commision> GetByAllClientPolicyId(int clientPolicyId);
         bool UpdateCommissionReconsilation(CommisionModel commission);
+        List<InvalidCommission> GetExceptionCommissionsForCarrier(int carrierId);
+        InvalidCommission GetExceptionCommissionsById(int Id);
+        List<int> GetExceptionCommissionsCariers();
+        List<SelectListCommon> GetExceptionCarrierStatementDates(int carrierId);
+        bool UpdateExceptionCommisions(InvalidCommission commission);
+        bool UpdateExceptionCommisionsClient(InvalidCommission commission);
     }
 }

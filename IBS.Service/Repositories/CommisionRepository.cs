@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IBS.Core.Entities;
 using IBS.Core.Models;
 using IBS.Service.DataBaseContext;
+using IBS.Service.Utils;
 
 namespace IBS.Service.Repositories
 {
@@ -76,6 +78,95 @@ namespace IBS.Service.Repositories
             catch (Exception ex)
             {
                 return false;
+            }
+
+            return true;
+        }
+
+        public List<InvalidCommission> GetExceptionCommissionsForCarrier(int carrierId)
+        {
+            if(carrierId==0)
+                return _hanysContext.InvalidCommissions.Where(ec => !ec.IsDumped).ToList();
+
+            return _hanysContext.InvalidCommissions.Where(ec => !ec.IsDumped &&
+             ec.CarrierId == carrierId).ToList();
+        }
+
+        public List<int> GetExceptionCommissionsCariers()
+        {
+            try
+            {
+                var data = _hanysContext.InvalidCommissions.ToList();
+                return _hanysContext.InvalidCommissions.Where(ec => !ec.IsDumped).Select(c => c.CarrierId).Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<int>();
+            }
+            
+        }
+        private string GetDateFormat(DateTime? date)
+        {
+            if (date == null)
+                return string.Empty;
+
+            DateTime dt = Convert.ToDateTime(date);
+            return dt.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+        }
+        public List<SelectListCommon> GetExceptionCarrierStatementDates(int carrierId)
+        {
+            try
+            {
+                var dates = new List<SelectListCommon>();
+
+             var commossions= _hanysContext.InvalidCommissions.Where(ec => !ec.IsDumped &&
+             ec.CarrierId == carrierId).ToList().Select(d => new SelectListCommon()
+             {
+                 Id = 0,
+                 Name = GetDateFormat(d.StatementDate)
+             }).Distinct().ToList();
+
+                commossions.ForEach(c =>
+                {
+                    if (dates.FirstOrDefault(d=>d.Name==c.Name) == null)
+                    {
+                        dates.Add(c);
+                    }
+                });
+                return dates;
+            }
+            catch (Exception ex)
+            {
+                return new List<SelectListCommon>();
+            }
+            
+        }
+
+        public bool UpdateExceptionCommisions(InvalidCommission commission)
+        {
+            var eCommission = _hanysContext.InvalidCommissions.FirstOrDefault(ec => ec.Id == commission.Id);
+            if (eCommission != null)
+            {
+                eCommission.IsDumped = true;
+                _hanysContext.SaveChanges();
+            }
+
+            return true;
+        }
+
+        public InvalidCommission GetExceptionCommissionsById(int Id)
+        {
+            return _hanysContext.InvalidCommissions.FirstOrDefault(ec => ec.Id ==Id);
+        }
+
+        public bool UpdateExceptionCommisionsClient(InvalidCommission commission)
+        {
+            var eCommission = _hanysContext.InvalidCommissions.FirstOrDefault(ec => ec.Id == commission.Id);
+            if (eCommission != null)
+            {
+                eCommission.ClientId = commission.ClientId;
+                eCommission.ClientPolicyId = commission.ClientPolicyId;
+                _hanysContext.SaveChanges();
             }
 
             return true;

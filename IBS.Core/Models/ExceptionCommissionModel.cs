@@ -8,31 +8,31 @@ using System.Threading.Tasks;
 
 namespace IBS.Core.Models
 {
-    public class CommisionModel : BaseModel
+    public class ExceptionCommissionModel : BaseModel
     {
         public int Id { get; set; }
         public int CarrierId { get; set; }
-        public string CarrierName { get; set; }
         public int PolicyId { get; set; }
-        public string PolicyNumber { get; set; }
         public int ClientId { get; set; }
-        public string CleintName { get; set; }
-        public int DivisionId { get; set; }
-        public string DivisionName { get; set; }
+        public string ClientName { get; set; }
         public int ClientPolicyId { get; set; }
-        public string CommisionString { get; set; }
-        public decimal? CommisionValue { get; set; }
+        public decimal? CommissionValue { get; set; }
+
+        public string CommissionString { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? AppliedDate { get; set; }
         public string AppliedDateAsString { get; set; }
+
         public string PaymentId { get; set; }
         public DateTime? StatementDate { get; set; }
+
         public string StatementDateAsString { get; set; }
-        public int CoverageId { get; set; }
-        public string CoverageName { get; set; }
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public string Status { get; set; }
+        public DateTime? LoadDate { get; set; }
+        public string ProductType { get; set; }
+        public string CoverageType { get; set; }
+        public string PolicyNumber { get; set; }
+
 
         public List<Coverage> Coverages { get; set; }
         public Coverage SelectedCoverage { get; set; }
@@ -40,17 +40,26 @@ namespace IBS.Core.Models
         public List<CorporateProduct> CorporateProducts { get; set; }
         public Product SelectedProduct { get; set; }
         public CorporateProduct SelectedCorporateProduct { get; set; }
-        public CommisionModel()
+        public ExceptionCommissionModel()
         {
             SelectedCoverage = new Coverage();
             Coverages = new List<Coverage>();
             Products = new List<Product>();
             CorporateProducts = new List<CorporateProduct>();
         }
-
-        public DateTime? ReconcilationPaymentDate { get; set; }
-        public string ReconcilationPaymentDateAsString { get; set; }
-        public string ReconsilationStatus { get; set; }
-        public bool IsExceptionCommission { get; set; }
     }
+
+    public class AssignClientToPolicy
+    {
+        public int Id { get; set; }
+        public string PolicyNo { get; set; }
+        public int PolicyId { get; set; }
+        public int ClinetId { get; set; }
+        public List<Client> Clients { get; set; }
+        public AssignClientToPolicy()
+        {
+            Clients = new List<Client>();
+        }
+    }
+         
 }

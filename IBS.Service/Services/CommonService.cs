@@ -20,6 +20,8 @@ namespace IBS.Service.Services
 
         public bool AddClientPolocie(ClientPolicie clientPolicie)
         {
+            clientPolicie.AddUser = LoginUserDetails.GetWindowsLoginUserName();
+            clientPolicie.AddDate = DateUtil.GetCurrentDate();
             return _commonRepository.AddClientPolocie(clientPolicie);
         }
 

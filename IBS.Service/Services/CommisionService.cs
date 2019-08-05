@@ -17,13 +17,15 @@ namespace IBS.Service.Services
         private readonly IClientRepository _clientRepository;
         private readonly IPolicyRepository _policyRepository;
         private readonly ICommisionRepository _commissionRepository;
+        private readonly ICarrierRepository _carrierRepository;
         public CommisionService(ICommonRepository commonRepository, IClientRepository clientRepository,
-            IPolicyRepository policyRepository, ICommisionRepository commissionRepository)
+            IPolicyRepository policyRepository, ICommisionRepository commissionRepository, ICarrierRepository carrierRepository)
         {
             _commonRepository = commonRepository;
             _clientRepository = clientRepository;
             _policyRepository = policyRepository;
             _commissionRepository = commissionRepository;
+            _carrierRepository = carrierRepository;
         }
         private string GetDateFormat(DateTime? date)
         {
@@ -279,7 +281,8 @@ namespace IBS.Service.Services
                     PaymentId = c.PaymentId,
                     AddUser = LoginUserDetails.GetWindowsLoginUserName(),
                     AddDate = DateUtil.GetCurrentDate(),
-                    Status = c.Status
+                    Status = c.Status,
+                    IsExceptionCommission=c.IsExceptionCommission
                 };
                 _commissionRepository.Add(commission);
             });
@@ -394,6 +397,86 @@ namespace IBS.Service.Services
         {
             return _policyRepository.GetAll().
                 Where(pc => pc.PolicyNumber == policyNo && pc.CarId == carrierId && pc.CoverageId == coverageId).FirstOrDefault();
+        }
+
+        public List<ExceptionCommissionModel> GetAllExceptionCommissionsForCarrier(int? carrierId)
+        {
+            if (carrierId == null)
+                return new List<ExceptionCommissionModel>();
+
+            var x = new CommisionModel();
+            var commissionModel = new List<ExceptionCommissionModel>();
+            var commissions = _commissionRepository.GetExceptionCommissionsForCarrier((int)carrierId);
+            commissions.ForEach(dc =>
+            {
+                var clientDetails = _clientRepository.GetById(dc.ClientId);
+                commissionModel.Add(new ExceptionCommissionModel()
+                {
+                    Id = dc.Id,
+                    ClientId = dc.ClientId,
+                    ClientName = dc.ClientId==0?"":clientDetails.Name,
+                    PolicyNumber = dc.PolicyNumber,
+                    ProductType = dc.ProductType,
+                    ClientPolicyId = dc.ClientPolicyId,
+                    CarrierId = dc.CarrierId,
+                    CommissionValue = dc.CommissionValue,
+                    CommissionString = dc.CommissionValue != null ? Convert.ToString(dc.CommissionValue) : null,
+                    StatementDateAsString = GetDateFormat(dc.StatementDate),
+                    AppliedDate = dc.AppliedDate,
+                    AppliedDateAsString = GetDateFormatMMYYYY(dc.AppliedDate),
+                    PaymentId = dc.PaymentId,
+                    CoverageType=dc.CoverageType,
+                    PolicyId=dc.PolicyId
+                });
+            });
+            return commissionModel;
+        }
+
+        public IList<Carrier> GetExceptionCommissionsCariers()
+        {
+            var carriers = new List<Carrier>();
+            var exceptionCarriers = _commissionRepository.GetExceptionCommissionsCariers();
+            if (exceptionCarriers == null || exceptionCarriers.Count <= 0)
+                return carriers;
+          
+            exceptionCarriers.ForEach(c =>
+            {
+               var carrier= _carrierRepository.GetById(c);
+                if (carrier != null)
+                    carriers.Add(carrier);
+            });
+            return carriers;
+        }
+
+        public List<SelectListCommon> GetExceptionCarrierStatementDates(int? carrierId)
+        {
+            if (carrierId == null)
+                return new List<SelectListCommon>();
+
+            return _commissionRepository.GetExceptionCarrierStatementDates((int)carrierId);
+        }
+        public bool UpdateExceptionCommisions(List<ExceptionCommissionModel> commissions)
+        {
+            var eCommissions = _commissionRepository.GetExceptionCommissionsForCarrier(0).ToList();
+
+            commissions.ForEach(eC =>
+            {
+                var eCommission = eCommissions.FirstOrDefault(ec => ec.Id == eC.Id);
+                if (eCommission != null)
+                {
+                    _commissionRepository.UpdateExceptionCommisions(eCommission);
+                }
+            });
+            return true;
+        }
+        public bool UpdateExceptionCommisionsClient(int Id,int clientId,int policyId)
+        {
+            var clientPolicies = _commonRepository.GetClientPoliciesByPolicyId(policyId);
+            var exceptionCommisions = _commissionRepository.GetExceptionCommissionsById(Id);
+            exceptionCommisions.ClientId = clientId;
+            exceptionCommisions.ClientPolicyId = clientPolicies.Id;
+            _commissionRepository.UpdateExceptionCommisionsClient(exceptionCommisions);
+            return true;
         }
     }
 }

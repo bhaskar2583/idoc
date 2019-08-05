@@ -1,4 +1,5 @@
-﻿using IBS.Core.Models;
+﻿using IBS.Core.Entities;
+using IBS.Core.Models;
 using IBS.Service.Services;
 using IBS.Service.Utils;
 using System;
@@ -14,11 +15,13 @@ namespace IBS.Controllers
         private readonly ICarrierService _carrierService;
         private readonly ICommisionService _commisionService;
         private readonly ICommonService _commonService;
-        public CommisionController(ICarrierService carrierService, ICommisionService commisionService, ICommonService commonService)
+        private readonly IClientService _clientService;
+        public CommisionController(ICarrierService carrierService, ICommisionService commisionService, ICommonService commonService,IClientService clientService)
         {
             _carrierService = carrierService;
             _commisionService = commisionService;
             _commonService = commonService;
+            _clientService = clientService;
         }
         // GET: Commision
         public ActionResult Index(int? carrierId, bool? isSaved)
@@ -223,5 +226,81 @@ namespace IBS.Controllers
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ExceptionCommissions(int? carrierId, string smd)
+        {
+            ViewBag.Carriers = _commisionService.GetExceptionCommissionsCariers();
+            ViewBag.carrierStatementDates = _commisionService.GetExceptionCarrierStatementDates(carrierId);   
+            var commisions = _commisionService.GetAllExceptionCommissionsForCarrier(carrierId);
+
+            if (!string.IsNullOrEmpty(smd) && commisions != null && commisions.Count > 0 && smd != "-- Please select a statement date --")
+            {
+                commisions = commisions.Where(c => c.StatementDateAsString == smd).ToList();
+            }
+
+            return View(commisions);
+        }
+        [HttpPost]
+        public ActionResult ExceptionCommissions(List<ExceptionCommissionModel> commisions)
+        {
+            var commissionModels = new List<CommisionModel>();
+            var exceptionCommissionModels = new List<ExceptionCommissionModel>();
+            commisions.ForEach(c =>
+            {
+                if(!string.IsNullOrEmpty(c.ClientName) &&
+                c.ClientPolicyId>0 &&
+                c.CommissionValue > 0)
+                {
+                    commissionModels.Add(new CommisionModel()
+                    {
+                        ClientPolicyId=c.ClientPolicyId,
+                        CommisionValue=c.CommissionValue,
+                        CommisionString=c.CommissionValue.ToString(),
+                        IsExceptionCommission=true
+                    });
+                    exceptionCommissionModels.Add(new ExceptionCommissionModel()
+                    {
+                        Id=c.Id
+                    });
+                }
+            });
+            _commisionService.SaveCommisions(commissionModels, true);
+            _commisionService.UpdateExceptionCommisions(exceptionCommissionModels);
+            return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult AssignClient(int Id,string policyNumber,int policyId)
+        {
+            ViewBag.Clients = _clientService.GetAllClients();
+            var model = new AssignClientToPolicy()
+            {
+                Id = Id,
+                PolicyNo = policyNumber,
+                PolicyId= policyId
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AssignClient(AssignClientToPolicy clientPolicy)
+        {
+            var clinetPolicy = new ClientPolicie()
+            {
+                ClientId = clientPolicy.ClinetId,
+                PolicieId = clientPolicy.PolicyId
+            };
+            _commonService.AddClientPolocie(clinetPolicy);
+            
+            _commisionService.UpdateExceptionCommisionsClient(clientPolicy.Id, clientPolicy.ClinetId, clientPolicy.PolicyId);
+            return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        // post: Commision
+        public ActionResult ExceptionCarrierStatementDates(int carId)
+        {
+            var smDates = _commisionService.GetExceptionCarrierStatementDates(carId);
+
+            smDates = smDates.Distinct().ToList();
+            return Json(smDates, JsonRequestBehavior.AllowGet);
+        }
     }
 }

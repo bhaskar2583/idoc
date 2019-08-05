@@ -1,0 +1,123 @@
+﻿@model IBS.Core.Models.AssignClientToPolicy
+@{
+    ViewBag.Title = "EditExceptionCommissions";
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="row col-md-12">
+        <h2>Edit</h2>
+        <hr />
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Policy Number:</label><br />
+                @Html.TextBoxFor(m => m.PolicyNo, new { @class = "ibs-input ibs-border" })
+                @Html.HiddenFor(m => m.PolicyId)
+                @Html.HiddenFor(m => m.Id)
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Client:</label>
+                @Html.DropDownList(
+                "ddlClient",
+                new SelectList(ViewBag.Clients, "Id", "Name"),
+                "-- Please select a client --", new { @class = "ibs-input ibs-border" }
+                )
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input id="btnSave" type="button" onclick="AddClientPolicy()" value="Save" class="btn btn-success" />
+                <input id="btnCancel" type="button" onclick="NavigateECommissions()" value="Cancel" class="btn btn-warning" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="button" value="AddClient" onclick="NavigateClient()" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="color:green">
+            <div class="form-group">
+                @ViewBag.Message
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function NavigateClient() {
+            var host = window.location.origin;;
+            var apiPath = host + "/Client/AddClient";
+            var isProd = false;
+            if (isProd) {
+                
+                apiPath = host + "/IBS/Client/AddClient";
+            }
+
+            window.location.href = apiPath;
+        }
+        function NavigateECommissions() {
+            var host = window.location.origin;;
+            var apiPath = host + "/Commision/ExceptionCommissions";
+            var isProd = false;
+            if (isProd) {
+
+                apiPath = host + "/IBS/Commision/ExceptionCommissions";
+            }
+
+            window.location.href = apiPath;
+        }
+
+        function AddClientPolicy() {
+            debugger;
+            var clientId = $("#ddlClient").val();
+            var policyId = $("#PolicyId").val();
+            var Id = $("#Id").val();
+
+            if (clientId == "") {
+                alert("Please select client");
+                return;
+            }
+            var isProd = false;
+            let host = window.location.origin;
+            let path = window.location.pathname;
+            var apiPath = host + path;
+            if (isProd) {
+                host = window.location.origin;
+                apiPath = host + "/IBS/Commision";
+            }
+
+            var clientPolicy = {
+                "Id": Id,
+                "ClinetId": parseInt(clientId),
+                "PolicyId": parseInt(policyId)
+            };
+            $.ajax({
+                type: "POST",
+                url: apiPath,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(clientPolicy),
+                success: function (commisions) {
+                    NavigateECommissions();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        }
+
+
+    
+    </script>
+}
+

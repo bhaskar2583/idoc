@@ -49,7 +49,7 @@ namespace IBS.Service.DataBaseContext
 
         public virtual DbSet<CorporateProduct> CorporateProduct { get; set; }
         public virtual DbSet<CorporateProductsXProduct> CorporateProductsXProducts { get; set; }
-
+        public virtual DbSet<InvalidCommission> InvalidCommissions { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBinder)
         {
             modelBinder.Entity<Carrier>().Map(entity =>
@@ -166,6 +166,7 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.ReconcilationDate).HasColumnName("Com_ReconcilationDate");
                 entity.Property(p => p.ReconcilationStatus).HasColumnName("Com_ReconcilationStatus");
                 entity.Property(p => p.CommisionString).HasColumnName("Com_CommisionString");
+                entity.Property(p => p.IsExceptionCommission).HasColumnName("Com_IsExceptionCommission");
 
                 entity.ToTable("Commission");
             });
@@ -184,6 +185,32 @@ namespace IBS.Service.DataBaseContext
                 entity.Property(p => p.CorporateProductId).HasColumnName("Cop_Pro_Id");
                 entity.Property(p => p.ProductId).HasColumnName("Pro_Id");
                 entity.ToTable("CFProductXProduct");
+            });
+
+            modelBinder.Entity<InvalidCommission>().Map(entity =>
+            {
+                entity.Property(p => p.Id).HasColumnName("Com_Id");
+                entity.Property(p => p.CarrierId).HasColumnName("Com_CarrierId");
+                entity.Property(p => p.PolicyId).HasColumnName("Com_PolicyId");
+                entity.Property(p => p.ClientId).HasColumnName("Com_ClientId");
+
+                entity.Property(p => p.PolicyNumber).HasColumnName("Com_PolicyNumber");
+                entity.Property(p => p.ClientPolicyId).HasColumnName("Com_ClientPolicyId");
+                entity.Property(p => p.CommissionValue).HasColumnName("Com_Commission");
+                entity.Property(p => p.AppliedDate).HasColumnName("Com_AppliedDate");
+
+                entity.Property(p => p.StatementDate).HasColumnName("Com_StatementDate");
+                entity.Property(p => p.PaymentId).HasColumnName("Com_PaymentId");
+
+                entity.Property(p => p.ProductType).HasColumnName("Com_ProductType");
+                entity.Property(p => p.CoverageType).HasColumnName("Com_CoverageType");
+                entity.Property(p => p.IsDumped).HasColumnName("Com_IsDumped");
+                entity.Property(p => p.AddUser).HasColumnName("Com_AddUser");
+                entity.Property(p => p.AddDate).HasColumnName("Com_AddDate");
+                entity.Property(p => p.RevUser).HasColumnName("Com_RevUser");
+                entity.Property(p => p.RevDate).HasColumnName("Com_RevDate");
+
+                entity.ToTable("InvalidCommission");
             });
         }
 

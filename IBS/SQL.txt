@@ -1,0 +1,52 @@
+﻿CREATE TABLE [dbo].[Commission] (
+    [Com_Id]                    INT             IDENTITY (1, 1) NOT NULL,
+    [Com_CarrierId]             INT             NULL,
+    [Com_PolicyId]              INT             NULL,
+    [Com_ClientId]              INT             NULL,
+    [Com_ClientPolicyId]        INT             NULL,
+    [Com_CommisionString]       VARCHAR (50)    NULL,
+    [Com_Commision]             DECIMAL (18, 2) NULL,
+    [Com_AppliedDate]           DATETIME        NULL,
+    [Com_PaymentId]             VARCHAR (50)    NULL,
+    [Com_StatementDate]         DATETIME        NULL,
+    [Com_AddUser]               VARCHAR (100)   NOT NULL,
+    [Com_AddDate]               DATETIME        DEFAULT (getdate()) NOT NULL,
+    [Com_RevUser]               VARCHAR (100)   NULL,
+    [Com_RevDate]               DATETIME        NULL,
+    [Com_ReconcilationDate]     DATETIME        NULL,
+    [Com_ReconcilationStatus]   VARCHAR (50)    NULL,
+    [Com_IsExceptionCommission] BIT             DEFAULT ((0)) NULL,
+    PRIMARY KEY CLUSTERED ([Com_Id] ASC)
+);
+
+
+
+====================
+
+
+CREATE TABLE [dbo].[InvalidCommission] (
+    [Com_Id]             INT             IDENTITY (1, 1) NOT NULL,
+    [Com_CarrierId]      INT             NULL,
+    [Com_PolicyId]       INT             NULL,
+    [Com_ClientId]       INT             NULL,
+    [Com_PolicyNumber]   VARCHAR (100)   NULL,
+    [Com_ClientPolicyId] INT             NULL,
+    [Com_Commission]     DECIMAL (18, 2) NULL,
+    [Com_AppliedDate]    DATETIME        NULL,
+    [Com_StatementDate]  DATETIME        NULL,
+    [Com_PaymentId]      VARCHAR (50)    NULL,
+    [Com_ProductType]    VARCHAR (50)    NULL,
+    [Com_CoverageType]   VARCHAR (50)    NULL,
+    [Com_AddUser]        VARCHAR (50)    NULL,
+    [Com_AddDate]        DATETIME        NULL,
+    [Com_RevUser]        VARCHAR (50)    NULL,
+    [Com_RevDate]        DATETIME        NULL,
+    [Com_IsDumped]       BIT             DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_InvalidCommission] PRIMARY KEY CLUSTERED ([Com_Id] ASC)
+);
+
+===================
+
+
+1	469	1873	4436	459120	3706	31.29	2019-07-01 00:00:00.000	2019-06-20 00:00:00.000	1	Long Term Care	DBL	schedular	2019-08-02 10:38:26.807	NULL	NULL	1
+2	469	1874	4432	469862	2700	2250.00	2019-01-01 00:00:00.000	2019-06-20 00:00:00.000	1	Group/DBL/PFL	DBL	schedular	2019-08-02 10:38:26.807	NULL	NULL	1

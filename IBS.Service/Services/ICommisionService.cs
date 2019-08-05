@@ -22,5 +22,10 @@ namespace IBS.Service.Services
         List<SelectListCommon> GetCarrierStatementDates(string carrierId);
         List<SelectListCommon> GetCarrierStatementDatePayments(string carrierId, string statementDate);
         IList<CorporateProduct> GetAllCorporateProducts();
+        List<ExceptionCommissionModel> GetAllExceptionCommissionsForCarrier(int? carrierId);
+        IList<Carrier> GetExceptionCommissionsCariers();
+        List<SelectListCommon> GetExceptionCarrierStatementDates(int? carrierId);
+        bool UpdateExceptionCommisions(List<ExceptionCommissionModel> commissions);
+        bool UpdateExceptionCommisionsClient(int Id, int clientId, int policyId);
     }
 }

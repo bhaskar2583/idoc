@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 
 namespace IBS.Core.Entities
 {
-    public class Commision : BaseEntity
+    public class InvalidCommission : BaseEntity
     {
         public int Id { get; set; }
         public int CarrierId { get; set; }
         public int PolicyId { get; set; }
         public int ClientId { get; set; }
+        public string PolicyNumber { get; set; }
         public int ClientPolicyId { get; set; }
-        public string CommisionString { get; set; }
-        public decimal? CommisionValue { get; set; }
+        public decimal? CommissionValue { get; set; }
         public DateTime? AppliedDate { get; set; }
-        public string PaymentId { get; set; }
         public DateTime? StatementDate { get; set; }
-        public object Status { get; set; }
-        public DateTime? ReconcilationDate { get; set; }
-        public string ReconcilationStatus { get; set; }
-        public bool IsExceptionCommission { get; set; }
+        public string PaymentId { get; set; }
+        public string ProductType { get; set; }
+        public string CoverageType { get; set; }
+        public bool IsDumped { get; set; }
     }
 }
