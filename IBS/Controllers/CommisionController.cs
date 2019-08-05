@@ -255,7 +255,10 @@ namespace IBS.Controllers
                         ClientPolicyId=c.ClientPolicyId,
                         CommisionValue=c.CommissionValue,
                         CommisionString=c.CommissionValue.ToString(),
-                        IsExceptionCommission=true
+                        IsExceptionCommission=true,
+                        AppliedDate=c.AppliedDate,
+                        StatementDate=c.StatementDate,
+                        PaymentId=c.PaymentId
                     });
                     exceptionCommissionModels.Add(new ExceptionCommissionModel()
                     {

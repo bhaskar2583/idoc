@@ -299,15 +299,28 @@
                     var clientPolicyId = $(this)[0].cells[0].childNodes[3].value;
                     var clinetName = $(this)[0].cells[0].childNodes[5].value;
                     var commissionValue = $(this)[0].cells[4].childNodes[1].value;
+                    var appliedDate = $(this)[0].cells[5].childNodes[1].value;
+                    var statementDate = $(this)[0].cells[6].childNodes[1].value;
+                    var paymentId = $(this)[0].cells[7].childNodes[1].value;
+                    if (commissionValue != '' && commissionValue != '0' && commissionValue != '0.00'
+                        && appliedDate != ''
+                        && statementDate != ''
+                        && paymentId != '') {
 
-                    var commision = {
-                        "ClientPolicyId": clientPolicyId,
-                        "CommissionValue": commissionValue,
-                        "ClientName": clinetName,
-                        "Id": Id
+                        var appDate = appliedDate.split('/');
+                        appliedDate = appDate[0] + "/01/" + appDate[1];
+
+                        var commision = {
+                            "ClientPolicyId": clientPolicyId,
+                            "CommissionValue": commissionValue,
+                            "ClientName": clinetName,
+                            "Id": Id,
+                            "AppliedDate": appliedDate,
+                            "StatementDate": statementDate,
+                            "PaymentId": paymentId,
+                        }
+                        commisions.push(commision);
                     }
-                    commisions.push(commision);
-
                 });
                 var isProd = false;
                 let host = window.location.origin;
