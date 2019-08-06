@@ -25,6 +25,11 @@ namespace IBS.Service.Repositories
             return true;
         }
 
+        public List<Commision> GetSavedCommisions()
+        {
+          return  _hanysContext.Commisions.ToList();
+        }
+
         public Commision GetByClientPolicyId(int clientPolicyId)
         {
             return _hanysContext.Commisions.FirstOrDefault(cov => cov.ClientPolicyId == clientPolicyId);

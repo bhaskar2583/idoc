@@ -11,6 +11,8 @@ namespace IBS.Service.Services
 {
     public interface ICommisionService
     {
+        List<Commision> GetSavedCommisions();
+        ClientPolicie GetAllClientPoliciesByIndexId(int Id);
         List<CommisionModel> GetCarrierPoliciesById(int carrierId);
         List<CommisionModel> GetAllSavedCommissionsForCarrier(int carrierId);
         bool SaveCommisions(List<CommisionModel> commissions, bool save);

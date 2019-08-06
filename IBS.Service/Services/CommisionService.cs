@@ -48,6 +48,15 @@ namespace IBS.Service.Services
             dateAsMMDD = dateArray[0] + "/" + dateArray[2];
             return dateAsMMDD;
         }
+
+        public ClientPolicie GetAllClientPoliciesByIndexId(int Id)
+        {
+          return  _commonRepository.GetAllClientPoliciesByIndexId(Id).FirstOrDefault();
+        }
+        public List<Commision> GetSavedCommisions()
+        {
+            return _commissionRepository.GetSavedCommisions();
+        }
         public List<CommisionModel> GetAllSavedCommissionsForCarrier(int carrierId)
         {
             var commissionModel = new List<CommisionModel>();

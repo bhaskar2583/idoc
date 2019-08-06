@@ -13,15 +13,18 @@ namespace IBS.Controllers
     public class CommisionController : Controller
     {
         private readonly ICarrierService _carrierService;
+        private readonly IPolicyService _policyService;
         private readonly ICommisionService _commisionService;
         private readonly ICommonService _commonService;
         private readonly IClientService _clientService;
-        public CommisionController(ICarrierService carrierService, ICommisionService commisionService, ICommonService commonService,IClientService clientService)
+        public CommisionController(ICarrierService carrierService, ICommisionService commisionService, 
+            ICommonService commonService,IClientService clientService, IPolicyService policyService)
         {
             _carrierService = carrierService;
             _commisionService = commisionService;
             _commonService = commonService;
             _clientService = clientService;
+            _policyService = policyService;
         }
         // GET: Commision
         public ActionResult Index(int? carrierId, bool? isSaved)
@@ -182,7 +185,7 @@ namespace IBS.Controllers
             }
             try
             {
-                ViewBag.Carriers = _carrierService.GetAllCarriers();
+                //ViewBag.Carriers = _carrierService.GetAllCarriers();
 
                 if (carrierId != null && carrierId > 0)
                 {
@@ -195,6 +198,7 @@ namespace IBS.Controllers
                 {
                     commisions = commisions.Where(c => c.StatementDateAsString == smd).ToList();
                 }
+                var savedCommissions = _commisionService.GetSavedCommisions();
                 if (!string.IsNullOrEmpty(pId) && commisions != null && commisions.Count > 0 && pId != "-- Please select a paymentid --")
                 {
                     commisions = commisions.Where(c => c.PaymentId == pId).ToList();
@@ -202,12 +206,40 @@ namespace IBS.Controllers
 
                 if (type == 1)
                 {
+                    
                     commisions = commisions.Where(c => c.ReconsilationStatus == "Open").ToList();
+                    savedCommissions = savedCommissions.Where(c => c.ReconcilationStatus == null).ToList();
                 }
                 if (type == 2)
                 {
                     commisions = commisions.Where(c => c.ReconsilationStatus == "Verified").ToList();
+                    savedCommissions = savedCommissions.Where(c => c.ReconcilationStatus == "Verified").ToList();
                 }
+
+               
+                if(savedCommissions != null && savedCommissions.Count > 0)
+                {
+                    var vbCarriers = new List<CarrierModel>();
+                    var carriers = _carrierService.GetAllCarriers();
+                    var cpIds = savedCommissions.Select(c => c.ClientPolicyId).ToList();
+                    cpIds.ForEach(cp =>
+                    {
+                        var clientPolicy = _commisionService.GetAllClientPoliciesByIndexId(cp);
+                        var policy = _policyService.GetById(clientPolicy.PolicieId);
+
+                        var carrier = carriers.FirstOrDefault(c => c.Id == policy.CarId);
+                        if(vbCarriers.FirstOrDefault(vbc=>vbc.Id==carrier.Id)==null)
+                        vbCarriers.Add(carrier);
+
+                    });
+                    ViewBag.Carriers = vbCarriers;
+                }
+                else
+                {
+                    ViewBag.Carriers = new List<CarrierModel>();
+                }
+                
+
                 return View(commisions);
             }
             catch (Exception ex)

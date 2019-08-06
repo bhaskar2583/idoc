@@ -11,6 +11,7 @@ namespace IBS.Service.Repositories
 {
     public interface ICommisionRepository
     {
+        List<Commision> GetSavedCommisions();
         bool Add(Commision commission);
         Commision GetByClientPolicyId(int clientPolicyId);
         bool Update(CommisionModel commission);
