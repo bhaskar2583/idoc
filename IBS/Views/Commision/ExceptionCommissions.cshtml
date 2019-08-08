@@ -112,7 +112,11 @@
                     @Html.TextBoxFor(modelItem => item.Data.PaymentId, new { id = "PaymentId" + item.Index, @class = "ibs-input-24height ibs-border" })
                 </td>
                 <td>
-                    <a id="anchDelete" onclick="assignCommission(@item.Data.Id,@item.Data.PolicyId,@item.Data.PolicyNumber)">Assign Client</a>&nbsp;|
+                    @if (item.Data.ClientName == "")
+                    {
+                        <a id="anchDelete" onclick="assignCommission(@item.Data.Id,@item.Data.PolicyId,@item.Data.PolicyNumber)">Assign Client</a>
+                    }
+
                     @*<a id="anchDelete" onclick="deleteCommission(@item.Data.ClientPolicyId)">Delete</a>*@
                 </td>
             </tr>
@@ -167,43 +171,24 @@
 
             window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + statementDate;
         });
-        function deleteRow(instance) {
-            var $tr = $(instance).closest('tr');
-            var oClientId = $tr[0].cells[0].childNodes[1].value;
-            var oPolicyid = $tr[0].cells[0].childNodes[3].value;
-            var isaddedRow = $tr.attr('newid');
-            if (isaddedRow) {
-                $tr.remove();
-                var commisionTotal = 0.00;
-                $("[id*=CommisionTotal]").each(function () {
-                    if ($(this).val() != "") {
-                        var cT = parseFloat($(this).val());
-                        commisionTotal = commisionTotal + cT;
-                    }
-                });
-                commisionTotal = parseFloat(commisionTotal).toFixed(2);
-                $("#tdTotal").text(commisionTotal);
-            } else {
-                alert('You cannot delete initial rows');
-            }
-        }
+       
         $(document).on('blur', '[id*=CommisionValue]', function () {
             commisionTotal = 0;
+            //$("[id*=CommisionValue]").each(function () {
+            //    var cTotal = 0;
+            //    if ($(this).val() != "") {
+            //        var values = $(this).val().split('+');
+            //        cTotal = 0;
+            //        for (var i = 0; i < values.length; i++) {
+            //            cTotal = parseFloat(parseFloat(cTotal).toFixed(2)) + parseFloat(parseFloat(values[i]).toFixed(2));
+            //        }
+            //        cTotal = parseFloat(cTotal).toFixed(2);
+            //    }
+            //    cTotal = parseFloat(cTotal).toFixed(2);
+            //    if (cTotal != "0.00")
+            //        $(this).closest('tr')[0].cells[6].childNodes[1].value = cTotal;
+            //});
             $("[id*=CommisionValue]").each(function () {
-                var cTotal = 0;
-                if ($(this).val() != "") {
-                    var values = $(this).val().split('+');
-                    cTotal = 0;
-                    for (var i = 0; i < values.length; i++) {
-                        cTotal = parseFloat(parseFloat(cTotal).toFixed(2)) + parseFloat(parseFloat(values[i]).toFixed(2));
-                    }
-                    cTotal = parseFloat(cTotal).toFixed(2);
-                }
-                cTotal = parseFloat(cTotal).toFixed(2);
-                if (cTotal != "0.00")
-                    $(this).closest('tr')[0].cells[6].childNodes[1].value = cTotal;
-            });
-            $("[id*=CommisionTotal]").each(function () {
                 if ($(this).val() != "") {
                     var cT = parseFloat($(this).val());
                     commisionTotal = commisionTotal + cT;
@@ -248,37 +233,17 @@
                 });
             });
             ////////////////end
-            var index = 0;
-            $('#tblCommisions > tbody  > tr').each(function () {
-                if ($(this)[0].cells[0].childNodes[9] != undefined) {
-                    var statementDate = $(this)[0].cells[0].childNodes[9].value;
-                    $("#txtStatementDate").val(statementDate);
-                    var ststus = $(this)[0].cells[0].childNodes[13].value;
-                    $("#status" + index).val(ststus);
-                    var coverage = $(this)[0].cells[0].childNodes[17].value;
-                    if (coverage != "0") {
-                        $("#coverage" + index).val(coverage);
-                    }
-                    var product = $(this)[0].cells[0].childNodes[21].value;
-                    if (product != "0") {
-                        $("#product" + index).val(product);
-                    }
-                    index++;
-                    return;
-                }
-            });
+           
             var commisionTotal = parseFloat(0);
-            //$("[id*=CommisionValue]").blur(function () {
-
-            //});
-            $("[id*=CommisionTotal]").each(function () {
+         
+            $("[id*=CommisionValue]").each(function () {
                 if ($(this).val() != "") {
                     var cT = parseFloat($(this).val());
                     commisionTotal = commisionTotal + cT;
                 }
             });
             commisionTotal = parseFloat(commisionTotal).toFixed(2);
-            //$('#tblCommisions tr:last').after("<tr><td colspan='4'></td><td style='text-align:right'>Total Commissions</td><td id='tdTotal'>" + commisionTotal + "</td></tr>");
+            $('#tblCommisions tr:last').after("<tr><td colspan='3'></td><td style='text-align:right'>Total Commissions</td><td id='tdTotal'>" + commisionTotal + "</td></tr>");
             var query = window.location.search;
             if (query != undefined && query != "") {
                 var searchQuery = query.split('&');
@@ -294,33 +259,35 @@
                 var isInvalidRow = false;
                 $('#tblCommisions > tbody  > tr').each(function () {
                     debugger;
-                    
-                    var Id = $(this)[0].cells[0].childNodes[1].value;
-                    var clientPolicyId = $(this)[0].cells[0].childNodes[3].value;
-                    var clinetName = $(this)[0].cells[0].childNodes[5].value;
-                    var commissionValue = $(this)[0].cells[4].childNodes[1].value;
-                    var appliedDate = $(this)[0].cells[5].childNodes[1].value;
-                    var statementDate = $(this)[0].cells[6].childNodes[1].value;
-                    var paymentId = $(this)[0].cells[7].childNodes[1].value;
-                    if (commissionValue != '' && commissionValue != '0' && commissionValue != '0.00'
-                        && appliedDate != ''
-                        && statementDate != ''
-                        && paymentId != '') {
+                    if ($(this)[0].cells[0].childNodes[1] != undefined) {
+                        var Id = $(this)[0].cells[0].childNodes[1].value;
+                        var clientPolicyId = $(this)[0].cells[0].childNodes[3].value;
+                        var clinetName = $(this)[0].cells[0].childNodes[5].value;
+                        var commissionValue = $(this)[0].cells[4].childNodes[1].value;
+                        var appliedDate = $(this)[0].cells[5].childNodes[1].value;
+                        var statementDate = $(this)[0].cells[6].childNodes[1].value;
+                        var paymentId = $(this)[0].cells[7].childNodes[1].value;
+                        if (commissionValue != '' && commissionValue != '0' && commissionValue != '0.00'
+                            && appliedDate != ''
+                            && statementDate != ''
+                            && paymentId != '') {
 
-                        var appDate = appliedDate.split('/');
-                        appliedDate = appDate[0] + "/01/" + appDate[1];
+                            var appDate = appliedDate.split('/');
+                            appliedDate = appDate[0] + "/01/" + appDate[1];
 
-                        var commision = {
-                            "ClientPolicyId": clientPolicyId,
-                            "CommissionValue": commissionValue,
-                            "ClientName": clinetName,
-                            "Id": Id,
-                            "AppliedDate": appliedDate,
-                            "StatementDate": statementDate,
-                            "PaymentId": paymentId,
+                            var commision = {
+                                "ClientPolicyId": clientPolicyId,
+                                "CommissionValue": commissionValue,
+                                "ClientName": clinetName,
+                                "Id": Id,
+                                "AppliedDate": appliedDate,
+                                "StatementDate": statementDate,
+                                "PaymentId": paymentId,
+                            }
+                            commisions.push(commision);
                         }
-                        commisions.push(commision);
                     }
+                    
                 });
                 var isProd = false;
                 let host = window.location.origin;
