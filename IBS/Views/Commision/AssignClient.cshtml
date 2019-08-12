@@ -20,6 +20,8 @@
                 @Html.TextBoxFor(m => m.PolicyNo, new { @class = "ibs-input ibs-border" })
                 @Html.HiddenFor(m => m.PolicyId)
                 @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.CarrierId)
+                @Html.HiddenFor(m => m.StatementDate)
             </div>
         </div>
         <div class="col-md-6">
@@ -73,8 +75,9 @@
 
                 apiPath = host + "/IBS/Commision/ExceptionCommissions";
             }
-
-            window.location.href = apiPath;
+            var carId = parseInt($("#CarrierId").val());
+            var smD = $("#StatementDate").val();
+            window.location.href = apiPath + "?carrierId=" + carId + "&smd=" + smD;
         }
 
         function AddClientPolicy() {

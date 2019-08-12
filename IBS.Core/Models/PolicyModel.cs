@@ -32,6 +32,7 @@ namespace IBS.Core.Models
         public Coverage SelectedCoverage { get; set; }
         public List<Product> Products { get; set; }
         public Product SelectedProduct { get; set; }
+        public Client SelectedClient { get; set; }
         public List<Client> Clients { get; set; }
         public int ClientId { get; set; }
         public PolicyModel()

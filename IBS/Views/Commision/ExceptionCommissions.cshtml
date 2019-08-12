@@ -144,7 +144,10 @@
                 apiPath = host + "/IBS/Commision/AssignClient";
             }
 
-            window.location.href = apiPath + "?Id=" + Id + "&policyNumber=" + policyNo + "&policyId=" + policyId;
+            var carId = $("#ddlCarrier").val();
+            var smDate = $("#txtStatementDate option:selected").text()
+
+            window.location.href = apiPath + "?Id=" + Id + "&policyNumber=" + policyNo + "&policyId=" + policyId + "&carId=" + carId + "&smd=" + smDate;
             //$.ajax({
             //    type: "POST",
             //    url: apiPath + "/AssignClient?Id=" + Id + "&PolicyNo=" + PolicyNo,
@@ -252,6 +255,18 @@
                     if (queryArray[1] != "0") {
                         $("#ddlCarrier").val(queryArray[1]);
                     }
+                }
+
+                if (searchQuery.length >= 2) {
+                    var smdArray = searchQuery[1].split('=');
+                    var smd = smdArray[1];
+                    //$("#txtStatementDate option:selected").text(smd);
+
+                    $("#txtStatementDate option").filter(function () {
+                        return this.text == smd;
+                    }).attr('selected', true);
+
+                    //$("#txtStatementDate").text(smd);
                 }
             }
             $("#btnSubmit").click(function () {

@@ -81,6 +81,7 @@ namespace IBS.Service.Services
             var carriers = _carrierService.GetAllCarriers();
             var coverages = _commonService.GetAllCoverages();
             var products = _commonService.GetAllProducts();
+
             policiesData.ForEach(c =>
             {
                 var policy = new PolicyModel()
@@ -103,6 +104,7 @@ namespace IBS.Service.Services
                 MapSelectedCarrier(policy, carriers?.FirstOrDefault(cr => cr.Id == policy.CarId));
                 MapSelectedCoverage(policy, coverages?.FirstOrDefault(cov => cov.Id == policy.CoverageId));
                 MapSelectedProduct(policy, products?.FirstOrDefault(pro => pro.Id == policy.ProductId));
+                MapSelectedClient(policy);
                 policies.Add(policy);
             });
 
@@ -142,6 +144,41 @@ namespace IBS.Service.Services
             };
         }
 
+        private void MapSelectedClient(PolicyModel policy)
+        {
+            if (policy == null)
+                return;
+
+            var cps = _commonService.GetAllClientPolicies();
+
+            if (cps == null)
+                return;
+
+            var cp = cps.ToList().FirstOrDefault(p => p.PolicieId == policy.Id);
+
+            if (cp != null)
+            {
+                var client = _commonService.GetAllClients().FirstOrDefault(c => c.Id == cp.ClientId);
+                if (client != null)
+                {
+                    policy.SelectedClient = new Client()
+                    {
+                        Id = client.Id,
+                        Name = client.Name
+                    };
+                }
+                else
+                {
+                    policy.SelectedClient = new Client();
+                }
+                
+            }
+            else
+            {
+                policy.SelectedClient = new Client();
+            }
+
+        }
 
         public PolicyModel GetById(int Id)
         {

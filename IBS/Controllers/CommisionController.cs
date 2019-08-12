@@ -302,14 +302,16 @@ namespace IBS.Controllers
             _commisionService.UpdateExceptionCommisions(exceptionCommissionModels);
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult AssignClient(int Id,string policyNumber,int policyId)
+        public ActionResult AssignClient(int Id,string policyNumber,int policyId,string carId,string smd)
         {
             ViewBag.Clients = _clientService.GetAllClients();
             var model = new AssignClientToPolicy()
             {
                 Id = Id,
                 PolicyNo = policyNumber,
-                PolicyId= policyId
+                PolicyId= policyId,
+                CarrierId=carId,
+                StatementDate=smd
             };
             return View(model);
         }
@@ -322,9 +324,9 @@ namespace IBS.Controllers
                 ClientId = clientPolicy.ClinetId,
                 PolicieId = clientPolicy.PolicyId
             };
-            _commonService.AddClientPolocie(clinetPolicy);
+            //_commonService.AddClientPolocie(clinetPolicy);
             
-            _commisionService.UpdateExceptionCommisionsClient(clientPolicy.Id, clientPolicy.ClinetId, clientPolicy.PolicyId);
+            //_commisionService.UpdateExceptionCommisionsClient(clientPolicy.Id, clientPolicy.ClinetId, clientPolicy.PolicyId);
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
 

@@ -56,6 +56,8 @@ namespace IBS.Core.Models
         public int PolicyId { get; set; }
         public int ClinetId { get; set; }
         public List<Client> Clients { get; set; }
+        public string CarrierId { get; set; }
+        public string StatementDate { get; set; }
         public AssignClientToPolicy()
         {
             Clients = new List<Client>();
