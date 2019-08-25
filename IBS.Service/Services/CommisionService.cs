@@ -478,13 +478,18 @@ namespace IBS.Service.Services
             });
             return true;
         }
-        public bool UpdateExceptionCommisionsClient(int Id,int clientId,int policyId)
+        public bool UpdateExceptionCommisionsClient(int Id,int clientId,int policyId,string policyNo)
         {
             var clientPolicies = _commonRepository.GetClientPoliciesByPolicyId(policyId);
-            var exceptionCommisions = _commissionRepository.GetExceptionCommissionsById(Id);
-            exceptionCommisions.ClientId = clientId;
-            exceptionCommisions.ClientPolicyId = clientPolicies.Id;
-            _commissionRepository.UpdateExceptionCommisionsClient(exceptionCommisions);
+            var exceptionCommisions = _commissionRepository.GetExceptionCommissionsByPolicyNo(policyNo);
+
+            exceptionCommisions.ForEach(ec =>
+            {
+                ec.ClientId = clientId;
+                ec.ClientPolicyId = clientPolicies.Id;
+                _commissionRepository.UpdateExceptionCommisionsClient(ec);
+            });
+            
             return true;
         }
     }

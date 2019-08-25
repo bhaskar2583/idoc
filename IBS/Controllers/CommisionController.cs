@@ -324,9 +324,9 @@ namespace IBS.Controllers
                 ClientId = clientPolicy.ClinetId,
                 PolicieId = clientPolicy.PolicyId
             };
-            //_commonService.AddClientPolocie(clinetPolicy);
+            _commonService.AddClientPolocie(clinetPolicy);
             
-            //_commisionService.UpdateExceptionCommisionsClient(clientPolicy.Id, clientPolicy.ClinetId, clientPolicy.PolicyId);
+            _commisionService.UpdateExceptionCommisionsClient(clientPolicy.Id, clientPolicy.ClinetId, clientPolicy.PolicyId,clientPolicy.PolicyNo);
             return Json(_commisionService.GetCarrierPoliciesById(1), JsonRequestBehavior.AllowGet);
         }
 

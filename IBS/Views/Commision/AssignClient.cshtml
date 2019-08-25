@@ -84,6 +84,7 @@
             debugger;
             var clientId = $("#ddlClient").val();
             var policyId = $("#PolicyId").val();
+            var PolicyNo = $("#PolicyNo").val();
             var Id = $("#Id").val();
 
             if (clientId == "") {
@@ -102,7 +103,8 @@
             var clientPolicy = {
                 "Id": Id,
                 "ClinetId": parseInt(clientId),
-                "PolicyId": parseInt(policyId)
+                "PolicyId": parseInt(policyId),
+                "PolicyNo": PolicyNo
             };
             $.ajax({
                 type: "POST",

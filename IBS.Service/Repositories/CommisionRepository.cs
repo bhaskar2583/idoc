@@ -163,6 +163,10 @@ namespace IBS.Service.Repositories
         {
             return _hanysContext.InvalidCommissions.FirstOrDefault(ec => ec.Id ==Id);
         }
+        public List<InvalidCommission> GetExceptionCommissionsByPolicyNo(string policyNo)
+        {
+            return _hanysContext.InvalidCommissions.Where(ec => ec.PolicyNumber == policyNo).ToList();
+        }
 
         public bool UpdateExceptionCommisionsClient(InvalidCommission commission)
         {

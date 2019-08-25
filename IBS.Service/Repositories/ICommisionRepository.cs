@@ -24,5 +24,6 @@ namespace IBS.Service.Repositories
         List<SelectListCommon> GetExceptionCarrierStatementDates(int carrierId);
         bool UpdateExceptionCommisions(InvalidCommission commission);
         bool UpdateExceptionCommisionsClient(InvalidCommission commission);
+        List<InvalidCommission> GetExceptionCommissionsByPolicyNo(string policyNo);
     }
 }

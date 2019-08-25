@@ -28,6 +28,6 @@ namespace IBS.Service.Services
         IList<Carrier> GetExceptionCommissionsCariers();
         List<SelectListCommon> GetExceptionCarrierStatementDates(int? carrierId);
         bool UpdateExceptionCommisions(List<ExceptionCommissionModel> commissions);
-        bool UpdateExceptionCommisionsClient(int Id, int clientId, int policyId);
+        bool UpdateExceptionCommisionsClient(int Id, int clientId, int policyId,string policyNo);
     }
 }

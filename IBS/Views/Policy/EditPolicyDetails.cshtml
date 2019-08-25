@@ -124,6 +124,11 @@
                 alert("please enter policy name");
                 return false;
             }
+            var eDate = $("#EndDate").val();
+            if (eDate == "") {
+                alert("please enter end date");
+                return false;
+            }
             return true;
         });
         $("#CoverageId").change(function () {
