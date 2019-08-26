@@ -56,7 +56,6 @@
     <Compile Include="Entities\Coverage.cs" />
     <Compile Include="Entities\Carrier.cs" />
     <Compile Include="Entities\Client.cs" />
-    <Compile Include="Entities\EmailHistory.cs" />
     <Compile Include="Entities\InvalidCommission.cs" />
     <Compile Include="Entities\Policies.cs" />
     <Compile Include="Entities\Product.cs" />

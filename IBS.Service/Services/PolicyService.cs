@@ -226,7 +226,7 @@ namespace IBS.Service.Services
                 CoverageId = policy.CoverageId,
                 ProductId = policy.ProductId,
                 EffectiveDate = (DateTime)policy.EffectiveDate,
-                EndDate = (DateTime)policy.EndDate,
+                EndDate = policy.EndDate,
                 IsGroupInsurance = policy.IsGroupInsurance,
                 AddUser = policy.AddUser,
                 AddDate = policy.AddDate,

@@ -71,7 +71,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.EndDate)<span class="hash-redcolor">*</span>
+                @Html.LabelFor(model => model.EndDate)
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "ibs-input ibs-border" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
@@ -124,11 +124,7 @@
                 alert("please enter policy name");
                 return false;
             }
-            var eDate = $("#EndDate").val();
-            if (eDate == "") {
-                alert("please enter end date");
-                return false;
-            }
+           
             return true;
         });
         $("#CoverageId").change(function () {
