@@ -305,7 +305,7 @@
             });
         });
 
-        $(document).on('blur', '[id*=CommisionValue]', function () {
+        function Total() {
             commisionTotal = 0;
             $("[id*=CommisionValue]").each(function () {
                 var cTotal = 0;
@@ -332,6 +332,12 @@
 
             commisionTotal = parseFloat(commisionTotal).toFixed(2);
             $("#tdTotal").text(commisionTotal);
+        }
+        $(document).on('blur', '[id*=CommisionValue]', function () {
+            Total();
+        });
+        $(document).on('blur', '[id*=CommisionTotal]', function () {
+            Total();
         });
 
         $(document).ready(function () {

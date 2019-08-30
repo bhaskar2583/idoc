@@ -206,36 +206,41 @@
             var paymentId = $("#txtPaymentId option:selected").text();
             window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + statementDate + "&pId=" + paymentId
         });
+        function Total() {
+            commisionTotal = 0;
+            $("[id*=CommisionValue]").each(function () {
+                var cTotal = 0;
+                if ($(this).val() != "") {
 
+                    var values = $(this).val().split('+');
+                    cTotal = 0;
+                    for (var i = 0; i < values.length; i++) {
+                        cTotal = parseFloat(parseFloat(cTotal).toFixed(2)) + parseFloat(parseFloat(values[i]).toFixed(2));
+                    }
+                    cTotal = parseFloat(cTotal).toFixed(2);
+                }
+                cTotal = parseFloat(cTotal).toFixed(2);
+                if (cTotal != "0.00")
+                    $(this).closest('tr')[0].cells[7].childNodes[1].value = cTotal;
+            });
+
+            $("[id*=CommisionTotal]").each(function () {
+                if ($(this).val() != "") {
+                    var cT = parseFloat($(this).val());
+                    commisionTotal = commisionTotal + cT;
+                }
+            });
+
+            var commisionTotal = parseFloat(commisionTotal).toFixed(2);
+            $("#tdTotal").text(commisionTotal);
+        }
         $(document).ready(function () {
             var commisionTotal = parseFloat(0);
             $("[id*=CommisionValue]").blur(function () {
-                commisionTotal = 0;
-                $("[id*=CommisionValue]").each(function () {
-                    var cTotal = 0;
-                    if ($(this).val() != "") {
-
-                        var values = $(this).val().split('+');
-                        cTotal = 0;
-                        for (var i = 0; i < values.length; i++) {
-                            cTotal = parseFloat(parseFloat(cTotal).toFixed(2)) + parseFloat(parseFloat(values[i]).toFixed(2));
-                        }
-                        cTotal = parseFloat(cTotal).toFixed(2);
-                    }
-                    cTotal = parseFloat(cTotal).toFixed(2);
-                    if (cTotal != "0.00")
-                    $(this).closest('tr')[0].cells[7].childNodes[1].value = cTotal;
-                });
-
-                $("[id*=CommisionTotal]").each(function () {
-                    if ($(this).val() != "") {
-                        var cT = parseFloat($(this).val());
-                        commisionTotal = commisionTotal + cT;
-                    }
-                });
-
-                var commisionTotal = parseFloat(commisionTotal).toFixed(2);
-                $("#tdTotal").text(commisionTotal);
+                Total();
+            });
+            $("[id*=CommisionTotal]").blur(function () {
+                Total();
             });
             $("[id*=CommisionTotal]").each(function () {
                 if ($(this).val() != "") {
