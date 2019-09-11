@@ -158,6 +158,7 @@
     <Compile Include="Controllers\CommisionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -228,6 +229,7 @@
     <Content Include="Views\Commision\ReconcilationCommissions.cshtml" />
     <Content Include="Views\Commision\ExceptionCommissions.cshtml" />
     <Content Include="Views\Commision\AssignClient.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

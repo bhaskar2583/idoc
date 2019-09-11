@@ -1,0 +1,109 @@
+﻿@model IEnumerable<IBS.Core.Models.PolicyModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row col-md-12">
+    <h2>
+        Activity Summary
+    </h2>
+    <hr />
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Start Date:</label> <input type="text" id="txtSDT" class="ibs-input ibs-border" autocomplete="off"/>
+    </div>
+    <div class="col-md-6">
+        <label>End Date:</label> <input type="text" id="txtEDT" class="ibs-input ibs-border" autocomplete="off"/>
+    </div>
+
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Date Type:</label>
+        @Html.DropDownList(
+        "ddlDateType",
+        new SelectList(ViewBag.DateType, "Id", "Name"),
+        "-- Please select a date type --", new { @class = "ibs-input ibs-border" }
+        )
+    </div>
+    <div class="col-md-6">
+        <label>Company List:</label>
+        @Html.DropDownList(
+        "ddlCompany",
+        new SelectList(ViewBag.Companies, "Id", "Name"),
+        "-- Please select a company --", new { @class = "ibs-input ibs-border" }
+        )
+    </div>
+
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Agent List:</label>
+        @Html.DropDownList(
+       "ddlAgent",
+       new SelectList(ViewBag.Agents, "Id", "Name"),
+       "-- Please select a agent --", new { @class = "ibs-input ibs-border" }
+       )
+    </div>
+    <div class="col-md-6">
+        <label>Reconsile Type:</label>
+        @Html.DropDownList(
+       "ddlReconsile",
+       new SelectList(ViewBag.RType, "Id", "Name"),
+       "-- Please select a reconsile --", new { @class = "ibs-input ibs-border" }
+       )
+    </div>
+</div>
+
+<div class="row col-md-12 form-group">
+    <input id="btnSearch" type="submit" value="Search" class="btn btn-success" />
+</div>
+
+<table class="table table-bordered table-hover responsive">
+    <thead class="thead-dark lbl-grid-head">
+        <tr>
+            <th>
+                Partner Name
+            </th>
+            <th>
+                Entry Date
+            </th>
+            <th>
+                Stmt Date
+            </th>
+            <th>
+                Paid Date
+            </th>
+            <th>
+                Payment Date
+            </th>
+            <th>
+                Commission Amount
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+</table>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#txtSDT").datepicker();
+        $("#txtEDT").datepicker();
+    });
+
+  
+    $(document).ready(function () {
+        var searchString = window.location.search;
+        if (searchString != "") {
+            var searchArray = window.location.search.substring(1).split('&');
+            var carrerName = searchArray[0].split('=');
+            var status = searchArray[1].split('=');
+            $("#txtSearchText").val(carrerName[1]);
+            var name = "status";
+            $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
+        }
+    });
+</script>

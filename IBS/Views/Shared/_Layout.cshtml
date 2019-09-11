@@ -42,12 +42,18 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reconcilation<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li> @Html.ActionLink("Open", "ReconcilationCommissions", "Commision", new{type = 1},null)</li>
-                            <li> @Html.ActionLink("Verified", "ReconcilationCommissions", "Commision", new { type = 2 },null)</li>
+                            <li> @Html.ActionLink("Open", "ReconcilationCommissions", "Commision", new { type = 1 }, null)</li>
+                            <li> @Html.ActionLink("Verified", "ReconcilationCommissions", "Commision", new { type = 2 }, null)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li> @Html.ActionLink("Activity Summary", "Index", "Reports", new { type = 1 }, null)</li>
                         </ul>
                     </li>
 
-                  
+
                 </ul>
             </div>
         </div>
