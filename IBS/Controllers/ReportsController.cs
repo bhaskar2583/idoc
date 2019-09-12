@@ -1,4 +1,6 @@
-﻿using IBS.Service.Helpers;
+﻿using IBS.Core.Models;
+using IBS.Service.Helpers;
+using IBS.Service.Services;
 using IBS.Service.Utils;
 using System;
 using System.Collections.Generic;
@@ -8,25 +10,46 @@ using System.Web.Mvc;
 
 namespace IBS.Controllers
 {
+    
     public class ReportsController : Controller
     {
-        private readonly List<SelectListCommon> DateTypes;
-        private readonly List<SelectListCommon> RType;
-
-        public ReportsController()
+        private readonly ICarrierService _carrierService;
+        private readonly ICommisionService _commisionService;
+        public ReportsController(ICarrierService carrierService, ICommisionService commisionService)
         {
-            DateTypes = ListHelper.GetDateTypes();
-            RType = ListHelper.RType();
+            _carrierService = carrierService;
+            _commisionService = commisionService;
+
         }
+        
         // GET: Reports
         public ActionResult Index()
         {
-            ViewBag.DateType = DateTypes;
-            ViewBag.Companies = new List<SelectListCommon>();
-            ViewBag.Agents = new List<SelectListCommon>();
-            ViewBag.RType = RType;
-
             return View();
+        }
+      
+        [HttpPost]
+        public ActionResult GetPatrners()
+        {
+           var Partners = _carrierService.GetAllCarriers().ToList();
+            return Json(Partners, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult GetDateTypes()
+        {
+            return Json(ListHelper.GetDateTypes(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult GetDivisions()
+        {
+
+            return Json(ListHelper.GetDivisions(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult GetRType()
+        {
+
+            return Json(ListHelper.RType(), JsonRequestBehavior.AllowGet);
         }
     }
 }

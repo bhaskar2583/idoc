@@ -30,7 +30,7 @@
                 @Html.DropDownListFor(
                 model => model.CarId,
                 new SelectList(Model.Carriers, "Id", "Name"),
-                "-- Please select a carrier --", new { @class = "ibs-input ibs-border" }
+                "-- All --", new { @class = "ibs-input ibs-border" }
                 )
                 @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
             </div>
@@ -43,7 +43,7 @@
                 @Html.DropDownListFor(
                 model => model.CoverageId,
                 new SelectList(Model.Coverages, "Id", "Name"),
-                "-- Please select a coverages --", new { @class = "ibs-input ibs-border" }
+                "-- All --", new { @class = "ibs-input ibs-border" }
                 )
                 @Html.ValidationMessageFor(model => model.CoverageId, "", new { @class = "text-danger" })
             </div>
@@ -54,7 +54,7 @@
                 @Html.DropDownListFor(
                 model => model.ProductId,
                 new SelectList(Model.Products, "Id", "Name"),
-                "-- Please select a product --", new { @class = "ibs-input ibs-border" }
+                "-- All --", new { @class = "ibs-input ibs-border" }
                 )
                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                 

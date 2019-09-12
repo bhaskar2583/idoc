@@ -13,6 +13,7 @@ namespace IBS.Service.Helpers
         {
             return new List<SelectListCommon>()
             {
+             
                 new SelectListCommon()
                 {
                     Id=1,
@@ -20,7 +21,7 @@ namespace IBS.Service.Helpers
                 },
                 new SelectListCommon()
                 {
-                    Id=1,
+                    Id=2,
                     Name="Created"
                 }
 
@@ -37,10 +38,26 @@ namespace IBS.Service.Helpers
                 },
                 new SelectListCommon()
                 {
-                    Id=1,
-                    Name="Close"
+                    Id=2,
+                    Name="Paid"
                 }
 
+            };
+        }
+        public static List<SelectListCommon> GetDivisions()
+        {
+            return new List<SelectListCommon>()
+            {
+                new SelectListCommon()
+                {
+                    Id=1,
+                    Name="HBS"
+                },
+                new SelectListCommon()
+                {
+                    Id=2,
+                    Name="SBS"
+                }
             };
         }
     }

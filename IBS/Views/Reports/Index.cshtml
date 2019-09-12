@@ -11,48 +11,38 @@
 </div>
 <div class="row col-md-12 form-group">
     <div class="col-md-6">
-        <label>Start Date:</label> <input type="text" id="txtSDT" class="ibs-input ibs-border" autocomplete="off"/>
+        <label>Start Date:</label> <input type="text" id="txtSDT" class="ibs-input ibs-border" autocomplete="off" />
     </div>
     <div class="col-md-6">
-        <label>End Date:</label> <input type="text" id="txtEDT" class="ibs-input ibs-border" autocomplete="off"/>
-    </div>
-
-</div>
-<div class="row col-md-12 form-group">
-    <div class="col-md-6">
-        <label>Date Type:</label>
-        @Html.DropDownList(
-        "ddlDateType",
-        new SelectList(ViewBag.DateType, "Id", "Name"),
-        "-- Please select a date type --", new { @class = "ibs-input ibs-border" }
-        )
-    </div>
-    <div class="col-md-6">
-        <label>Company List:</label>
-        @Html.DropDownList(
-        "ddlCompany",
-        new SelectList(ViewBag.Companies, "Id", "Name"),
-        "-- Please select a company --", new { @class = "ibs-input ibs-border" }
-        )
+        <label>End Date:</label> <br />
+        <input type="text" id="txtEDT" class="ibs-input ibs-border" autocomplete="off" />
     </div>
 
 </div>
 <div class="row col-md-12 form-group">
     <div class="col-md-6">
-        <label>Agent List:</label>
-        @Html.DropDownList(
-       "ddlAgent",
-       new SelectList(ViewBag.Agents, "Id", "Name"),
-       "-- Please select a agent --", new { @class = "ibs-input ibs-border" }
-       )
+        <label>Date Type:</label><br />
+        <select class="form-control ddldatetypes" multiple="multiple">
+          
+        </select>
     </div>
     <div class="col-md-6">
-        <label>Reconsile Type:</label>
-        @Html.DropDownList(
-       "ddlReconsile",
-       new SelectList(ViewBag.RType, "Id", "Name"),
-       "-- Please select a reconsile --", new { @class = "ibs-input ibs-border" }
-       )
+        <label>Partners:</label><br />
+        <select class="form-control ddlpartners" multiple="multiple"></select>
+    </div>
+
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Divisions:</label><br />
+        <select class="form-control ddldivisions" multiple="multiple"></select>
+    </div>
+    <div class="col-md-6">
+        <label>Reconsile Type:</label><br />
+        
+        <select class="form-control ddlrtype" multiple="multiple">      
+        </select>
+
     </div>
 </div>
 
@@ -87,6 +77,7 @@
 
 </table>
 
+
 <script type="text/javascript">
 
     $(function () {
@@ -94,16 +85,104 @@
         $("#txtEDT").datepicker();
     });
 
-  
+    $(".ddldatetypes").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddlpartners").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddldivisions").select2({
+        maximumSelectionLength: 1000
+    });
+
+    $(".ddlrtype").select2({
+        maximumSelectionLength: 1000
+    });
+
     $(document).ready(function () {
-        var searchString = window.location.search;
-        if (searchString != "") {
-            var searchArray = window.location.search.substring(1).split('&');
-            var carrerName = searchArray[0].split('=');
-            var status = searchArray[1].split('=');
-            $("#txtSearchText").val(carrerName[1]);
-            var name = "status";
-            $('input[name="' + name + '"][value="' + status[1] + '"]').prop('checked', true);
+        var host = window.location.origin;
+        var apiPath = host + "/Reports";
+        var isProd = false;
+        if (isProd) {
+            host = window.location.origin;
+            apiPath = host + "/IBS/Reports";
         }
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDateTypes",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddldatetypes");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDivisions",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddldivisions");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetRType",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddlrtype");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetPatrners",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var smDate = $(".ddlpartners");
+                $(smDate).empty();
+                $(smDate).append($("<option></option>").val("").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
     });
 </script>
