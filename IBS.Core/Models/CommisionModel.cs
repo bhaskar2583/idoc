@@ -28,6 +28,7 @@ namespace IBS.Core.Models
         public string PaymentId { get; set; }
         public DateTime? StatementDate { get; set; }
         public string StatementDateAsString { get; set; }
+        public string AppliedDateAsFullString { get; set; }
         public int CoverageId { get; set; }
         public string CoverageName { get; set; }
         public int ProductId { get; set; }
@@ -51,6 +52,8 @@ namespace IBS.Core.Models
         public DateTime? ReconcilationPaymentDate { get; set; }
         public string ReconcilationPaymentDateAsString { get; set; }
         public string ReconsilationStatus { get; set; }
+        public int ReconsilationStatusId { get; set; }
         public bool IsExceptionCommission { get; set; }
+        public bool? Git { get; set; }
     }
 }

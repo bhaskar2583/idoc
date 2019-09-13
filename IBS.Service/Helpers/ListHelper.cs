@@ -17,14 +17,13 @@ namespace IBS.Service.Helpers
                 new SelectListCommon()
                 {
                     Id=1,
-                    Name="Payment"
+                    Name="Statement"
                 },
                 new SelectListCommon()
                 {
                     Id=2,
-                    Name="Created"
+                    Name="Applied"
                 }
-
             };
         }
         public static List<SelectListCommon> RType()

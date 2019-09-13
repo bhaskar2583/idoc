@@ -68,7 +68,7 @@ namespace IBS.Service.Services
                 var product = _commonRepository.GetProductById(policyDetails.ProductId);
                 var coverage = _commonRepository.GetCoverageById(policyDetails.CoverageId);
                 var clientDetails = _clientRepository.GetById(cpDetails.ClientId);
-
+                var carrier = _carrierRepository.GetById(policyDetails.CarId);
 
                 commissionModel.Add(new CommisionModel()
                 {
@@ -76,8 +76,8 @@ namespace IBS.Service.Services
                     ReconcilationPaymentDate = dc.ReconcilationDate,
                     ReconcilationPaymentDateAsString = GetDateFormat(dc.ReconcilationDate),
                     ReconsilationStatus = string.IsNullOrEmpty(dc.ReconcilationStatus) ? "Open" : "Verified",
-
-                    ClientId = dc.ClientId,
+                    ReconsilationStatusId = string.IsNullOrEmpty(dc.ReconcilationStatus) ? 1 : 2,
+                    ClientId = clientDetails.Id,
                     CoverageId = coverage.Id,
                     CoverageName = coverage.Name,
 
@@ -92,19 +92,35 @@ namespace IBS.Service.Services
 
                     ClientPolicyId = dc.ClientPolicyId,
                     CarrierId = policyDetails.CarId,
-
+                    CarrierName = carrier.Name,
                     CommisionValue = dc.CommisionValue,
                     CommisionString = dc.CommisionString,
                     StatementDateAsString = GetDateFormat(dc.StatementDate),
                     AppliedDate = dc.AppliedDate,
                     AppliedDateAsString = GetDateFormatMMYYYY(dc.AppliedDate),
-                    PaymentId = dc.PaymentId
-
+                    AppliedDateAsFullString = GetDateFormat(dc.AppliedDate),
+                    PaymentId = dc.PaymentId,
+                    DivisionName = clientDetails.Division,
+                    Git=policyDetails.IsGroupInsurance
+                    
                 });
             });
 
             commissionModel.ForEach(cm =>
             {
+
+                if (!string.IsNullOrEmpty(cm.DivisionName))
+                {
+                    if (cm.DivisionName == "HBS")
+                    {
+                        cm.DivisionId = 1;
+                    }
+                    if (cm.DivisionName == "SBS")
+                    {
+                        cm.DivisionId = 2;
+                    }
+                }
+
                 var carrierProduct = _commonRepository.GetAllCorporateXProducts().FirstOrDefault(cp => cp.ProductId == cm.ProductId);
                 if (carrierProduct != null)
                 {
@@ -165,7 +181,7 @@ namespace IBS.Service.Services
                             commisionMode.DivisionName = clientDetails.Division;
                         }
                     }
-
+                    commisionMode.Git = policyDetails.IsGroupInsurance;
                     //commisionMode.DivisionId = Convert.ToInt32(clientDetails.Division);
                     //commisionMode.DivisionName = commisionMode.DivisionId == 1 ? "Division 1" : "Division 2";
 

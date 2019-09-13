@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IBS.Core.Models.PolicyModel>
+﻿@model IBS.Controllers.SearchFiltrsResult
 
 @{
     ViewBag.Title = "Index";
@@ -22,8 +22,7 @@
 <div class="row col-md-12 form-group">
     <div class="col-md-6">
         <label>Date Type:</label><br />
-        <select class="form-control ddldatetypes" multiple="multiple">
-          
+        <select class="form-control ddldatetypes">       
         </select>
     </div>
     <div class="col-md-6">
@@ -47,33 +46,40 @@
 </div>
 
 <div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Git:</label><br />
+        <select class="form-control ddlGit" multiple="multiple">
+            <option value="0">All</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+        </select>
+    </div>   
+</div>
+
+<div class="row col-md-12 form-group">
     <input id="btnSearch" type="submit" value="Search" class="btn btn-success" />
 </div>
 
-<table class="table table-bordered table-hover responsive">
+<table id="tblData" class="table table-bordered table-hover responsive">
     <thead class="thead-dark lbl-grid-head">
         <tr>
             <th>
                 Partner Name
             </th>
             <th>
-                Entry Date
-            </th>
-            <th>
                 Stmt Date
             </th>
             <th>
-                Paid Date
-            </th>
-            <th>
-                Payment Date
+                Applied Date
             </th>
             <th>
                 Commission Amount
             </th>
-            <th></th>
         </tr>
     </thead>
+    <tbody>
+
+    </tbody>
 
 </table>
 
@@ -85,9 +91,9 @@
         $("#txtEDT").datepicker();
     });
 
-    $(".ddldatetypes").select2({
-        maximumSelectionLength: 1000
-    });
+    //$(".ddldatetypes").select2({
+    //    maximumSelectionLength: 1000
+    //});
     $(".ddlpartners").select2({
         maximumSelectionLength: 1000
     });
@@ -96,6 +102,9 @@
     });
 
     $(".ddlrtype").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddlGit").select2({
         maximumSelectionLength: 1000
     });
 
@@ -117,7 +126,7 @@
                 console.log(data);
                 var ddTypes = $(".ddldatetypes");
                 $(ddTypes).empty();
-                $(ddTypes).append($("<option></option>").val("").html("All"))
+                //$(ddTypes).append($("<option></option>").val("0").html("All"))
                 for (var i = 0; i < data.length; i++) {
                     $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                 }
@@ -136,7 +145,7 @@
                 console.log(data);
                 var ddTypes = $(".ddldivisions");
                 $(ddTypes).empty();
-                $(ddTypes).append($("<option></option>").val("").html("All"))
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
                 for (var i = 0; i < data.length; i++) {
                     $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                 }
@@ -155,7 +164,7 @@
                 console.log(data);
                 var ddTypes = $(".ddlrtype");
                 $(ddTypes).empty();
-                $(ddTypes).append($("<option></option>").val("").html("All"))
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
                 for (var i = 0; i < data.length; i++) {
                     $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                 }
@@ -175,7 +184,7 @@
                 console.log(data);
                 var smDate = $(".ddlpartners");
                 $(smDate).empty();
-                $(smDate).append($("<option></option>").val("").html("All"))
+                $(smDate).append($("<option></option>").val("0").html("All"))
                 for (var i = 0; i < data.length; i++) {
                     $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                 }
@@ -183,6 +192,103 @@
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(errorThrown);
             }
+        });
+
+
+        $("#btnSearch").click(function () {
+            var txtSDT = $("#txtSDT").val();
+            if (txtSDT == "") {
+                alert("please enter start date");
+                return;
+            }
+
+            var txtEDT = $("#txtEDT").val();
+            if (txtEDT == "") {
+                alert("please enter end date");
+                return;
+            }
+            debugger;
+            var ddldatetypes = $(".ddldatetypes option:selected");
+            var datetypes = [];
+            for (var i = 0; i < ddldatetypes.length; i++) {
+                if (ddldatetypes[i].value!="0")
+                datetypes.push(ddldatetypes[i].value);
+            }
+            var ddlpartners = $(".ddlpartners option:selected");
+            var partners = [];
+            for (var i = 0; i < ddlpartners.length; i++) {
+                if (ddlpartners[i].value != "0")
+                partners.push(ddlpartners[i].value);
+            }
+
+            var ddldivisions = $(".ddldivisions option:selected");
+            var divisions = [];
+            for (var i = 0; i < ddldivisions.length; i++) {
+                if (ddldivisions[i].value != "0")
+                divisions.push(ddldivisions[i].value);
+            }
+
+            var ddlrtype = $(".ddlrtype option:selected");
+            var rtype = [];
+            for (var i = 0; i < ddlrtype.length; i++) {
+                if (ddlrtype[i].value != "0")
+                rtype.push(ddlrtype[i].value);
+            }
+
+            var ddlGit = $(".ddlGit option:selected");
+            var git = [];
+            for (var i = 0; i < ddlGit.length; i++) {
+                if (ddlGit[i].value != "0")
+                    git.push(ddlGit[i].value);
+            }
+            var data = {
+                "StartDate": txtSDT,
+                "EndDate": txtEDT,
+                "DateTypes": datetypes,
+                "Partners": partners,
+                "Divisions": divisions,
+                "Rtype": rtype,
+                "git": git
+            };
+            $.ajax({
+                type: "POST",
+                url: apiPath + "/index",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    $("#tblData tbody").empty();
+                    for (var i = 0; i < data.Result.length; i++) {
+                        var d = data.Result[i];
+                        var commisionTotal = 0;
+                        for (var j = 0; j < d.Result.length; j++) {
+                            var d1 = d.Result[j];
+                            commisionTotal = parseFloat(commisionTotal)+ parseFloat(d1.CommisionValue);
+                            $("#tblData tbody").append(
+                                "<tr class='lbl - grid'>" +
+                                "<td>" + d1.CarrierName + "</td>" +
+                                "<td>" + d1.StatementDateAsString + "</td>" +
+                                "<td>" + d1.AppliedDateAsFullString + "</td>" +
+                                "<td>" + d1.CommisionValue + "</td>" +
+                                "</tr>"
+                            );
+
+                            if (j == d.Result.length - 1) {
+                                $("#tblData tbody").append(
+                                    "<tr class='lbl - grid'>" +
+                                    "<td colspan='3' style='text-align:right'>Total:</td>" +
+                                    "<td>" + parseFloat(commisionTotal).toFixed(2) + "</td>" +
+                                    "</tr>"
+                                );
+                            }
+                        }
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
         });
     });
 </script>
