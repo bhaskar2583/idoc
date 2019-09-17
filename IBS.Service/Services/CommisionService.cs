@@ -96,6 +96,7 @@ namespace IBS.Service.Services
                     CommisionValue = dc.CommisionValue,
                     CommisionString = dc.CommisionString,
                     StatementDateAsString = GetDateFormat(dc.StatementDate),
+                    StatementDate=dc.StatementDate,
                     AppliedDate = dc.AppliedDate,
                     AppliedDateAsString = GetDateFormatMMYYYY(dc.AppliedDate),
                     AppliedDateAsFullString = GetDateFormat(dc.AppliedDate),

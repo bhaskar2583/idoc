@@ -232,6 +232,7 @@
     <Content Include="Views\Commision\ExceptionCommissions.cshtml" />
     <Content Include="Views\Commision\AssignClient.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\ClientRevenue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

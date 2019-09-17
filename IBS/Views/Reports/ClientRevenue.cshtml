@@ -1,0 +1,342 @@
+﻿@model IBS.Controllers.SearchFiltrsResult
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row col-md-12">
+    <h2>
+        Revenue by Client
+    </h2>
+    <hr />
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Start Date:</label> <input type="text" id="txtSDT" class="ibs-input ibs-border" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label>End Date:</label> <br />
+        <input type="text" id="txtEDT" class="ibs-input ibs-border" autocomplete="off" />
+    </div>
+
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Date Type:</label><br />
+        <select class="form-control ddldatetypes"></select>
+    </div>
+    <div class="col-md-6">
+        <label>Partners:</label><br />
+        <select class="form-control ddlpartners" multiple="multiple"></select>
+    </div>
+
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Divisions:</label><br />
+        <select class="form-control ddldivisions" multiple="multiple"></select>
+    </div>
+    <div class="col-md-6">
+        <label>Reconsile Type:</label><br />
+
+        <select class="form-control ddlrtype" multiple="multiple"></select>
+
+    </div>
+</div>
+
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Git:</label><br />
+        <select class="form-control ddlGit" multiple="multiple">
+            <option value="0">All</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+        </select>
+    </div>
+</div>
+
+<div class="row col-md-12 form-group">
+    <input id="btnSearch" type="submit" value="Search" class="btn btn-success" />
+</div>
+
+
+<div class="row col-md-12 form-group" style="text-align:right;">
+    <i class="fa fa-print" aria-hidden="true" style="font-size:35px;" id="iPrint"></i>
+</div>
+
+<div id="divData">
+    <table id="tblData" class="table table-bordered table-hover responsive">
+        <thead class="thead-dark lbl-grid-head">
+            <tr>
+                <th>
+                    Client Name
+                </th>
+                <th>
+                    Partner Name
+                </th>
+                <th>
+                    Stmt Date
+                </th>
+                <th>
+                    Applied Date
+                </th>
+                <th>
+                    Commission Amount
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+
+</div>
+<script type="text/javascript">
+
+    function print() {
+
+        var divData = document.getElementById('divData').innerHTML;
+        //var printWind = window.open('', 'Print-Window');
+        //printWind.document.open();
+        //printWind.document.write('<html><body onload="window.print()">' + divData.innerHTML + '</body></html>');
+        //printWind.document.close();
+        //setTimeout(function () { printWind.close(); }, 10);
+
+        var printWindow = window.open('', '', 'height=400,width=400');
+        printWindow.document.write('<html><head><title>Activity Summary</title>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(divData);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+    $(function () {
+        $("#txtSDT").datepicker();
+        $("#txtEDT").datepicker();
+    });
+
+    //$(".ddldatetypes").select2({
+    //    maximumSelectionLength: 1000
+    //});
+    $(".ddlpartners").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddldivisions").select2({
+        maximumSelectionLength: 1000
+    });
+
+    $(".ddlrtype").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddlGit").select2({
+        maximumSelectionLength: 1000
+    });
+
+    $(document).ready(function () {
+        $("#iPrint").click(function () {
+            print();
+        });
+        var host = window.location.origin;
+        var apiPath = host + "/Reports";
+        var isProd = false;
+        if (isProd) {
+            host = window.location.origin;
+            apiPath = host + "/IBS/Reports";
+        }
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDateTypes",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddldatetypes");
+                $(ddTypes).empty();
+                //$(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDivisions",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddldivisions");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetRType",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddlrtype");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetPatrners",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var smDate = $(".ddlpartners");
+                $(smDate).empty();
+                $(smDate).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+
+        $("#btnSearch").click(function () {
+            var txtSDT = $("#txtSDT").val();
+            if (txtSDT == "") {
+                alert("please enter start date");
+                return;
+            }
+
+            var txtEDT = $("#txtEDT").val();
+            if (txtEDT == "") {
+                alert("please enter end date");
+                return;
+            }
+            debugger;
+            var ddldatetypes = $(".ddldatetypes option:selected");
+            var datetypes = [];
+            for (var i = 0; i < ddldatetypes.length; i++) {
+                if (ddldatetypes[i].value != "0")
+                    datetypes.push(ddldatetypes[i].value);
+            }
+            var ddlpartners = $(".ddlpartners option:selected");
+            var partners = [];
+            for (var i = 0; i < ddlpartners.length; i++) {
+                if (ddlpartners[i].value != "0")
+                    partners.push(ddlpartners[i].value);
+            }
+
+            var ddldivisions = $(".ddldivisions option:selected");
+            var divisions = [];
+            for (var i = 0; i < ddldivisions.length; i++) {
+                if (ddldivisions[i].value != "0")
+                    divisions.push(ddldivisions[i].value);
+            }
+
+            var ddlrtype = $(".ddlrtype option:selected");
+            var rtype = [];
+            for (var i = 0; i < ddlrtype.length; i++) {
+                if (ddlrtype[i].value != "0")
+                    rtype.push(ddlrtype[i].value);
+            }
+
+            var ddlGit = $(".ddlGit option:selected");
+            var git = [];
+            for (var i = 0; i < ddlGit.length; i++) {
+                if (ddlGit[i].value != "0")
+                    git.push(ddlGit[i].value);
+            }
+            var data = {
+                "StartDate": txtSDT,
+                "EndDate": txtEDT,
+                "DateTypes": datetypes,
+                "Partners": partners,
+                "Divisions": divisions,
+                "Rtype": rtype,
+                "git": git
+            };
+            $.ajax({
+                type: "POST",
+                url: apiPath + "/ClientRevenue",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    $("#tblData tbody").empty();
+                    var commisionTotalGGT = 0;
+                    for (var i = 0; i < data.Result.length; i++) {//clients
+                        var d = data.Result[i];
+                        var commisionTotalGT = 0;
+                        for (var j = 0; j < d.ClientRevenueResult.length; j++) {//cleint coverages
+                            var cp = d.ClientRevenueResult[j];
+                            var commisionTotal = 0;
+                            for (var k = 0; k < cp.Result.length; k++) {//
+                                var d1 = cp.Result[k];
+                                commisionTotal = parseFloat(commisionTotal) + parseFloat(d1.CommisionValue);
+                                $("#tblData tbody").append(
+                                    "<tr class='lbl - grid'>" +
+                                    "<td>" + d1.CleintName + "</td>" +
+                                    "<td>" + d1.CarrierName + "</td>" +
+                                    "<td>" + d1.StatementDateAsString + "</td>" +
+                                    "<td>" + d1.AppliedDateAsFullString + "</td>" +
+                                    "<td style='text-align:right'>" + d1.CommisionValue + "</td>" +
+                                    "</tr>"
+                                );
+
+                                if (k == cp.Result.length - 1) {
+                                    commisionTotalGT = parseFloat(commisionTotalGT) + parseFloat(commisionTotal);
+                                    $("#tblData tbody").append(
+                                        "<tr class='lbl - grid'>" +
+                                        "<td colspan='4' style='text-align:right'>Partner Total:</td>" +
+                                        "<td style='text-align:right'>" + parseFloat(commisionTotal).toFixed(2) + "</td>" +
+                                        "</tr>"
+                                    );
+                                }
+                            }
+
+                           
+                        }
+                        commisionTotalGGT = parseFloat(commisionTotalGGT) + parseFloat(commisionTotal);
+                        $("#tblData tbody").append(
+                            "<tr class='lbl - grid'>" +
+                            "<td colspan='4' style='text-align:right'>Client Total:</td>" +
+                            "<td style='text-align:right'>" + parseFloat(commisionTotalGT).toFixed(2) + "</td>" +
+                            "</tr>"
+                        );
+
+                    }
+
+                    $("#tblData tbody").append(
+                        "<tr class='lbl - grid'>" +
+                        "<td colspan='4' style='text-align:right'>Grand Total:</td>" +
+                        "<td style='text-align:right'>" + parseFloat(commisionTotalGGT).toFixed(2) + "</td>" +
+                        "</tr>"
+                    );
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+    });
+</script>
