@@ -13,6 +13,7 @@ namespace IBS.Core.Models
         public int ClientPolicyId { get; set; }
         public int ClientId { get; set; }
         public string ClientName { get; set; }
+        public string CarrierName { get; set; }
         public int PolicyId { get; set; }
         public string PolicyNumber { get; set; }
         public string Coverage { get; set; }
@@ -38,6 +39,7 @@ namespace IBS.Core.Models
     {
         public int ClientId { get; set; }
         public string ClientName { get; set; }
+        public string CarrierName { get; set; }
         public int PolicyId { get; set; }
         public string PolicyNumber { get; set; }
         public int Year { get; set; }

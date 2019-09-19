@@ -128,12 +128,28 @@ namespace IBS.Controllers
                 return View();
             }
         }
-
+        private PolicyBudgetsModel MapCarrier(PolicyBudgetsModel PB)
+        {
+            var policy = _policyService.GetById(PB.PolicyId);
+            var client = _clinetService.GetById(PB.ClientId);
+            var carrier = _carrierService.GetById(policy.CarId);
+            PB.CarrierName = carrier?.Name;
+            PB.ClientName = client?.Name;
+            return PB;
+        }
+        private PolicyBudgetsModel MapCarrierAction(Func<PolicyBudgetsModel, PolicyBudgetsModel> executor, PolicyBudgetsModel model)
+        {
+           return executor(MapCarrier(model));
+        }
         // GET: Policies
         public ActionResult PolicyBudgets(int policyId, int clientId, int year)
         {
 
             var ClientPolicy = _policyService.GetAllPolicyBudgetsForClientPolicyYear(clientId, policyId, year);
+            ClientPolicy.ToList().ForEach(cp =>
+            {
+               cp= MapCarrierAction(MapCarrier, cp);
+            });
             var years = DateUtil.GetPreviousYears(5);
             ViewBag.Years = years;
 
@@ -164,6 +180,7 @@ namespace IBS.Controllers
 
             var coverage = _commonService.GetCoverageById(policy.CoverageId);
             var product = _commonService.GetProductById(policy.ProductId);
+            
             var yearsSelectItems = new List<SelectListItem>();
             var years = DateUtil.GetPreviousYearsSelectList(5);
 
