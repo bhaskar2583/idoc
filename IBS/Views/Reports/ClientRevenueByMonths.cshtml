@@ -1,0 +1,447 @@
+﻿@model IBS.Controllers.SearchFiltrsResult
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row col-md-12">
+    <h2>
+        Revenue by Coverage- By month
+    </h2>
+    <hr />
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Start Date:</label> <input type="text" id="txtSDT" class="ibs-input ibs-border" autocomplete="off" />
+    </div>
+    <div class="col-md-6">
+        <label>End Date:</label> <br />
+        <input type="text" id="txtEDT" class="ibs-input ibs-border" autocomplete="off" />
+    </div>
+
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Date Type:</label><br />
+        <select class="form-control ddldatetypes"></select>
+    </div>
+    <div class="col-md-6">
+        <label>Partners:</label><br />
+        <select class="form-control ddlpartners" multiple="multiple"></select>
+    </div>
+
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Divisions:</label><br />
+        <select class="form-control ddldivisions" multiple="multiple"></select>
+    </div>
+    <div class="col-md-6">
+        <label>Reconsile Type:</label><br />
+
+        <select class="form-control ddlrtype" multiple="multiple"></select>
+
+    </div>
+</div>
+
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Git:</label><br />
+        <select class="form-control ddlGit" multiple="multiple">
+            <option value="0">All</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+        </select>
+    </div>
+</div>
+
+<div class="row col-md-12 form-group">
+    <input id="btnSearch" type="submit" value="Search" class="btn btn-success" />
+</div>
+
+
+<div class="row col-md-12 form-group" style="text-align:right;">
+    <i class="fa fa-print" aria-hidden="true" style="font-size:35px;" id="iPrint"></i>
+</div>
+
+<div id="divData">
+    <table id="tblData" class="table table-bordered table-hover responsive">
+        <thead class="thead-dark lbl-grid-head">
+            <tr>
+                <th>
+                    Client
+                </th>
+                <th>
+                    Partner
+                </th>
+                <th>
+                    Jan
+                </th>
+                <th>
+                    Feb
+                </th>
+                <th>
+                    Mar
+                </th>
+                <th>
+                    Apr
+                </th>
+                <th>
+                    May
+                </th>
+                <th>
+                    Jun
+                </th>
+                <th>
+                    July
+                </th>
+                <th>
+                    Aug
+                </th>
+                <th>
+                    Sep
+                </th>
+                <th>
+                    Oct
+                </th>
+                <th>
+                    Nov
+                </th>
+                <th>
+                    Dec
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+
+</div>
+<script type="text/javascript">
+
+    function print() {
+
+        var divData = document.getElementById('divData').innerHTML;
+        //var printWind = window.open('', 'Print-Window');
+        //printWind.document.open();
+        //printWind.document.write('<html><body onload="window.print()">' + divData.innerHTML + '</body></html>');
+        //printWind.document.close();
+        //setTimeout(function () { printWind.close(); }, 10);
+
+        var printWindow = window.open('', '', 'height=400,width=400');
+        printWindow.document.write('<html><head><title>Revenue by Coverage- By month</title>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(divData);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+    $(function () {
+        $("#txtSDT").datepicker();
+        $("#txtEDT").datepicker();
+    });
+
+    //$(".ddldatetypes").select2({
+    //    maximumSelectionLength: 1000
+    //});
+    $(".ddlpartners").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddldivisions").select2({
+        maximumSelectionLength: 1000
+    });
+
+    $(".ddlrtype").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddlGit").select2({
+        maximumSelectionLength: 1000
+    });
+
+    $(document).ready(function () {
+        $("#iPrint").click(function () {
+            print();
+        });
+        var host = window.location.origin;
+        var apiPath = host + "/Reports";
+        var isProd = false;
+        if (isProd) {
+            host = window.location.origin;
+            apiPath = host + "/IBS/Reports";
+        }
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDateTypes",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddldatetypes");
+                $(ddTypes).empty();
+                //$(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDivisions",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddldivisions");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetRType",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddlrtype");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetPatrners",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var smDate = $(".ddlpartners");
+                $(smDate).empty();
+                $(smDate).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+
+        $("#btnSearch").click(function () {
+            var txtSDT = $("#txtSDT").val();
+            if (txtSDT == "") {
+                alert("please enter start date");
+                return;
+            }
+
+            var txtEDT = $("#txtEDT").val();
+            if (txtEDT == "") {
+                alert("please enter end date");
+                return;
+            }
+            debugger;
+            var ddldatetypes = $(".ddldatetypes option:selected");
+            var datetypes = [];
+            for (var i = 0; i < ddldatetypes.length; i++) {
+                if (ddldatetypes[i].value != "0")
+                    datetypes.push(ddldatetypes[i].value);
+            }
+            var ddlpartners = $(".ddlpartners option:selected");
+            var partners = [];
+            for (var i = 0; i < ddlpartners.length; i++) {
+                if (ddlpartners[i].value != "0")
+                    partners.push(ddlpartners[i].value);
+            }
+
+            var ddldivisions = $(".ddldivisions option:selected");
+            var divisions = [];
+            for (var i = 0; i < ddldivisions.length; i++) {
+                if (ddldivisions[i].value != "0")
+                    divisions.push(ddldivisions[i].value);
+            }
+
+            var ddlrtype = $(".ddlrtype option:selected");
+            var rtype = [];
+            for (var i = 0; i < ddlrtype.length; i++) {
+                if (ddlrtype[i].value != "0")
+                    rtype.push(ddlrtype[i].value);
+            }
+
+            var ddlGit = $(".ddlGit option:selected");
+            var git = [];
+            for (var i = 0; i < ddlGit.length; i++) {
+                if (ddlGit[i].value != "0")
+                    git.push(ddlGit[i].value);
+            }
+            var data = {
+                "StartDate": txtSDT,
+                "EndDate": txtEDT,
+                "DateTypes": datetypes,
+                "Partners": partners,
+                "Divisions": divisions,
+                "Rtype": rtype,
+                "git": git
+            };
+            $.ajax({
+                type: "POST",
+                url: apiPath + "/ClientRevenueByMonths",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    var janTotalG = 0;
+                    var febTotalG = 0;
+                    var marTotalG = 0;
+                    var aprTotalG = 0;
+                    var mayTotalG = 0;
+                    var junTotalG = 0;
+                    var julyTotalG = 0;
+                    var augTotalG = 0;
+                    var sepTotalG = 0;
+                    var octTotalG = 0;
+                    var novTotalG = 0;
+                    var decTotalG = 0;
+                    var gTotalG = 0;
+
+                    $("#tblData tbody").empty();
+                    for (var i = 0; i < data.Result.length; i++) {
+                        var d = data.Result[i];
+                        var janTotal = 0;
+                        var febTotal = 0;
+                        var marTotal = 0;
+                        var aprTotal = 0;
+                        var mayTotal = 0;
+                        var junTotal = 0;
+                        var julyTotal = 0;
+                        var augTotal = 0;
+                        var sepTotal = 0;
+                        var octTotal = 0;
+                        var novTotal = 0;
+                        var decTotal = 0;
+                        var gTotal = 0;
+
+                        
+
+                        for (var j = 0; j < d.ClientRevenueResultMonth.length; j++) {
+                            var d1 = d.ClientRevenueResultMonth[j];
+                            janTotal = parseFloat(janTotal) + parseFloat(d1.Jan);
+                            febTotal = parseFloat(febTotal) + parseFloat(d1.Feb);
+                            marTotal = parseFloat(marTotal) + parseFloat(d1.Mar);
+                            aprTotal = parseFloat(aprTotal) + parseFloat(d1.Apr);
+                            mayTotal = parseFloat(mayTotal) + parseFloat(d1.May);
+                            junTotal = parseFloat(junTotal) + parseFloat(d1.Jun);
+                            julyTotal = parseFloat(julyTotal) + parseFloat(d1.July);
+                            augTotal = parseFloat(augTotal) + parseFloat(d1.Aug);
+                            sepTotal = parseFloat(sepTotal) + parseFloat(d1.Sep);
+                            octTotal = parseFloat(octTotal) + parseFloat(d1.Oct);
+                            novTotal = parseFloat(novTotal) + parseFloat(d1.Nov);
+                            decTotal = parseFloat(decTotal) + parseFloat(d1.Dec);
+                            gTotal = parseFloat(gTotal) + parseFloat(d1.Total);
+
+                            $("#tblData tbody").append(
+                                "<tr class='lbl - grid'>" +
+                                "<td>" + d1.ClientName + "</td>" +
+                                "<td>" + d1.CoverageName + "</td>" +
+                                "<td style='text-align:right'>" + d1.Jan + "</td>" +
+                                "<td style='text-align:right'>" + d1.Feb + "</td>" +
+                                "<td style='text-align:right'>" + d1.Mar + "</td>" +
+                                "<td style='text-align:right'>" + d1.Apr + "</td>" +
+                                "<td style='text-align:right'>" + d1.May + "</td>" +
+                                "<td style='text-align:right'>" + d1.Jun + "</td>" +
+                                "<td style='text-align:right'>" + d1.July + "</td>" +
+                                "<td style='text-align:right'>" + d1.Aug + "</td>" +
+                                "<td style='text-align:right'>" + d1.Sep + "</td>" +
+                                "<td style='text-align:right'>" + d1.Oct + "</td>" +
+                                "<td style='text-align:right'>" + d1.Nov + "</td>" +
+                                "<td style='text-align:right'>" + d1.Dec + "</td>" +
+                                "<td style='text-align:right'>" + d1.Total + "</td>" +
+                                "</tr>"
+                            );
+
+                            if (j == d.ClientRevenueResultMonth.length - 1) {
+
+                                janTotalG = parseFloat(janTotalG) + parseFloat(janTotal);
+                                febTotalG = parseFloat(febTotalG) + parseFloat(febTotalG);
+                                marTotalG = parseFloat(marTotalG) + parseFloat(marTotal);
+                                aprTotalG = parseFloat(aprTotal) + parseFloat(aprTotalG);
+                                mayTotalG = parseFloat(mayTotal) + parseFloat(mayTotalG);
+                                junTotalG = parseFloat(junTotal) + parseFloat(junTotalG);
+                                julyTotalG = parseFloat(julyTotal) + parseFloat(julyTotalG);
+                                augTotalG = parseFloat(augTotal) + parseFloat(augTotalG);
+                                sepTotalG = parseFloat(sepTotal) + parseFloat(sepTotalG);
+                                octTotalG = parseFloat(octTotal) + parseFloat(octTotalG);
+                                novTotalG = parseFloat(novTotal) + parseFloat(novTotalG);
+                                decTotalG = parseFloat(decTotal) + parseFloat(decTotalG);
+                                gTotalG = parseFloat(gTotal) + parseFloat(gTotalG);
+
+                                $("#tblData tbody").append(
+                                    "<tr class='lbl - grid'>" +
+                                    "<td colspan='2' style='text-align:right'>Total:</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(janTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(febTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(marTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(aprTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(mayTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(junTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(julyTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(augTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(sepTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(octTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(novTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(decTotal).toFixed(2) + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(gTotal).toFixed(2) + "</td>" +
+                                    "</tr>"
+                                );
+                            }
+                        }
+
+                    }
+                    $("#tblData tbody").append(
+                        "<tr class='lbl - grid'>" +
+                        "<td colspan='2' style='text-align:right'>Grand Total:</td>" +
+                        "<td style='text-align:right'>" + parseFloat(janTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(febTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(marTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(aprTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(mayTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(junTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(julyTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(augTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(sepTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(octTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(novTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(decTotalG).toFixed(2) + "</td>" +
+                        "<td style='text-align:right'>" + parseFloat(gTotalG).toFixed(2) + "</td>" +
+                        "</tr>"
+                    );
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+    });
+</script>
