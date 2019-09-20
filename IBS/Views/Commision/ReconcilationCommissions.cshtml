@@ -151,8 +151,8 @@
                 <td style="width:15%">
                     @Html.TextBoxFor(modelItem => item.Data.CommisionValue, new { id = "CommisionValue" + item.Index, @class = "ibs-input-24height ibs-border" })
                 </td>
-                <td id="tdPDate">
-                    @Html.DisplayFor(modelItem => item.Data.ReconcilationPaymentDateAsString)
+                <td id="tdPDate1">
+                    @Html.TextBoxFor(modelItem => item.Data.ReconcilationPaymentDateAsString, new { id = "ReconcilationPaymentDateAsString" + item.Index, @class = "ibs-input-24height ibs-border" })
                 </td>
             </tr>
         }
@@ -249,10 +249,12 @@
                         $("#txtpaymentDate").show();
                         $("#h2Tag").text('Open Reconciliation');
                         $("#tdPDate").hide();
+                        $("[id*=tdPDate1]").hide();
                     } else {
                         $("#h2Tag").text('Verified Reconciliation');
                         $("#txtpaymentDate").hide();
                         $("#tdPDate").show();
+                        $("[id*=tdPDate1]").show();
                         $("[id*=CommisionValue]").attr("disabled", "disabled");
                     }
                 }
@@ -371,12 +373,31 @@
             $("#btnSubmit").click(function () {
                 var commisions = [];
                 var isInvalidRow = false;
+
+                var type = 1;
+                var query = window.location.search;
+                if (query != undefined && query != "") {
+                    var searchQuery = query.split('&');
+                    var queryArray = searchQuery[0].split('=');
+                    if (queryArray[0].indexOf("type") != -1) {
+                        if (queryArray[1] == "2") {
+                            type = 2;
+                        }
+                    }
+                }
+
                 $('#tblCommisions > tbody  > tr').each(function () {
                     if ($(this)[0].cells[0].childNodes[7] != undefined) {
                         var clientPolicyId = $(this)[0].cells[0].childNodes[7].value;
                         var commision = $(this)[0].cells[8].childNodes[1].value;
                         var Id = $(this)[0].cells[0].childNodes[23].value;
                         var appoliedDate = $("#txtpaymentDate").val();
+                        debugger;
+                        if (type == 2) {
+                            var pDate = $(this)[0].cells[9].childNodes[1].value;
+                            appoliedDate = pDate;
+                        }
+                            
                         var commision = {
                             "clientPolicyId": clientPolicyId,
                             "CommisionValue": commision,
