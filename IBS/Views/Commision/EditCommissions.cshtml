@@ -54,7 +54,9 @@
         </div>
 
     </div>
-
+    <div class="row" style="text-align:right">
+        <input id="btnAddCommission" type="button" value="Add Commission" class="btn btn-success" style="margin-top:10px" />
+    </div>
     <div class="row">
         <div class="col-md-12" style="color:green">
             <div class="form-group">
@@ -206,6 +208,18 @@
             var paymentId = $("#txtPaymentId option:selected").text();
             window.location.href = window.location.origin + window.location.pathname + "?carrierId=" + carrier + "&smd=" + statementDate + "&pId=" + paymentId
         });
+
+        $("#btnAddCommission").click(function () {
+            var carrier = $("#ddlCarrier").val();
+            var statementDate = $("#txtStatementDate option:selected").text();
+            if (carrier == "") {
+                alert("please select partner");
+                return;
+            }
+            var paymentId = $("#txtPaymentId option:selected").text();
+            window.location.href = window.location.origin + "/Commision?carrierId=" + carrier + "&smd=" + statementDate + "&pId=" + paymentId+"&isCancel=true"
+        });
+
         function Total() {
             commisionTotal = 0;
             $("[id*=CommisionValue]").each(function () {

@@ -45,9 +45,9 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="text-align:right">
 
-        
+        <input id="btnCancel" type="button" value="Cancel" class="btn btn-success" style="margin-top:10px" />
 
     </div>
 
@@ -374,6 +374,7 @@
             commisionTotal = parseFloat(commisionTotal).toFixed(2);
             $('#tblCommisions tr:last').after("<tr><td colspan='5'></td><td style='text-align:right'>Total Commissions</td><td id='tdTotal'>" + commisionTotal + "</td></tr>");
             var query = window.location.search;
+            debugger;
             if (query != undefined && query != "") {
                 var searchQuery = query.split('&');
                 var queryArray = searchQuery[0].split('=');
@@ -382,7 +383,39 @@
                         $("#ddlCarrier").val(queryArray[1]);
                     }
                 }
+                if (searchQuery.length > 1) {
+                    if (searchQuery[1].indexOf("smd") != -1) {
+                        var queryArray1 = searchQuery[1].split('=');
+                        if (queryArray1[1].length == 10) {
+                            $("#txtStatementDate").val(queryArray1[1]);
+                        }
+                    }
+                }
+                if (searchQuery.length > 2) {
+                    if (searchQuery[2].indexOf("pId") != -1) {
+                        var queryArray1 = searchQuery[2].split('=');
+                        if (queryArray1[1].length != 41) {
+                            $("#txtPaymentIdNew").val(queryArray1[1]);
+                        }
+                    }
+                }
+                $("#btnCancel").hide();
+                if (searchQuery.length > 3) {
+                    $("#btnCancel").show();
+                }
+               
             }
+
+            $("#btnCancel").click(function () {
+                var carrier = $("#ddlCarrier").val();
+                var statementDate = $("#txtStatementDate option:selected").text();
+                if (carrier == "") {
+                    alert("please select partner");
+                    return;
+                }
+                var paymentId = $("#txtPaymentId option:selected").text();
+                window.location.href = window.location.origin + "/Commision/EditCommissions?carrierId=" + carrier + "&smd=" + statementDate + "&pId=" + paymentId + "&isCancel=true"
+            });
             $("#btnSubmit").click(function () {
                 var commisions = [];
                 var isInvalidRow = false;
