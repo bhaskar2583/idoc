@@ -27,7 +27,27 @@
             @Html.DropDownList(
             "ddlClient",
             new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
-            ) 
+            )
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Coverages</label>
+            <select id="ddlCoverages" class="ibs-input ibs-border"></select>
+            @*@Html.DropDownList(
+        "ddlCoverages",
+        new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
+        )*@
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Devision</label>
+            <select id="ddldivisions" class="ibs-input ibs-border"></select>
+            @*@Html.DropDownList(
+        "ddldivisions",
+        new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
+        )*@
         </div>
     </div>
 </div>
@@ -164,6 +184,82 @@
         window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
     };
     $(document).ready(function () {
+
+        var host = window.location.origin;
+        var apiPath = host + "/Policy";
+        var isProd = false;
+        if (isProd) {
+            host = window.location.origin;
+            apiPath = host + "/IBS/Policy";
+        }
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDivisions",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $("#ddldivisions");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+
+                var query = window.location.search;
+                if (query != undefined && query != "") {
+                    var searchQuery = query.split('&');
+                    
+
+                    if (searchQuery[4].indexOf("divId") != -1) {
+                        var clientIdArray = searchQuery[4].split('=');
+                        if (clientIdArray[1] != "0") {
+                            $("#ddldivisions").val(clientIdArray[1]);
+                        }
+                    }
+
+                   
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetPatrners",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var smDate = $("#ddlCoverages");
+                $(smDate).empty();
+                $(smDate).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+
+
+                var query = window.location.search;
+                if (query != undefined && query != "") {
+                    var searchQuery = query.split('&');
+                   
+                    if (searchQuery[3].indexOf("carId") != -1) {
+                        var clientIdArray = searchQuery[3].split('=');
+                        if (clientIdArray[1] != "0") {
+                            $("#ddlCoverages").val(clientIdArray[1]);
+                        }
+                    }
+
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
         var query = window.location.search;
         if (query != undefined && query != "") {
             var searchQuery = query.split('&');
@@ -180,7 +276,23 @@
                     $("#ddlClient").val(clientIdArray[1]);
                 }
             }
+
+            //if (searchQuery[3].indexOf("carId") != -1) {
+            //    var clientIdArray = searchQuery[2].split('=');
+            //    if (clientIdArray[1] != "0") {
+            //        $("#ddldivisions").val(clientIdArray[1]);
+            //    }
+            //}
+
+            //if (searchQuery[4].indexOf("divId") != -1) {
+            //    var clientIdArray = searchQuery[2].split('=');
+            //    if (clientIdArray[1] != "0") {
+            //        $("#ddlClient").val(clientIdArray[1]);
+            //    }
+            //}
         }
+
+
         $("#btnSearchPolicy").click(function () {
             var year = $("#ddlYears").val();
             if (year == "") {
@@ -191,7 +303,19 @@
             if (clientId == "") {
                 clientId = 0;
             }
-            window.location.href = window.location.origin + window.location.pathname + "?year=" + year + "&policyId=0" + "&clientId=" + clientId;;
+
+            var ddlCoverages = $("#ddlCoverages").val();
+            if (ddlCoverages == "") {
+                ddlCoverages = 0;
+            }
+
+            var ddldivisions = $("#ddldivisions").val();
+            if (ddldivisions == "") {
+                ddldivisions = 0;
+            }
+            window.location.href = window.location.origin + window.location.pathname
+                + "?year=" + year + "&policyId=0" + "&clientId=" + clientId + "&carId=" + ddlCoverages
+                + "&divId="+ddldivisions;
         });
     });
 </script>

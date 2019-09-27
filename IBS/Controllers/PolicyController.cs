@@ -1,5 +1,6 @@
 ﻿using IBS.Core.Enums;
 using IBS.Core.Models;
+using IBS.Service.Helpers;
 using IBS.Service.Services;
 using IBS.Service.Utils;
 using System;
@@ -40,6 +41,20 @@ namespace IBS.Controllers
             _policyService.MapCoverages(policy);
             _policyService.MapClients(policy);
             return View(policy);
+        }
+
+        [HttpPost]
+        public ActionResult GetPatrners()
+        {
+            var Partners = _carrierService.GetAllCarriers().ToList();
+            return Json(Partners, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetDivisions()
+        {
+
+            return Json(ListHelper.GetDivisions(), JsonRequestBehavior.AllowGet);
         }
 
         // POST: Policy/AddPolicy   
@@ -142,10 +157,19 @@ namespace IBS.Controllers
            return executor(MapCarrier(model));
         }
         // GET: Policies
-        public ActionResult PolicyBudgets(int policyId, int clientId, int year)
+        public ActionResult PolicyBudgets(int policyId, int clientId, int year,int? carId,int? divId)
         {
 
             var ClientPolicy = _policyService.GetAllPolicyBudgetsForClientPolicyYear(clientId, policyId, year);
+
+            if (carId > 0)
+            {
+                ClientPolicy = ClientPolicy.Where(cp => cp.CarId == carId).ToList();
+            }
+            if (divId > 0)
+            {
+                ClientPolicy = ClientPolicy.Where(cp => cp.DivisionId == divId).ToList();
+            }
             ClientPolicy.ToList().ForEach(cp =>
             {
                cp= MapCarrierAction(MapCarrier, cp);
@@ -283,6 +307,6 @@ namespace IBS.Controllers
             var products = _commonService.GetAllProductsByCoverageId(coverageId);
             return Json(products, JsonRequestBehavior.AllowGet);
         }
-
+      
     }
 }

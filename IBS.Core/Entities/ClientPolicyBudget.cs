@@ -9,6 +9,8 @@ namespace IBS.Core.Entities
 
     public class ClientPolicyBudget : BaseEntity
     {
+        //public int CarId { get; set; }
+        //public int DivisionId { get; set; }
         public int Id { get; set; }
         public int ClientPolicyId { get; set; }
         public int PolicyId { get; set; }

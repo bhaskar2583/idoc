@@ -304,6 +304,27 @@ namespace IBS.Service.Services
         {
             throw new NotImplementedException();
         }
+
+        public PolicyBudgetsModel MapTrnsactions(PolicyBudgetsModel data)
+        {
+            var policyDetails = _policyRepository.GetById(data.PolicyId);
+            var clientDetails = _commonService.GetAllClients().FirstOrDefault(c => c.Id == data.ClientId);
+            data.PolicyId = policyDetails.Id;
+            data.CarId = policyDetails.CarId;
+            if (!string.IsNullOrEmpty(clientDetails.Division))
+            {
+                if (clientDetails.Division == "HBS")
+                {
+                    data.DivisionId = 1;
+                }
+                if (clientDetails.Division == "SBS")
+                {
+                    data.DivisionId = 2;
+                }
+            }
+            return data;
+        }
+
         public IList<PolicyBudgetsModel> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year)
         {
             var policyBudget = new List<PolicyBudgetsModel>();
@@ -335,7 +356,7 @@ namespace IBS.Service.Services
                     AssignBudget(isExist, b.BudgetMonth, b.BudgetValue);
                 }
             });
-
+            policyBudget=policyBudget.Select(MapTrnsactions).ToList();
             policyBudget.ForEach(model =>
             {
                 model.TotalBudget = model.JanBudget + model.FebBudget + model.MarchBudget + model.AprilBudget + model.MayBudget + model.JunBudget + model.JulyBudget + model.AugBudget + model.SepBudget + model.OctBudget + model.NovBudget + model.DecBudget;

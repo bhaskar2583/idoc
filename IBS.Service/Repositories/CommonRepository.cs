@@ -162,6 +162,8 @@ namespace IBS.Service.Repositories
             return _hanysContext.ClientPolicieBudgets.Where(cpb => cpb.ClientId == clientId && cpb.BudgetYear == year).ToList();
         }
 
+       
+
         public IList<ClientPolicyBudget> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year)
         {
             //var budget = _hanysContext.ClientPolicieBudgets.Where(b => b.ClientId == clientId
@@ -170,6 +172,7 @@ namespace IBS.Service.Repositories
 
             //return budget;
             var budgets = _hanysContext.ClientPolicieBudgets.ToList();
+           // budgets.Select(MapTrnsactions);
             if (clientId > 0)
             {
                 budgets = budgets.Where(b => b.ClientId == clientId).ToList();
