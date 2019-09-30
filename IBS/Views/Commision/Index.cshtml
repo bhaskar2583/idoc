@@ -311,16 +311,25 @@
                 var cTotal = 0;
                 if ($(this).val() != "") {
 
-                    var values = $(this).val().split('+');
+                    var allDataA = $(this).val().split('(');
+                    var values = allDataA.length >= 1 ? allDataA[0].split('+') : 0.00;
+                    var valuesS = allDataA.length >= 2 ? allDataA[1].replace(')',"").split('-') : 0.00;
                     cTotal = 0;
                     for (var i = 0; i < values.length; i++) {
                         cTotal = parseFloat(parseFloat(cTotal).toFixed(2)) + parseFloat(parseFloat(values[i]).toFixed(2));
                     }
-                    cTotal = parseFloat(cTotal).toFixed(2);
+
+                    cTotalS = 0;
+                    for (var i = 0; i < valuesS.length; i++) {
+                        cTotalS = parseFloat(parseFloat(cTotalS).toFixed(2)) + parseFloat(parseFloat(valuesS[i]).toFixed(2));
+                    }
+                    cTotalS= parseFloat(cTotalS).toFixed(2);
                 }
-                cTotal = parseFloat(cTotal).toFixed(2);
-                if (cTotal != "0.00")
-                    $(this).closest('tr')[0].cells[6].childNodes[1].value = cTotal;
+
+                var cT = parseFloat(parseFloat(cTotal).toFixed(2)) - parseFloat(parseFloat(cTotalS).toFixed(2));
+                cT = parseFloat(cT).toFixed(2);
+                if (cT != "0.00")
+                    $(this).closest('tr')[0].cells[6].childNodes[1].value = cT;
             });
 
             $("[id*=CommisionTotal]").each(function () {
