@@ -214,5 +214,11 @@ namespace IBS.Service.Services
         {
             return _commonRepository.GetAllClients();
         }
+
+        public ClientPolicyBudget GetAllPolicyBudgetsForPolicyYearMonth(int policyId, int year, string month)
+        {
+            return _commonRepository.GetAllPolicyBudgetsForPolicyYearMonth(policyId, year,month);
+           
+        }
     }
 }

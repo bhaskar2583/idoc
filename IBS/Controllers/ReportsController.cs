@@ -14,6 +14,7 @@ namespace IBS.Controllers
     public class SearchFiltrsResult
     {
         public List<GroupResult> Result { get; set; }
+        public List<MonthSummary> MonthSummaryResult { get; set; }
     }
 
     public class GroupResult
@@ -21,7 +22,11 @@ namespace IBS.Controllers
         public List<CommisionModel> Result { get; set; }
         public List<ClientCoverageRevenueByMonth> ClientRevenueResultMonth { get; set; }
         public List<ClientRevenue> ClientRevenueResult { get; set; }
+
+        
     }
+
+    
 
     public class ClientRevenue
     {
@@ -65,10 +70,12 @@ namespace IBS.Controllers
     {
         private readonly ICarrierService _carrierService;
         private readonly ICommisionService _commisionService;
-        public ReportsController(ICarrierService carrierService, ICommisionService commisionService)
+        private readonly ICommonService _commonService;
+        public ReportsController(ICarrierService carrierService, ICommisionService commisionService, ICommonService commonService)
         {
             _carrierService = carrierService;
             _commisionService = commisionService;
+            _commonService = commonService;
 
         }
         
@@ -169,6 +176,50 @@ namespace IBS.Controllers
 
 
             commisions.Result = tempRs;
+            return Json(commisions, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult MonthlySummary()
+        {
+            var commisions = new SearchFiltrsResult();
+            return View(commisions);
+        }
+
+        public void MapMonthlySummaryActual(MonthSummary summary, CommisionModel model)
+        {
+
+        }
+        [HttpPost]
+        public ActionResult MonthlySummary(SearchFiltrs filters)
+        {
+            SearchFiltrsResult commisions = new SearchFiltrsResult()
+            {
+                MonthSummaryResult = new List<MonthSummary>()
+            };
+
+            GetCommissions(filters, out commisions, out List<CommisionModel> data);
+            commisions.MonthSummaryResult = new List<MonthSummary>();
+            data = data.Where(y => Convert.ToDateTime(y.AppliedDate).Year == 2019).ToList();
+            data.ToList().ForEach(d =>
+            {
+                var isExist = commisions.MonthSummaryResult?.FirstOrDefault(cm => cm.PolicyNo == d.PolicyNumber);
+                if (isExist == null)
+                {
+                    isExist = new MonthSummary()
+                    {
+                        PolicyNo = d.PolicyNumber,
+                        CoverageName = d.CoverageName
+                    };
+                    commisions.MonthSummaryResult.Add(isExist);
+                }
+                   
+
+                d.MapMonthlySummaryActual(isExist, _commonService);
+                d.MapMonthlySummaryBudget(isExist, _commonService);
+            });
+
+            commisions.MonthSummaryResult = commisions.MonthSummaryResult.OrderBy(m => m.CoverageName).ToList();
             return Json(commisions, JsonRequestBehavior.AllowGet);
         }
 
@@ -279,10 +330,19 @@ namespace IBS.Controllers
             return Json(commisions, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult CoverageMonthlySummary()
+        {
+            return View();
+        }
         private void GetCommissions(SearchFiltrs filters, out SearchFiltrsResult commisions, out List<CommisionModel> data)
         {
             commisions = new SearchFiltrsResult();
             var commissions = _commisionService.GetAllSavedCommissionsForCarrier(Convert.ToInt32(0)).OrderBy(c => c.ClientId).ToList();
+            data = commissions;
+
+            if (filters.StartDate == null)
+                return;
+
             filters.DateTypes.ForEach(df =>
             {
                 if (df == 1)
@@ -293,7 +353,6 @@ namespace IBS.Controllers
                 {
                     commissions = commissions.Where(dd => dd.AppliedDate >= Convert.ToDateTime(filters.StartDate) && dd.AppliedDate <= Convert.ToDateTime(filters.EndDate)).ToList();
                 }
-
             });
 
             if (filters.Partners != null && filters.Partners.Count > 0)

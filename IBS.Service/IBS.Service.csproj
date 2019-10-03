@@ -79,6 +79,7 @@
     <Compile Include="Utils\CommonUtil.cs" />
     <Compile Include="Utils\DateUtil.cs" />
     <Compile Include="Utils\LoginUserDetails.cs" />
+    <Compile Include="Utils\MonthSummaryReportExtensions.cs" />
     <Compile Include="Utils\SelectListForYears.cs" />
   </ItemGroup>
   <ItemGroup>

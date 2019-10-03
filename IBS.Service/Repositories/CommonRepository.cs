@@ -224,5 +224,13 @@ namespace IBS.Service.Repositories
         {
             return _hanysContext.Clients.ToList();
         }
+
+        public ClientPolicyBudget GetAllPolicyBudgetsForPolicyYearMonth(int policyId, int year, string month)
+        {
+            return _hanysContext.ClientPolicieBudgets.FirstOrDefault(b => b.PolicyId == policyId
+            && b.BudgetYear == year
+            && b.BudgetMonth == month);
+            
+        }
     }
 }

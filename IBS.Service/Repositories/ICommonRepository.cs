@@ -30,6 +30,7 @@ namespace IBS.Service.Repositories
         bool AddClientPolocyBudget(ClientPolicyBudget budget);
         bool UpdateClientPolocyBudget(ClientPolicyBudget budget);
         IList<ClientPolicyBudget> GetAllPolicyBudgetsForClientPolicyYear(int clientId, int policyId, int year);
+        ClientPolicyBudget GetAllPolicyBudgetsForPolicyYearMonth(int policyId, int year,string month);
 
         ClientPolicie GetClientPoliciesByPolicyId(int policyId);
 
