@@ -13,6 +13,7 @@ namespace IBS.Controllers
 
     public class SearchFiltrsResult
     {
+        public int DisplayTillMonth { get; set; }
         public List<GroupResult> Result { get; set; }
         public List<MonthSummary> MonthSummaryResult { get; set; }
     }
@@ -63,6 +64,8 @@ namespace IBS.Controllers
         public List<int> Git { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
     }
    
    
@@ -180,7 +183,7 @@ namespace IBS.Controllers
         }
 
 
-        public ActionResult MonthlySummary()
+        public ActionResult MonthlyDetails()
         {
             var commisions = new SearchFiltrsResult();
             return View(commisions);
@@ -191,16 +194,18 @@ namespace IBS.Controllers
 
         }
         [HttpPost]
-        public ActionResult MonthlySummary(SearchFiltrs filters)
+        public ActionResult MonthlyDetails(SearchFiltrs filters)
         {
             SearchFiltrsResult commisions = new SearchFiltrsResult()
             {
+                DisplayTillMonth = filters.Month == 0 ? 12 : filters.Month,
                 MonthSummaryResult = new List<MonthSummary>()
             };
 
             GetCommissions(filters, out commisions, out List<CommisionModel> data);
             commisions.MonthSummaryResult = new List<MonthSummary>();
-            data = data.Where(y => Convert.ToDateTime(y.AppliedDate).Year == 2019).ToList();
+            commisions.DisplayTillMonth = filters.Month == 0 ? 12 : filters.Month;
+            data = data.Where(y => Convert.ToDateTime(y.AppliedDate).Year == filters.Year).ToList();
             data.ToList().ForEach(d =>
             {
                 var isExist = commisions.MonthSummaryResult?.FirstOrDefault(cm => cm.PolicyNo == d.PolicyNumber);
