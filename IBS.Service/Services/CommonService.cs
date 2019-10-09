@@ -13,9 +13,11 @@ namespace IBS.Service.Services
     public class CommonService : ICommonService
     {
         private readonly ICommonRepository _commonRepository;
-        public CommonService(ICommonRepository commonRepository)
+        private readonly IPolicyRepository _policyRepository;
+        public CommonService(ICommonRepository commonRepository, IPolicyRepository policyRepository)
         {
             _commonRepository = commonRepository;
+            _policyRepository = policyRepository;
         }
 
         public bool AddClientPolocie(ClientPolicie clientPolicie)
@@ -73,7 +75,23 @@ namespace IBS.Service.Services
         public bool AddClientPolocyBudget(AddPolicyBudget budget)
         {
 
+            var cpDetails = _commonRepository.GetAllClientPolicies().Where(c => c.ClientId == budget.ClientId).OrderByDescending(cp=>cp.Id);
+            var pDetails = _policyRepository.GetById(budget.PolicyId);
+            var carrierProduct = _commonRepository.GetAllCorporateXProducts().FirstOrDefault(cp => cp.ProductId == pDetails.ProductId);
+            cpDetails.ToList().ForEach(cp =>
+            {
+                var pDetailsChild = _policyRepository.GetById(cp.PolicieId);
+                var carrierProductChild = _commonRepository.GetAllCorporateXProducts()
+                .FirstOrDefault(cpp => cpp.ProductId == pDetailsChild.ProductId);
 
+                if(carrierProductChild!=null && carrierProduct.CorporateProductId== carrierProductChild.CorporateProductId
+                && pDetailsChild.PolicyNumber == pDetails.PolicyNumber
+                && pDetailsChild.CarId== pDetails.CarId)
+                {
+                    budget.PolicyId = pDetailsChild.Id;
+
+                }
+            });
             foreach (var month in DateUtil.GetMonths())
             {
                 var entity = new ClientPolicyBudget()
