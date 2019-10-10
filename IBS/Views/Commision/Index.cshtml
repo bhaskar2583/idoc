@@ -346,6 +346,34 @@
         $(document).on('blur', '[id*=CommisionValue]', function () {
             Total();
         });
+
+        function submitapi(jRequest) {
+
+            let host = window.location.origin;
+            let path = window.location.pathname;
+            var apiPath = host + path;
+            var isProd = false;
+            if (isProd) {
+                host = window.location.origin;
+                apiPath = host + "/IBS/Commision";
+            }
+
+            $.ajax({
+                type: "POST",
+                url: apiPath,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(jRequest),
+                success: function (commisions) {
+                    var carrier = $("#ddlCarrier").val();
+                    window.location.href = window.location.origin + window.location.pathname
+                        + "?carrierId=" + carrier + "&isSaved=true"
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        }
         $(document).on('blur', '[id*=CommisionTotal]', function () {
             Total();
         });
@@ -405,7 +433,8 @@
                     if (searchQuery[2].indexOf("pId") != -1) {
                         var queryArray1 = searchQuery[2].split('=');
                         if (queryArray1[1].length != 41) {
-                            $("#txtPaymentIdNew").val(queryArray1[1]);
+                            var paymentDecode = decodeURIComponent(queryArray1[1]);
+                            $("#txtPaymentIdNew").val(paymentDecode);
                         }
                     }
                 }
@@ -474,29 +503,16 @@
                     alert('either of statement date, commission or payment id missied. please check');
                     return;
                 }
-                let host = window.location.origin;
-                let path = window.location.pathname;
-                var apiPath = host + path;
-                var isProd = false;
-                if (isProd) {
-                    host = window.location.origin;
-                    apiPath = host + "/IBS/Commision";
+               
+                var index = 0;
+                for (var i = 100; i <= commisions.length; ) {
+                    var jRequest = commisions.slice(index, i);
+                    index = index + 100;
+                    i = i + 100;
+                    submitapi(jRequest);
                 }
-                $.ajax({
-                    type: "POST",
-                    url: apiPath,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(commisions),
-                    success: function (commisions) {
-                        var carrier = $("#ddlCarrier").val();
-                        window.location.href = window.location.origin + window.location.pathname
-                            + "?carrierId=" + carrier + "&isSaved=true"
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                    }
-                });
+                var jRequest = commisions.slice(index, commisions.length);
+                submitapi(jRequest);
             });
         });
     </script>

@@ -357,7 +357,8 @@
                 if (pmt.indexOf("pId") != -1) {
                     var d = pmt.split('=');
                     if (d != "" && d != "0") {
-                        $("#txtPaymentId option:contains(" + d[1] + ")").attr('selected', 'selected');
+                        var paymentDecode = decodeURIComponent(d[1]);
+                        $("#txtPaymentId option:contains(" + paymentDecode  + ")").attr('selected', 'selected');
                     }
                 }
             }

@@ -112,7 +112,7 @@ namespace IBS.Controllers
                 }
                 if (!string.IsNullOrEmpty(pId) && commisions != null && commisions.Count > 0 && pId != "-- Please select a paymentid --")
                 {
-                    commisions = commisions.Where(c => c.PaymentId == pId).ToList();
+                    commisions = commisions.Where(c => c.PaymentId.ToLower().TrimEnd() == pId.ToLower().TrimEnd()).ToList();
                 }
                 return View(commisions);
             }
