@@ -200,6 +200,25 @@ namespace IBS.Controllers
         {
 
             var client = _clinetService.GetById(clientId);
+
+            var cpDetails = _commonService.GetAllClientPolicies().Where(c => c.ClientId == clientId).OrderByDescending(cp => cp.Id);
+            var pDetails = _policyService.GetById(policyId);
+            var carrierProduct = _commonService.GetAllCorporateXProducts().FirstOrDefault(cp => cp.ProductId == pDetails.ProductId);
+            cpDetails.ToList().ForEach(cp =>
+            {
+                var pDetailsChild = _policyService.GetById(cp.PolicieId);
+                var carrierProductChild = _commonService.GetAllCorporateXProducts()
+                .FirstOrDefault(cpp => cpp.ProductId == pDetailsChild.ProductId);
+
+                if (carrierProductChild != null && carrierProduct.CorporateProductId == carrierProductChild.CorporateProductId
+                && pDetailsChild.PolicyNumber == pDetails.PolicyNumber
+                && pDetailsChild.CarId == pDetails.CarId)
+                {
+                    policyId = pDetailsChild.Id;
+
+                }
+            });
+
             var policy = _policyService.GetById(policyId);
 
             var coverage = _commonService.GetCoverageById(policy.CoverageId);
