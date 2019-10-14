@@ -57,15 +57,20 @@
     </div>
     <script type="text/javascript">
         function NavigateClient() {
+            var clientId = $("#ddlClient").val();
+            var policyId = $("#PolicyId").val();
+            var PolicyNo = $("#PolicyNo").val();
+            var Id = $("#Id").val();
+
             var host = window.location.origin;;
             var apiPath = host + "/Client/AddClient";
             var isProd = false;
             if (isProd) {
-                
+
                 apiPath = host + "/IBS/Client/AddClient";
             }
 
-            window.location.href = apiPath;
+            window.location.href = apiPath +"?polId = " + policyId + " & cId=" + clientId + " & id=" + Id + " & poN=" + PolicyNo;;
         }
         function NavigateECommissions() {
             var host = window.location.origin;;
@@ -121,7 +126,19 @@
             });
         }
 
-
+        $(document).ready(function () {
+            var query = window.location.search;
+            if (query != undefined && query != "") {
+                var searchQuery = query.split('&');
+                if (searchQuery.length==6 && searchQuery[5].indexOf("cId") != -1) {
+                    var clientIdArray = searchQuery[5].split('=');
+                    if (clientIdArray[1] != "0") {
+                        $("#ddlClient").val(decodeURIComponent(clientIdArray[1]).trim());
+                    }
+                }
+            }
+            
+        })
     
     </script>
 }
