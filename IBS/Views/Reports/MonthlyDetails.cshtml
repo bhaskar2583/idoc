@@ -176,7 +176,9 @@
                     header =
                         "<tr>" +
                         "<th rowspan='2'>Coverage</th>" +
-                        "<th rowspan='2'>Policy No</th>";
+                        "<th rowspan='2'>Policy No</th>"+
+                        "<th rowspan='2'>Carrier</th>"+
+                        "<th rowspan='2'>Product</th>";
 
                     for (var i = 0; i < data.DisplayTillMonth; i++) {
                         header +=
@@ -208,6 +210,9 @@
                     );
 
                     var coverage = "";
+                    var product = "";
+                    var carrier = "";
+
                     var JAT = 0;
                     var JBT = 0;
                     var JBF = 0;
@@ -312,11 +317,15 @@
                     for (var i = 0; i < data.MonthSummaryResult.length; i++) {//clients
                         var d = data.MonthSummaryResult[i];
 
-                        if (coverage != "" && coverage != d.CoverageName) {
+                        if (coverage != "" && coverage != d.CoverageName
+                            && product != "" && product != d.ProductName
+                            && carrier != "" && carrier != d.CarrierName) {
 
                             body1 =
                                 "<tr class='lbl - grid'>" +
-                                "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
                                 "<td></td>";
 
                             for (var i1 = 0; i1 < data.DisplayTillMonth; i1++) {
@@ -557,6 +566,9 @@
                             TotalGT = 0;
                         }
                         coverage = d.CoverageName;
+                        product = d.ProductName;
+                        carrier = d.CarrierName;
+
                         JAT = parseFloat(JAT) + parseFloat(d.JanA);
                         JBT = parseFloat(JBT) + parseFloat(d.JanB);
                         JBF = parseFloat(JBF) + parseFloat(d.JanF);
@@ -805,6 +817,8 @@
                             "<tr class='lbl - grid'>" +
                             "<td>" + d.CoverageName + "</td>" +
                             "<td>" + d.PolicyNo + "</td>" +
+                            "<td>" + d.CarrierName + "</td>" +
+                            "<td>" + d.ProductName + "</td>" +
                             body1
                         );
 
@@ -813,7 +827,9 @@
                            
                             body1 =
                                 "<tr class='lbl - grid'>" +
-                                "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
                                 "<td></td>";
 
                             for (var i6 = 0; i6 < data.DisplayTillMonth; i6++) {

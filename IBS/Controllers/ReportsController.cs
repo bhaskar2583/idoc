@@ -208,13 +208,19 @@ namespace IBS.Controllers
             data = data.Where(y => Convert.ToDateTime(y.AppliedDate).Year == filters.Year).ToList();
             data.ToList().ForEach(d =>
             {
-                var isExist = commisions.MonthSummaryResult?.FirstOrDefault(cm => cm.PolicyNo == d.PolicyNumber);
+                var isExist = commisions.MonthSummaryResult?.FirstOrDefault(cm=>
+                 cm.ProductId==d.ProductId
+                && cm.CarId==d.CarrierId);
                 if (isExist == null)
                 {
                     isExist = new MonthSummary()
                     {
                         PolicyNo = d.PolicyNumber,
-                        CoverageName = d.CoverageName
+                        CoverageName = d.CoverageName,
+                        CarrierName=d.CarrierName,
+                        ProductName=d.ProductName,
+                        CarId=d.CarrierId,
+                        ProductId=d.ProductId
                     };
                     commisions.MonthSummaryResult.Add(isExist);
                 }

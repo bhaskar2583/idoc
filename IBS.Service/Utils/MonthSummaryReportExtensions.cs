@@ -13,6 +13,12 @@ namespace IBS.Service.Utils
     {
         public string PolicyNo { get; set; }
         public string CoverageName { get; set; }
+
+        public int CarId { get; set; }
+        public string CarrierName { get; set; }
+
+        public string ProductName { get; set; }
+        public int ProductId { get; set; }
         public Decimal JanA { get; set; }
         public Decimal JanB { get; set; }
         public Decimal JanF { get { return JanA - JanB; } }
