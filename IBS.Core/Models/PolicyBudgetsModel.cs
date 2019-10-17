@@ -13,10 +13,18 @@ namespace IBS.Core.Models
         public int ClientPolicyId { get; set; }
         public int ClientId { get; set; }
         public string ClientName { get; set; }
+        public int CarrierId { get; set; }
         public string CarrierName { get; set; }
         public int PolicyId { get; set; }
         public string PolicyNumber { get; set; }
+        public int CoverageId { get; set; }
         public string Coverage { get; set; }
+
+        public int CarId { get; set; }
+        public string CarName { get; set; }
+
+        public int ProductId { get; set; }
+        public int CProductId { get; set; }
         public string Product { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Please enter year")]
         public int Year { get; set; }

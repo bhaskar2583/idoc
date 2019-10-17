@@ -1,4 +1,4 @@
-﻿@model IBS.Core.Models.AddPolicyBudget
+﻿@model  IEnumerable<IBS.Core.Models.AddPolicyBudget>
 
 @{
     ViewBag.Title = "AddBudget";
@@ -15,67 +15,59 @@
         </h2>
         <hr />
     </div>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.ClientName)<br />
-                @Html.HiddenFor(model => model.ClientId)
-                @Html.HiddenFor(model => model.ClientPolicyId)
-                @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.PolicyNumber)<br />
-                @Html.HiddenFor(model => model.PolicyId)
-                @Html.HiddenFor(model => model.PolicyNumber)
-                @Html.EditorFor(model => model.PolicyNumber, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Coverage)<br />
-                @Html.HiddenFor(model => model.Coverage)
-                @Html.EditorFor(model => model.Coverage, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Product)<br />
-                @Html.HiddenFor(model => model.Product)
-                @Html.EditorFor(model => model.Product, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
-            </div>
-        </div>
-    </div>
 
     <div class="row">
+
         <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Year)<br />
-                @Html.HiddenFor(model => model.Year)
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { autocomplete = "off", @class = "ibs-input ibs-border", disabled = true } })
+                <b>Client</b><span class="hash-redcolor">*</span><br />
+                @Html.DropDownList("dlClients",
+                new SelectList(ViewBag.Clients, "Id", "Name"),
+                "-- Please select a client --", new { @class = "ibs-input ibs-border" }
+                )
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Year</b><span class="hash-redcolor">*</span><br />
+
+                @Html.DropDownList("ddlYears",
+               new SelectList(ViewBag.Years, "Id", "Name"),
+               "-- Please select a year --", new { @class = "ibs-input ibs-border" }
+               )
+
+
+
             </div>
         </div>
 
     </div>
-    <div class="row">
-        <div class="col-md-12" style="color:green">
-            <div class="form-group">
-                @ViewBag.Message
-            </div>
+
+    <div>
+        <div>
+            <input id="btnSearchPolicy" onclick="Search()" type="button" value="Search" class="btn btn-success margin-tb-20" />
         </div>
     </div>
-
-
-
 
     <table class="table table-bordered table-hover responsive">
         <thead class="thead-dark lbl-grid-head">
             <tr>
-
+                <th>
+                    Client
+                </th>
+                <th>
+                    Policy
+                </th>
+                <th>
+                    Carrier
+                </th>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Carrier
+                </th>
                 <th>
                     JAN
                 </th>
@@ -118,53 +110,74 @@
                 <th></th>
             </tr>
         </thead>
-        <tr @*class="lbl-grid"*@>
-            <td>
-                @Html.TextBoxFor(midel => Model.JanBudget, new { style = " width:70px; ",@class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.FebBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.MarchBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.AprilBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.MayBudget, new { style = " width:70px; ", @class = "floatnon" })
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr @*class="lbl-grid"*@>
+                <td>
+                    <label>@item.ClientName</label>
+                </td>
+                <td>
+                    <label>@item.PolicyNumber</label>
+                </td>
+                <td>
+                    <label>@item.Coverage</label>
+                </td>
+                <td>
+                    <label>@item.Product</label>
+                </td>
+                <td>
+                    <label>@item.CarName</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.JanBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.FebBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.MarchBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.AprilBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.MayBudget, new { style = " width:70px; ", @class = "floatnon" })
 
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.JunBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.JunBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
 
-            <td>
-                @Html.TextBoxFor(midel => Model.JulyBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.AugBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.SepBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.OctBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.NovBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                @Html.TextBoxFor(midel => Model.DecBudget, new { style = " width:70px; ", @class = "floatnon" })
-            </td>
-            <td>
-                <label id="lblTotal">@Model.TotalBudget</label>
-            </td>
-            <td>
-                <a id="anchPrefill" href="javascript:void(0);">Auto Fill</a>
-            </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.JulyBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.AugBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.SepBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.OctBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.NovBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(midel => item.DecBudget, new { style = " width:70px; ", @class = "floatnon" })
+                </td>
+                <td>
+                    <label id="lblTotal">@item.TotalBudget</label>
+                </td>
+                <td>
+                    <a id="anchPrefill" href="javascript:void(0);">Auto Fill</a>
+                </td>
 
-        </tr>
+            </tr>
+            }
+        </tbody>
+
     </table>
 
     <div class="row">
@@ -175,70 +188,38 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-
-                @foreach (var year in ViewBag.Years.Items)
-                {
-                    <a href="@Url.Action("AddBudget", "Policy", new { policyId =Model.PolicyId, clientId =Model.ClientId, ClientPolicyId =0, year =year.Id})">@year.Name</a><br />
-                }
-
-            </div>
-        </div>
-
-    </div>
     <script type="text/javascript">
-        function addBudget() {
-            var year = $("#Year").val();
-            if (year == 0 || year == "0") {
-                alert('please select year');
-                return false;
-            } else {
-                return true;
-            }
-        }
-        $(document).ready(function () {
-            var janBudget = parseFloat($("#JanBudget").val());
-            var feb = parseFloat($("#FebBudget").val());
-            var mar = parseFloat($("#MarchBudget").val());
-            var apr = parseFloat($("#AprilBudget").val());
-            var may = parseFloat($("#MayBudget").val());
-            var jun = parseFloat($("#JunBudget").val());
-            var july = parseFloat($("#JulyBudget").val());
-            var aug = parseFloat($("#AugBudget").val());
-            var sep = parseFloat($("#SepBudget").val());
-            var oct = parseFloat($("#OctBudget").val());
-            var nov = parseFloat($("#NovBudget").val());
-            var dec = parseFloat($("#DecBudget").val());
-            var total = parseFloat(janBudget) + feb + mar + apr + may + jun + july + aug + sep + oct + nov + dec;
+        function Search() {
+            var dlClients = $("#dlClients").val();
+            var ddlYears = $("#ddlYears").val();
 
-            total = parseFloat(total).toFixed(2);
-            $("#lblTotal").text(total);
+            if (ddlYears == "" || dlClients == "") {
+                alert("client and year both mandatory");
+                return;
+            }
+
+            window.location.href = window.location.origin + window.location.pathname + "?clientId=" + dlClients + "&year=" + ddlYears + "&policyId=0&ClientPolicyId=0";
+        };
+
+        $(document).ready(function () {
+
             $("#anchPrefill").click(function () {
-                var janBudget = $("#JanBudget").val();
-                $("#FebBudget").val(janBudget);
-                $("#MarchBudget").val(janBudget);
-                $("#AprilBudget").val(janBudget);
-                $("#MayBudget").val(janBudget);
-                $("#JunBudget").val(janBudget);
-                $("#JulyBudget").val(janBudget);
-                $("#AugBudget").val(janBudget);
-                $("#SepBudget").val(janBudget);
-                $("#OctBudget").val(janBudget);
-                $("#NovBudget").val(janBudget);
-                $("#DecBudget").val(janBudget);
+               
+                var janBudget = $("#item_JanBudget").val();
+                $("#item_FebBudget").val(janBudget);
+                $("#item_MarchBudget").val(janBudget);
+                $("#item_AprilBudget").val(janBudget);
+                $("#item_MayBudget").val(janBudget);
+                $("#item_JunBudget").val(janBudget);
+                $("#item_JulyBudget").val(janBudget);
+                $("#item_AugBudget").val(janBudget);
+                $("#item_SepBudget").val(janBudget);
+                $("#item_OctBudget").val(janBudget);
+                $("#item_NovBudget").val(janBudget);
+                $("#item_DecBudget").val(janBudget);
                 var total = parseFloat(janBudget).toFixed(2) * 12;
                 total = parseFloat(total).toFixed(2);
                 $("#lblTotal").text(total);
-            });
-
-            $(".floatnon").blur(function () {
-                if ($(this).val() != "") {
-                    var cT = parseFloat($(this).val());
-                    cT = parseFloat(cT).toFixed(2);
-                    $(this).val(cT)
-                }
             });
         });
     </script>
