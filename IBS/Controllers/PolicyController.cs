@@ -196,8 +196,10 @@ namespace IBS.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddBudget(int policyId, int clientId, int ClientPolicyId, int year = 0)
+        public ActionResult AddBudget(int policyId, int clientId, int ClientPolicyId, int year,int productId)
         {
+            var carrierProductChild1 = _commonService.GetAllCProducts();
+            ViewBag.CProducts = carrierProductChild1;
             var data = new List<AddPolicyBudget>();
             var allClients = _clinetService.GetAllClients().OrderBy(c=>c.Name);
             ViewBag.Clients = allClients;
@@ -205,7 +207,7 @@ namespace IBS.Controllers
             var years = DateUtil.GetPreviousYearsSelectList(5);
             ViewBag.Years = years;// new SelectList(years, "Id", "Name");
 
-            if (clientId == 0 || year == 0)
+            if (productId == 0 || year == 0)
                 return View(data);
             //var client = _clinetService.GetById(clientId);
 
@@ -292,145 +294,235 @@ namespace IBS.Controllers
             //    model.JanBudget = model.FebBudget = model.MarchBudget = model.AprilBudget = model.MayBudget = model.JunBudget = model.JulyBudget = model.AugBudget = model.SepBudget = model.OctBudget = model.NovBudget = model.DecBudget = 0.00M;
             //}
             //return View(model);
+            var corporateProducts = _commonService.GetAllCorporateXProducts()
+                .Where(cp => cp.CorporateProductId == productId).Select(cp=>cp.ProductId).ToList();
 
-            var clients = new List<ClientModel>();
-            var client = _clinetService.GetById(clientId);
-            clients.Add(client);
-            clients.ToList().ForEach(cli =>
+            var policies = _policyService.GetAllPolicies().Where(p => corporateProducts.Contains(p.ProductId)).ToList();
+
+            policies.ForEach(p =>
             {
-                var cpDetails = _commonService.GetAllClientPolicies().Where(c => c.ClientId == cli.Id).OrderByDescending(cp => cp.Id);
+                var cp = _commonService.GetClientPoliciesByPolicyId(p.Id);
+                p.ClientId = cp.ClientId;
+            });
+            
+            if (clientId > 0)
+            {
+
+                policies = policies.Where(p => p.ClientId == clientId).ToList();
+            }
+            policies.ForEach(p =>
+            {
+               
+                var coverage = _commonService.GetCoverageById(p.CoverageId);
+                var car = _carrierService.GetById(p.CarId);
+                var product = _commonService.GetProductById(p.ProductId);
+                var clientDetails = _clinetService.GetById(p.ClientId);
+                var carrierProductChild = _commonService.GetAllCorporateXProducts()
+               .FirstOrDefault(cpp => cpp.ProductId == product.Id);
+
+                if (coverage == null || car == null || product == null || carrierProductChild == null)
+                    return;
 
 
-                cpDetails.ToList().ForEach(cp1 =>
+
+                var policyBudget = _policyService.GetAllPolicyBudgets(p.Id);
+                if (year > 0)
                 {
-                    //  var pDetails = _policyService.GetById(cp1.PolicieId);
-                    // var carrierProduct = _commonService.GetAllCorporateXProducts().FirstOrDefault(cp => cp.ProductId == pDetails.ProductId);
-                    // var pDetailsChild = _policyService.GetById(cp1.PolicieId);
+                    policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
+                }
+
+                if (data.Any(d => d.PolicyNumber == p.PolicyNumber
+                 && d.ClientId == p.ClientId
+                 && d.CarId == p.CarId
+                 && d.CoverageId == p.CoverageId
+                 && d.CProductId == carrierProductChild.Id
+                ))
+                    return;
+
+                var model = new AddPolicyBudget()
+                {
+                    ClientPolicyId = 0,
+                    ClientId = p.ClientId,
+                    ClientName = clientDetails.Name,
+                    PolicyId = p.Id,
+                    PolicyNumber = p.PolicyNumber,
+                    CoverageId = coverage.Id,
+                    Coverage = coverage.Name,
+                    ProductId = product.Id,
+                    Product = product.Name,
+                    CProductId = carrierProductChild.Id,
+                    Year = year,
+                    CarId = car.Id,
+                    CarName = car.Name
+                };
+
+                if (policyBudget != null && policyBudget.Count > 0)
+                {
+                    model.JanBudget = policyBudget[0].JanBudget;
+                    model.FebBudget = policyBudget[0].FebBudget;
+
+                    model.MarchBudget = policyBudget[0].MarchBudget;
+
+                    model.AprilBudget = policyBudget[0].AprilBudget;
+
+                    model.MayBudget = policyBudget[0].MayBudget;
+
+                    model.JunBudget = policyBudget[0].JunBudget;
+
+                    model.JulyBudget = policyBudget[0].JulyBudget;
+
+                    model.AugBudget = policyBudget[0].AugBudget;
+
+                    model.SepBudget = policyBudget[0].SepBudget;
+
+                    model.OctBudget = policyBudget[0].OctBudget;
+                    model.NovBudget = policyBudget[0].NovBudget;
+
+                    model.DecBudget = policyBudget[0].DecBudget;
+                    model.TotalBudget = model.JanBudget + model.FebBudget + model.MarchBudget + model.AprilBudget + model.MayBudget + model.JunBudget + model.JulyBudget + model.AugBudget + model.SepBudget + model.OctBudget + model.NovBudget + model.DecBudget;
+
+                }
+                else
+                {
+                    model.TotalBudget = 0.00M;
+                    model.JanBudget = model.FebBudget = model.MarchBudget = model.AprilBudget = model.MayBudget = model.JunBudget = model.JulyBudget = model.AugBudget = model.SepBudget = model.OctBudget = model.NovBudget = model.DecBudget = 0.00M;
+                }
+                data.Add(model);
+            });
+
+            //var clients = new List<ClientModel>();
+            //var client = _clinetService.GetById(clientId);
+            //clients.Add(client);
+            //clients.ToList().ForEach(cli =>
+            //{
+            //    var cpDetails = _commonService.GetAllClientPolicies().Where(c => c.ClientId == cli.Id).OrderByDescending(cp => cp.Id);
+
+
+            //    cpDetails.ToList().ForEach(cp1 =>
+            //    {
+            //        //  var pDetails = _policyService.GetById(cp1.PolicieId);
+            //        // var carrierProduct = _commonService.GetAllCorporateXProducts().FirstOrDefault(cp => cp.ProductId == pDetails.ProductId);
+            //        // var pDetailsChild = _policyService.GetById(cp1.PolicieId);
                    
 
-                    //if (carrierProductChild != null && carrierProduct.CorporateProductId == carrierProductChild.CorporateProductId
-                    //&& pDetailsChild.PolicyNumber == pDetails.PolicyNumber
-                    //&& pDetailsChild.CarId == pDetails.CarId)
-                    //{
-                    //    policyId = pDetailsChild.Id;
+            //        //if (carrierProductChild != null && carrierProduct.CorporateProductId == carrierProductChild.CorporateProductId
+            //        //&& pDetailsChild.PolicyNumber == pDetails.PolicyNumber
+            //        //&& pDetailsChild.CarId == pDetails.CarId)
+            //        //{
+            //        //    policyId = pDetailsChild.Id;
 
-                    //}
+            //        //}
 
-                    var policy = _policyService.GetById(cp1.PolicieId);
-                    var coverage = _commonService.GetCoverageById(policy.CoverageId);
-                    var car = _carrierService.GetById(policy.CarId);
-                    var product = _commonService.GetProductById(policy.ProductId);
-                    var carrierProductChild = _commonService.GetAllCorporateXProducts()
-                   .FirstOrDefault(cpp => cpp.ProductId == product.Id);
+            //        var policy = _policyService.GetById(cp1.PolicieId);
+            //        var coverage = _commonService.GetCoverageById(policy.CoverageId);
+            //        var car = _carrierService.GetById(policy.CarId);
+            //        var product = _commonService.GetProductById(policy.ProductId);
+            //        var carrierProductChild = _commonService.GetAllCorporateXProducts()
+            //       .FirstOrDefault(cpp => cpp.ProductId == product.Id);
 
-                    if (policy == null || coverage == null || car == null || product == null || carrierProductChild==null)
-                        return;
+            //        if (policy == null || coverage == null || car == null || product == null || carrierProductChild==null)
+            //            return;
 
                     
 
-                    var policyBudget = _policyService.GetAllPolicyBudgets(policy.Id);
-                    if (year > 0)
-                    {
-                        policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
-                    }
-                    if (data.Any(d => d.PolicyNumber == policy.PolicyNumber
-                     && d.ClientId == cli.Id
-                     && d.CarId == policy.CarId
-                     && d.CoverageId == policy.CoverageId
-                     && d.CProductId == carrierProductChild.Id
-                    ))
-                        return;
+            //        var policyBudget = _policyService.GetAllPolicyBudgets(policy.Id);
+            //        if (year > 0)
+            //        {
+            //            policyBudget = policyBudget.Where(pb => pb.Year == year).ToList();
+            //        }
+            //        if (data.Any(d => d.PolicyNumber == policy.PolicyNumber
+            //         && d.ClientId == cli.Id
+            //         && d.CarId == policy.CarId
+            //         && d.CoverageId == policy.CoverageId
+            //         && d.CProductId == carrierProductChild.Id
+            //        ))
+            //            return;
 
-                    var model = new AddPolicyBudget()
-                    {
-                        ClientPolicyId = cp1.Id,
-                        ClientId = cli.Id,
-                        ClientName = cli?.Name,
-                        PolicyId = policy.Id,
-                        PolicyNumber = policy.PolicyNumber,
-                        CoverageId=coverage.Id,
-                        Coverage = coverage.Name,
-                        ProductId=product.Id,
-                        Product = product.Name,
-                        CProductId= carrierProductChild.Id,
-                        Year = year,
-                        CarId= car.Id,
-                        CarName= car.Name
-                    };
+            //        var model = new AddPolicyBudget()
+            //        {
+            //            ClientPolicyId = cp1.Id,
+            //            ClientId = cli.Id,
+            //            ClientName = cli?.Name,
+            //            PolicyId = policy.Id,
+            //            PolicyNumber = policy.PolicyNumber,
+            //            CoverageId=coverage.Id,
+            //            Coverage = coverage.Name,
+            //            ProductId=product.Id,
+            //            Product = product.Name,
+            //            CProductId= carrierProductChild.Id,
+            //            Year = year,
+            //            CarId= car.Id,
+            //            CarName= car.Name
+            //        };
 
-                    if (policyBudget != null && policyBudget.Count > 0)
-                    {
-                        model.JanBudget = policyBudget[0].JanBudget;
-                        model.FebBudget = policyBudget[0].FebBudget;
+            //        if (policyBudget != null && policyBudget.Count > 0)
+            //        {
+            //            model.JanBudget = policyBudget[0].JanBudget;
+            //            model.FebBudget = policyBudget[0].FebBudget;
 
-                        model.MarchBudget = policyBudget[0].MarchBudget;
+            //            model.MarchBudget = policyBudget[0].MarchBudget;
 
-                        model.AprilBudget = policyBudget[0].AprilBudget;
+            //            model.AprilBudget = policyBudget[0].AprilBudget;
 
-                        model.MayBudget = policyBudget[0].MayBudget;
+            //            model.MayBudget = policyBudget[0].MayBudget;
 
-                        model.JunBudget = policyBudget[0].JunBudget;
+            //            model.JunBudget = policyBudget[0].JunBudget;
 
-                        model.JulyBudget = policyBudget[0].JulyBudget;
+            //            model.JulyBudget = policyBudget[0].JulyBudget;
 
-                        model.AugBudget = policyBudget[0].AugBudget;
+            //            model.AugBudget = policyBudget[0].AugBudget;
 
-                        model.SepBudget = policyBudget[0].SepBudget;
+            //            model.SepBudget = policyBudget[0].SepBudget;
 
-                        model.OctBudget = policyBudget[0].OctBudget;
-                        model.NovBudget = policyBudget[0].NovBudget;
+            //            model.OctBudget = policyBudget[0].OctBudget;
+            //            model.NovBudget = policyBudget[0].NovBudget;
 
-                        model.DecBudget = policyBudget[0].DecBudget;
-                        model.TotalBudget = model.JanBudget + model.FebBudget + model.MarchBudget + model.AprilBudget + model.MayBudget + model.JunBudget + model.JulyBudget + model.AugBudget + model.SepBudget + model.OctBudget + model.NovBudget + model.DecBudget;
+            //            model.DecBudget = policyBudget[0].DecBudget;
+            //            model.TotalBudget = model.JanBudget + model.FebBudget + model.MarchBudget + model.AprilBudget + model.MayBudget + model.JunBudget + model.JulyBudget + model.AugBudget + model.SepBudget + model.OctBudget + model.NovBudget + model.DecBudget;
 
-                    }
-                    else
-                    {
-                        model.TotalBudget = 0.00M;
-                        model.JanBudget = model.FebBudget = model.MarchBudget = model.AprilBudget = model.MayBudget = model.JunBudget = model.JulyBudget = model.AugBudget = model.SepBudget = model.OctBudget = model.NovBudget = model.DecBudget = 0.00M;
-                    }
-                    data.Add(model);
-                });
+            //        }
+            //        else
+            //        {
+            //            model.TotalBudget = 0.00M;
+            //            model.JanBudget = model.FebBudget = model.MarchBudget = model.AprilBudget = model.MayBudget = model.JunBudget = model.JulyBudget = model.AugBudget = model.SepBudget = model.OctBudget = model.NovBudget = model.DecBudget = 0.00M;
+            //        }
+            //        data.Add(model);
+            //    });
 
                 
-            });
+            //});
 
 
             return View(data);
         }
         [HttpPost]
-        public ActionResult AddBudget(AddPolicyBudget projectBudget)
+        public ActionResult AddBudget(List<AddPolicyBudget> projectBudgets)
         {
             try
             {
-                if (ModelState.IsValid)
+                projectBudgets.ForEach(pb =>
                 {
-                    var result = _commonService.AddClientPolocyBudget(projectBudget);
-
-                    if (result)
-                    {
-                        ViewBag.Message = "budget details added successfully";
-                    }
-                }
-                else
-                {
-                    ViewBag.Message = "Error while adding budget details";
-                }
-                var years = DateUtil.GetPreviousYearsSelectList(5);
-                ViewBag.Years = new SelectList(years, "Id", "Name");
-                var client = _clinetService.GetById(projectBudget.ClientId);
-                projectBudget.ClientName = client.Name;
-                return View(projectBudget);
+                    if(pb.JanBudget>0 || 
+                    pb.FebBudget>0 ||
+                    pb.MarchBudget>0 ||
+                    pb.AprilBudget > 0 ||
+                    pb.MayBudget > 0 ||
+                    pb.JunBudget > 0 ||
+                    pb.JulyBudget > 0 ||
+                    pb.AugBudget > 0 ||
+                    pb.SepBudget > 0 ||
+                    pb.OctBudget > 0 ||
+                    pb.NovBudget > 0 ||
+                    pb.DecBudget > 0)
+                    _commonService.AddClientPolocyBudget(pb);
+                });
+                
             }
             catch (Exception ex)
             {
-                var years = DateUtil.GetPreviousYearsSelectList(5);
-                ViewBag.Years = new SelectList(years, "Id", "Name");
-                ViewBag.Message = "Error while adding budget details";
-                var client = _clinetService.GetById(projectBudget.ClientId);
-                projectBudget.ClientName = client.Name;
-                return View(projectBudget);
+               
             }
+            return Json("", JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

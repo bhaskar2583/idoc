@@ -238,5 +238,10 @@ namespace IBS.Service.Services
             return _commonRepository.GetAllPolicyBudgetsForPolicyYearMonth(policyId, year,month);
            
         }
+
+        public IList<CorporateProduct> GetAllCProducts()
+        {
+            return _commonRepository.GetAllCorporateProducts();
+        }
     }
 }
