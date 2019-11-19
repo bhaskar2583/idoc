@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
 }
+<script src="~/Scripts/jquery.tablesorter.min.js"></script>
 <div class="row col-md-12">
     <h2>
         Policy Budget
@@ -14,7 +15,7 @@
 
     <div class="col-md-6">
         <div class="form-group">
-            <label>Budget Year</label>
+            <label>Budget Year:</label><span class="hash-redcolor">*</span>
             @Html.DropDownList(
             "ddlYears",
             new SelectList(ViewBag.Years), "-- ALL --", new { @class = "ibs-input ibs-border" }
@@ -23,7 +24,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Client</label>
+            <label>Client:</label>
             @Html.DropDownList(
             "ddlClient",
             new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
@@ -32,22 +33,22 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Coverages</label>
-            <select id="ddlCoverages" class="ibs-input ibs-border"></select>
+            <label>CF Products:</label>
+            <select id="ddlCFproducts" class="ibs-input ibs-border"></select>
             @*@Html.DropDownList(
-        "ddlCoverages",
-        new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
-        )*@
+                "ddlCoverages",
+                new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
+                )*@
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Devision</label>
+            <label>Division:</label>
             <select id="ddldivisions" class="ibs-input ibs-border"></select>
             @*@Html.DropDownList(
-        "ddldivisions",
-        new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
-        )*@
+                "ddldivisions",
+                new SelectList(ViewBag.Clients, "Id", "Name"), "-- ALL --", new { @class = "ibs-input ibs-border" }
+                )*@
         </div>
     </div>
 </div>
@@ -56,143 +57,265 @@
         <input id="btnSearchPolicy" type="submit" value="Search" class="btn btn-success margin-tb-20" />
     </div>
 </div>
-
-<table class="table table-bordered table-hover responsive">
+<table class="table table-bordered table-hover responsive" id="budgets">
     <thead class="thead-dark lbl-grid-head">
         <tr>
             <th>
-                Policy Number
+                Partner<b class="caret"></b>
             </th>
             <th>
-                Client
+                Client<b class="caret"></b>
             </th>
             <th>
-                Carrier
+                Policy #<b class="caret"></b>
+            </th>
+            <th>
+                Coverage<b class="caret"></b>
+            </th>
+            <th>
+                CF Product<b class="caret"></b>
+            </th>
+            <th>
+                Division<b class="caret"></b>
             </th>
             <th>
                 Year
             </th>
             <th>
-                January
+                Jan
             </th>
             <th>
-                February
+                Feb
             </th>
             <th>
-                March
+                Mar
             </th>
             <th>
-                April
+                Apr
             </th>
             <th>
                 May
             </th>
             <th>
-                June
+                Jun
             </th>
             <th>
-                July
+                Jul
             </th>
             <th>
-                August
+                Aug
             </th>
             <th>
-                September
+                Sep
             </th>
             <th>
-                October
+                Oct
             </th>
             <th>
-                November
+                Nov
             </th>
             <th>
-                December
+                Dec
             </th>
             <th>
                 Total
             </th>
-            <th></th>
+            @*<th></th>*@
         </tr>
     </thead>
-    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
-    {
-
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.ClientName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.CarrierName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.Year)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.JanBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.FebBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.MarchBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.AprilBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.MayBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.JunBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.JulyBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.AugBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.SepBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.OctBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.NovBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.DecBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data.TotalBudget, new { Style = "width:80px" })
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "PolicyBudget", new { id = item.Data.PolicyId, year = item.Data.Year })
-            @*@Html.ActionLink("Edit", "EditBudget", new { ClientId = item.Data.ClientId, PolicyId = item.Data.PolicyId, Year = item.Data.Year }) |*@
-        </td>
-    </tr>
-    }
+    <tbody>
+        @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.CarrierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.PolicyNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.Coverage)
+                    @Html.HiddenFor(modelItem => item.Data.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.CFProduct)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.Division)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.JanBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.FebBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.MarchBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.AprilBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.MayBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.JunBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.JulyBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.AugBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.SepBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.OctBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.NovBudget, new { Style = "width:80px" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.DecBudget, new { Style = "width:80px" })
+                </td>
+                <td style="font-weight:bold">
+                    @Html.DisplayFor(modelItem => item.Data.TotalBudget, new { Style = "width:80px" })
+                </td>
+                @*<td>
+                    <a href="javascript:void(0)" id="anchEdit" onclick="editBudget(@item.Data.PolicyId,@item.Data.Year,@item.Data.ClientId,@item.Data.ProductId)">Edit</a>
+                    @Html.ActionLink("Edit", "PolicyBudget", new { id = item.Data.PolicyId, year = item.Data.Year })
+                    @Html.ActionLink("Edit", "EditBudget", new { ClientId = item.Data.ClientId, PolicyId = item.Data.PolicyId, Year = item.Data.Year }) |
+                </td>*@
+            </tr>
+        }
+    </tbody>
 </table>
-
+<div>
+    @Html.ActionLink("Policy List", "Index")
+</div>
 <script type="text/javascript">
-    function Search() {
-        var searchKey = $("#txtSearchText").val();
-        var searchStatusKey = $("input[name='status']:checked").val();
-        window.location.href = window.location.origin + window.location.pathname + "?Searchkey=" + searchKey + "&statusSearchkey=" + searchStatusKey;
-    };
+    function editBudget(policyId, year, clientId, hbsproductId) {
+        var productId = 0;
+        var divId = 0;
+        var host = window.location.origin;
+        var apiPath = host + "/Policy/AddBudget";
+        var isProd = true;
+        if (isProd) {
+            host = window.location.origin;
+            apiPath = host + "/IBS/Policy/AddBudget";
+        }
+        //var query = window.location.search;
+        //if (query != undefined && query != "") {
+        //    var searchQuery = query.split('&');
+        //    if (searchQuery[4].indexOf("divId") != -1) {
+        //        var clientIdArray = searchQuery[4].split('=');
+        //        if (clientIdArray[1] != "0") {
+        //            divId = clientIdArray[1];
+        //        }
+        //    }
+        //}
+        window.location.href = apiPath + "?policyId=" + policyId + "&clientId=" + clientId + "&ClientPolicyId=0&year=" + year + "&productId=" + hbsproductId
+        //$.ajax({
+        //    type: "POST",
+        //    url: apiPath + "/AssignClient?Id=" + Id + "&PolicyNo=" + PolicyNo,
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        location.reload();
+        //    },
+        //    error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //        console.log(errorThrown);
+        //    }
+        //});
+    }
+    function Total(index) {
+        janBudgetT = 0;
+        febT = 0;
+        marT = 0;
+        aprT = 0;
+        mayT = 0;
+        junT = 0;
+        julyT = 0
+        augT = 0;
+        sepT = 0;
+        octT = 0;
+        novT = 0;
+        decT = 0;
+        totalT = 0;
+        $('#budgets > tbody  > tr').each(function () {
+            debugger;
+           // if ($(this)[0].cells[0].childNodes[1] != undefined) {
+
+                janBudgetT = janBudgetT + parseFloat(this.cells[7].innerText);
+                febT = febT + parseFloat(this.cells[8].innerText);
+                marT = marT + parseFloat(this.cells[9].innerText);
+                aprT = aprT + parseFloat(this.cells[10].innerText);
+                mayT = mayT + parseFloat(this.cells[11].innerText);
+                junT = junT + parseFloat(this.cells[12].innerText);
+                julyT = julyT + parseFloat(this.cells[13].innerText);
+                augT = augT + parseFloat(this.cells[14].innerText);
+                sepT = sepT + parseFloat(this.cells[15].innerText);
+                octT = octT + parseFloat(this.cells[16].innerText);
+                novT = novT + parseFloat(this.cells[17].innerText);
+                decT = decT + parseFloat(this.cells[18].innerText);
+                totalT = decT + parseFloat(this.cells[19].innerText);
+           // }
+        });
+        janBudgetT = parseFloat(janBudgetT).toFixed(2);
+        febT = parseFloat(febT).toFixed(2);
+        marT = parseFloat(marT).toFixed(2);
+        aprT = parseFloat(aprT).toFixed(2);
+        mayT = parseFloat(mayT).toFixed(2);
+        junT = parseFloat(junT).toFixed(2);
+        julyT = parseFloat(julyT).toFixed(2);
+        augT = parseFloat(augT).toFixed(2);
+        sepT = parseFloat(sepT).toFixed(2);
+        octT = parseFloat(octT).toFixed(2);
+        novT = parseFloat(novT).toFixed(2);
+        decT = parseFloat(decT).toFixed(2);
+        totalT = parseFloat(totalT).toFixed(2);
+
+        if (index != 0) {
+            $('#budgets tr:last').remove();
+        }
+        $('#budgets tr:last').after("<tr style='font-weight:bold'><td style='text-align:right'></td>" +
+            "<td style='text-align:right'></td>" +
+            "<td style='text-align:right'></td>" +
+            "<td style='text-align:right'></td>" +
+            "<td style='text-align:right'></td>" +
+            "<td style='text-align:right'></td>" +
+            "<td style='text-align:right'>Total: </td>" +
+            "<td style='text-align:right'>" + janBudgetT + "</td>" +
+            "<td style='text-align:right'>" + febT + "</td>" +
+            "<td style='text-align:right'>" + marT + "</td>" +
+            "<td style='text-align:right'>" + aprT + "</td>" +
+            "<td style='text-align:right'>" + mayT + "</td>" +
+            "<td style='text-align:right'>" + junT + "</td>" +
+            "<td style='text-align:right'>" + julyT + "</td>" +
+            "<td style='text-align:right'>" + augT + "</td>" +
+            "<td style='text-align:right'>" + sepT + "</td>" +
+            "<td style='text-align:right'>" + octT + "</td>" +
+            "<td style='text-align:right'>" + novT + "</td>" +
+            "<td style='text-align:right'>" + decT + "</td>" +
+            "<td style='text-align:right'>"+totalT+"</td>" +
+            "<td style='text-align:right'></td></tr>");
+    }
     $(document).ready(function () {
 
         var host = window.location.origin;
         var apiPath = host + "/Policy";
-        var isProd = false;
+        var isProd = true;
         if (isProd) {
             host = window.location.origin;
             apiPath = host + "/IBS/Policy";
         }
-
         $.ajax({
             type: "POST",
             url: apiPath + "/GetDivisions",
@@ -202,7 +325,7 @@
                 console.log(data);
                 var ddTypes = $("#ddldivisions");
                 $(ddTypes).empty();
-                $(ddTypes).append($("<option></option>").val("0").html("All"))
+                $(ddTypes).append($("<option></option>").val("0").html("-- All --"))
                 for (var i = 0; i < data.length; i++) {
                     $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                 }
@@ -210,17 +333,13 @@
                 var query = window.location.search;
                 if (query != undefined && query != "") {
                     var searchQuery = query.split('&');
-                    
-
                     if (searchQuery[4].indexOf("divId") != -1) {
                         var clientIdArray = searchQuery[4].split('=');
                         if (clientIdArray[1] != "0") {
                             $("#ddldivisions").val(clientIdArray[1]);
                         }
                     }
-
-                   
-                }
+                }                
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(errorThrown);
@@ -229,30 +348,28 @@
 
         $.ajax({
             type: "POST",
-            url: apiPath + "/GetPatrners",
+            url: apiPath + "/GetCFProducts",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 console.log(data);
-                var smDate = $("#ddlCoverages");
+                var smDate = $("#ddlCFproducts");
                 $(smDate).empty();
-                $(smDate).append($("<option></option>").val("0").html("All"))
+                $(smDate).append($("<option></option>").val("0").html("-- All --"))
                 for (var i = 0; i < data.length; i++) {
                     $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
                 }
 
-
                 var query = window.location.search;
                 if (query != undefined && query != "") {
                     var searchQuery = query.split('&');
-                   
-                    if (searchQuery[3].indexOf("carId") != -1) {
+
+                    if (searchQuery[3].indexOf("covId") != -1) {
                         var clientIdArray = searchQuery[3].split('=');
                         if (clientIdArray[1] != "0") {
-                            $("#ddlCoverages").val(clientIdArray[1]);
+                            $("#ddlCFproducts").val(clientIdArray[1]);
                         }
                     }
-
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -268,7 +385,6 @@
                 if (queryArray[1] != "0") {
                     $("#ddlYears").val(queryArray[1]);
                 }
-
             }
             if (searchQuery[2].indexOf("clientId") != -1) {
                 var clientIdArray = searchQuery[2].split('=');
@@ -276,27 +392,13 @@
                     $("#ddlClient").val(clientIdArray[1]);
                 }
             }
-
-            //if (searchQuery[3].indexOf("carId") != -1) {
-            //    var clientIdArray = searchQuery[2].split('=');
-            //    if (clientIdArray[1] != "0") {
-            //        $("#ddldivisions").val(clientIdArray[1]);
-            //    }
-            //}
-
-            //if (searchQuery[4].indexOf("divId") != -1) {
-            //    var clientIdArray = searchQuery[2].split('=');
-            //    if (clientIdArray[1] != "0") {
-            //        $("#ddlClient").val(clientIdArray[1]);
-            //    }
-            //}
         }
-
 
         $("#btnSearchPolicy").click(function () {
             var year = $("#ddlYears").val();
             if (year == "") {
-                year = 0;
+                alert("Please select year");
+                return;
             }
 
             var clientId = $("#ddlClient").val();
@@ -304,9 +406,9 @@
                 clientId = 0;
             }
 
-            var ddlCoverages = $("#ddlCoverages").val();
-            if (ddlCoverages == "") {
-                ddlCoverages = 0;
+            var ddlCFproducts = $("#ddlCFproducts").val();
+            if (ddlCFproducts == "") {
+                ddlCFproducts = 0;
             }
 
             var ddldivisions = $("#ddldivisions").val();
@@ -314,8 +416,10 @@
                 ddldivisions = 0;
             }
             window.location.href = window.location.origin + window.location.pathname
-                + "?year=" + year + "&policyId=0" + "&clientId=" + clientId + "&carId=" + ddlCoverages
-                + "&divId="+ddldivisions;
+                + "?year=" + year + "&policyId=0" + "&clientId=" + clientId + "&covId=" + ddlCFproducts
+                + "&divId=" + ddldivisions;
         });
+        Total(0);
     });
+    $("#budgets").tablesorter({ sortList: [[0, 0], [2, 1]] });
 </script>
