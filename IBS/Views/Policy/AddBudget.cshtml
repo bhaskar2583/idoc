@@ -1,438 +1,518 @@
 ﻿@model  IEnumerable<IBS.Core.Models.AddPolicyBudget>
-
 @{
     ViewBag.Title = "AddBudget";
 }
-
+<script src="~/Scripts/jquery.tablesorter.min.js"></script>
 @using (Html.BeginForm())
 {
 
-    @Html.AntiForgeryToken()
+   @Html.AntiForgeryToken()
 
-    <div class="row col-md-12">
-        <h2>
-            Policy Budget
-        </h2>
-        <hr />
-    </div>
+   <div class="row col-md-12">
+       <h2>
+           Add Policy Budget
+       </h2>
+       <hr />
+   </div>
 
-    <div class="row">
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <b>Products</b><span class="hash-redcolor">*</span><br />
+   <div class="row">
+       <div class="col-md-6">
+           <div class="form-group">
+                <b>CF Products</b><span class="hash-redcolor">*</span><br />
                 @Html.DropDownList("ddlProduct",
                 new SelectList(ViewBag.CProducts, "Id", "Name"),
                 "-- Please select a product --", new { @class = "ibs-input ibs-border" }
                 )
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <b>Year</b><span class="hash-redcolor">*</span><br />
-
-                @Html.DropDownList("ddlYears",
+           </div>
+       </div>
+       <div class="col-md-6">
+           <div class="form-group">
+               <b>Year</b><span class="hash-redcolor">*</span><br />
+               @Html.DropDownList("ddlYears",
                new SelectList(ViewBag.Years, "Id", "Name"),
                "-- Please select a year --", new { @class = "ibs-input ibs-border" }
                )
+           </div>
+       </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <b>Clients:</b><br />
+                    @Html.DropDownList("ddlClient",
+                    new SelectList(ViewBag.Clients, "Id", "Name"),
+                    "-- Please select a client --", new { @class = "ibs-input ibs-border" }
+                    )
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Division:</label>
+                    <select id="ddldivisions" class="ibs-input ibs-border"></select>
+                </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <b>Client</b><br />
-                @Html.DropDownList("ddlClient",
-                new SelectList(ViewBag.Clients, "Id", "Name"),
-                "-- Please select a client --", new { @class = "ibs-input ibs-border" }
-                )
-            </div>
-        </div>
-    </div>
-
-    <div>
         <div>
-            <input id="btnSearchPolicy" onclick="Search()" type="button" value="Search" class="btn btn-success margin-tb-20" /><br />
-            <label id="lblSuccsess" style="color:green">Budget addedd successfully</label>
-        </div>
-    </div>
-
-    <table id="tblbudgets" class="table table-bordered table-hover responsive">
-        <thead class="thead-dark lbl-grid-head">
-            <tr>
-                <th>
-                    Client
-                </th>
-                <th>
-                    Policy
-                </th>
-                <th>
-                    Carrier
-                </th>
-                <th>
-                    Product
-                </th>
-                <th>
-                    Carrier
-                </th>
-                <th>
-                    JAN
-                </th>
-                <th>
-                    FEB
-                </th>
-                <th>
-                    March
-                </th>
-                <th>
-                    April
-                </th>
-                <th>
-                    May
-                </th>
-                <th>
-                    June
-                </th>
-                <th>
-                    July
-                </th>
-                <th>
-                    August
-                </th>
-                <th>
-                    September
-                </th>
-                <th>
-                    October
-                </th>
-                <th>
-                    November
-                </th>
-                <th>
-                    December
-                </th>
-                <th>
-                    Total
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr @*class="lbl-grid"*@>
-                    <td>
-                        <label>@item.ClientName</label>
-                        @Html.HiddenFor(model => item.ClientId)
-                    </td>
-                    <td>
-                        <label>@item.PolicyNumber</label>
-                        @Html.HiddenFor(model => item.PolicyNumber)
-                        @Html.HiddenFor(model => item.PolicyId)
-                        @Html.HiddenFor(model => item.Year)
-                    </td>
-                    <td>
-                        <label>@item.Coverage</label>
-                        @Html.HiddenFor(model => item.CoverageId)
-                    </td>
-                    <td>
-                        <label>@item.Product</label>
-                        @Html.HiddenFor(model => item.ProductId)
-                    </td>
-                    <td>
-                        <label>@item.CarName</label>
-                        @Html.HiddenFor(model => item.CarId);
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.JanBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.FebBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.MarchBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.AprilBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.MayBudget, new { style = " width:70px; ", @class = "floatnon" })
-
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.JunBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-
-                    <td>
-                        @Html.TextBoxFor(midel => item.JulyBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.AugBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.SepBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.OctBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.NovBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(midel => item.DecBudget, new { style = " width:70px; ", @class = "floatnon" })
-                    </td>
-                    <td>
-                        <label id="lblTotal">@item.TotalBudget</label>
-                    </td>
-                    <td>
-                        <a id="anchPrefill" href="javascript:void(0);">Auto Fill</a>
-                    </td>
-
-                </tr>
-            }
-        </tbody>
-
-    </table>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <input id="btnSubmit" type="button" value="Save" class="btn btn-success" />
+            <div>
+                <input id="btnSearchPolicy" onclick="Search()" type="button" value="Search" class="btn btn-success margin-tb-20" /><br />
+                <label id="lblSuccsess" style="color:green">Budget addedd successfully</label>
             </div>
         </div>
-    </div>
 
-    <script type="text/javascript">
-        function Search() {
-            var ddlProduct = $("#ddlProduct").val();
-            var ddlYears = $("#ddlYears").val();
-            var ddlClient = $("#ddlClient").val();
-
-            if (ddlYears == "" || ddlProduct == "") {
-                alert("client and year both mandatory");
-                return;
-            }
-
-            if (ddlClient == "")
-                ddlClient = 0;
-
-            window.location.href = window.location.origin + window.location.pathname + "?productId=" + ddlProduct + "&year=" + ddlYears + "&clientId=" + ddlClient + "&policyId=0&ClientPolicyId=0";
-        };
-
-        function submitapi(jRequest) {
-
-            let host = window.location.origin;
-            let path = window.location.pathname;
-            var apiPath = host + path;
-            var isProd = false;
-            if (isProd) {
-                host = window.location.origin;
-                apiPath = host + "/IBS/Policy";
-            }
-
-            $.ajax({
-                type: "POST",
-                url: apiPath,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(jRequest),
-                success: function (commisions) {
-                    $("#lblSuccsess").show();
-
-                    setTimeout(function () {
-                        $("#lblSuccsess").hide();
-                    }, 10000);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.log(errorThrown);
+        <table id="tblbudgets" class="table table-bordered table-hover responsive">
+            <thead class="thead-dark lbl-grid-head">
+                <tr>
+                    <th>
+                        Client <b class="caret"></b>
+                    </th>
+                    <th>
+                        Policy #<b class="caret"></b>
+                    </th>
+                    <th>
+                        Coverage <b class="caret"></b>
+                    </th>
+                    <th>
+                        CF Product <b class="caret"></b>
+                    </th>
+                    <th>
+                        Partner <b class="caret"></b>
+                    </th>
+                    <th>
+                        Division
+                    </th>
+                    <th>
+                        Jan
+                    </th>
+                    <th>
+                        Feb
+                    </th>
+                    <th>
+                        Mar
+                    </th>
+                    <th>
+                        Apr
+                    </th>
+                    <th>
+                        May
+                    </th>
+                    <th>
+                        Jun
+                    </th>
+                    <th>
+                        Jul
+                    </th>
+                    <th>
+                        Aug
+                    </th>
+                    <th>
+                        Sep
+                    </th>
+                    <th>
+                        Oct
+                    </th>
+                    <th>
+                        Nov
+                    </th>
+                    <th>
+                        Dec
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-size:12px;font-weight:bold">
+                            @Html.DisplayFor(modelItem => item.ClientName)
+                            @Html.HiddenFor(model => item.ClientId)
+                        </td>
+                        <td style="font-size:12px;font-weight:bold">
+                            @Html.DisplayFor(modelItem => item.PolicyNumber)
+                            @Html.HiddenFor(model => item.PolicyNumber)
+                            @Html.HiddenFor(model => item.PolicyId)
+                            @Html.HiddenFor(model => item.Year)
+                        </td>
+                        <td style="font-size:12px;font-weight:bold">
+                            @Html.DisplayFor(modelItem => item.Coverage)
+                            @Html.HiddenFor(model => item.CoverageId)
+                            @Html.HiddenFor(model => item.ProductId)
+                        </td>
+                        <td style="font-size:12px;font-weight:bold">
+                            @Html.DisplayFor(modelItem => item.CFProduct)
+                            @Html.HiddenFor(model => item.CProductId)
+                        </td>
+                        <td style="font-size:12px;font-weight:bold">
+                            @Html.DisplayFor(modelItem => item.CarName)
+                            @Html.HiddenFor(model => item.CarId)
+                        </td>
+                        <td style="font-size:12px;font-weight:bold">
+                            @Html.DisplayFor(modelItem => item.Division)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.JanBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.FebBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.MarchBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.AprilBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.MayBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.JunBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.JulyBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.AugBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.SepBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.OctBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.NovBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(midel => item.DecBudget, new { style = " width:60px; ", @class = "floatnon" })
+                        </td>
+                        <td style="max-width:60px">
+                            <label id="lblTotal">@item.TotalBudget</label>
+                        </td>
+                        <td>
+                            <a id="anchPrefill" href="javascript:void(0);">Auto Fill</a>
+                        </td>
+                    </tr>
                 }
-            });
-        }
+            </tbody>
+        </table>
 
-        function Total(index) {
-            janBudgetT = 0;
-            febT=0;
-            marT=0;
-            aprT=0;
-            mayT=0;
-            junT=0;
-            julyT=0
-            augT=0;
-            sepT=0;
-            octT=0;
-            novT=0;
-            decT=0;
-            $('#tblbudgets > tbody  > tr').each(function () {
-                if ($(this)[0].cells[0].childNodes[1] != undefined) {
-                    var ClientId = $(this)[0].cells[0].children[1].value;
-                    var policyNo = $(this)[0].cells[1].children[1].value;
-                    var policyId = $(this)[0].cells[1].children[2].value;
-                    var year = $(this)[0].cells[1].children[3].value;
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input id="btnSubmit" type="button" value="Save" class="btn btn-success" />
+                    <input id="btnTotals" type="button" value="Totals" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
 
+        <script type="text/javascript">
+            function Search() {
+                var ddlProduct = $("#ddlProduct").val();
+                var ddlYears = $("#ddlYears").val();
+                var ddlClient = $("#ddlClient").val();
 
-                    var coverageId = $(this)[0].cells[2].children[1].value;
-                    var productId = $(this)[0].cells[3].children[1].value;
-                    var carrierId = $(this)[0].cells[4].children[1].value;
-
-                    janBudgetT = janBudgetT + parseFloat(this.cells[5].children[0].value);
-                    febT = febT + parseFloat(this.cells[5].children[0].value);
-                    marT = marT+parseFloat(this.cells[6].children[0].value);
-                    aprT = aprT+parseFloat(this.cells[7].children[0].value);
-                    mayT = mayT+parseFloat(this.cells[8].children[0].value);
-                    junT = junT+parseFloat(this.cells[9].children[0].value);
-                    julyT = julyT+parseFloat(this.cells[10].children[0].value);
-                    augT = augT+parseFloat(this.cells[11].children[0].value);
-                    sepT = sepT+parseFloat(this.cells[12].children[0].value);
-                    octT = octT+parseFloat(this.cells[13].children[0].value);
-                    novT = novT+parseFloat(this.cells[14].children[0].value);
-                    decT = decT+parseFloat(this.cells[15].children[0].value);
-
-
+                if (ddlYears == "" || ddlProduct == "") {
+                    alert("client and year both mandatory");
+                    return;
                 }
-            });
-            janBudgetT = parseFloat(janBudgetT).toFixed(2);
-            febT = parseFloat(febT).toFixed(2);
-            marT = parseFloat(marT).toFixed(2);
-            aprT = parseFloat(aprT).toFixed(2);
-            mayT = parseFloat(mayT).toFixed(2);
-            junT = parseFloat(junT).toFixed(2);
-            julyT = parseFloat(julyT).toFixed(2);
-            augT = parseFloat(augT).toFixed(2);
-            sepT = parseFloat(sepT).toFixed(2);
-            octT = parseFloat(octT).toFixed(2);
-            novT = parseFloat(novT).toFixed(2);
-            decT = parseFloat(decT).toFixed(2);
+                if (ddlClient == "")
+                    ddlClient = 0;
 
-            if (index != 0) {
-                $('#tblbudgets tr:last').remove();
-            }
-            $('#tblbudgets tr:last').after("<tr><td style='text-align:right'></td>" +
-                "<td style='text-align:right'></td>" +
-                "<td style='text-align:right'></td>" +
-                "<td style='text-align:right'></td>" +
-                "<td style='text-align:right'>Total</td>" +
-                "<td style='text-align:right'>" + janBudgetT + "</td>" +
-                "<td style='text-align:right'>" + febT + "</td>" +
-                "<td style='text-align:right'>" + marT + "</td>" +
-                "<td style='text-align:right'>" + aprT + "</td>" +
-                "<td style='text-align:right'>" + mayT + "</td>" +
-                "<td style='text-align:right'>" + junT + "</td>" +
-                "<td style='text-align:right'>" + julyT + "</td>" +
-                "<td style='text-align:right'>" + augT + "</td>" +
-                "<td style='text-align:right'>" + sepT + "</td>" +
-                "<td style='text-align:right'>" + octT + "</td>" +
-                "<td style='text-align:right'>" + novT + "</td>" +
-                "<td style='text-align:right'>" + decT+"</td>" +
-                "<td style='text-align:right'></td>" +
-                "<td style='text-align:right'></td></tr>"); 
-        }
-        $(document).ready(function () {
-            $("#lblSuccsess").hide();
-            $("[id*=anchPrefill]").click(function () {
+                var ddldivisions = $("#ddldivisions").val();
+                if (ddldivisions == "") {
+                    ddldivisions = 0;
+                }
+                window.location.href = window.location.origin + window.location.pathname + "?productId=" + ddlProduct + "&year=" + ddlYears + "&clientId=" + ddlClient + "&policyId=0&ClientPolicyId=0" + "&divId=" + ddldivisions;
+            };
 
-                var janBudget = this.parentElement.parentElement.cells[5].children[0].value;
-                this.parentElement.parentElement.cells[5].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[6].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[7].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[8].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[9].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[10].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[11].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[12].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[13].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[14].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[15].children[0].value = janBudget;
-                this.parentElement.parentElement.cells[16].children[0].value = janBudget;
+            function submitapi(jRequest) {
 
-                var total = parseFloat(janBudget).toFixed(2) * 12;
-                total = parseFloat(total).toFixed(2);
-                this.parentElement.parentElement.cells[17].children[0].innerText = total;
-                // $("#lblTotal").text(total);
-                Total(1);
-            });
+                let host = window.location.origin;
+                let path = window.location.pathname;
+                var apiPath = host + path;
+                var isProd = false;
+                if (isProd) {
+                    host = window.location.origin;
+                    apiPath = host + "/IBS/Policy";
+                }
 
-            $("#btnSubmit").click(function () {
-                var budgets = [];
-                $('#tblbudgets > tbody  > tr').each(function () {
-                    if ($(this)[0].cells[0].childNodes[1] != undefined) {
-                        var ClientId = $(this)[0].cells[0].children[1].value;
-                        var policyNo = $(this)[0].cells[1].children[1].value;
-                        var policyId = $(this)[0].cells[1].children[2].value;
-                        var year = $(this)[0].cells[1].children[3].value;
+                $.ajax({
+                    type: "POST",
+                    url: apiPath,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(jRequest),
+                    success: function (commisions) {
+                        $("#lblSuccsess").show();
 
-
-                        var coverageId = $(this)[0].cells[2].children[1].value;
-                        var productId = $(this)[0].cells[3].children[1].value;
-                        var carrierId = $(this)[0].cells[4].children[1].value;
-
-                        var janBudget = this.cells[5].children[0].value;
-                        var feb = this.cells[5].children[0].value;
-                        var mar = this.cells[6].children[0].value;
-                        var apr = this.cells[7].children[0].value;
-                        var may = this.cells[8].children[0].value;
-                        var jun = this.cells[9].children[0].value;
-                        var july= this.cells[10].children[0].value;
-                        var aug = this.cells[11].children[0].value;
-                        var sep = this.cells[12].children[0].value;
-                        var oct = this.cells[13].children[0].value;
-                        var nov = this.cells[14].children[0].value;
-                        var dec = this.cells[15].children[0].value;
-
-                        var budget = {
-                            "ClientId": ClientId,
-                            "CarrierId": carrierId,
-                            "PolicyId": policyId,
-                            "CoverageId": coverageId,
-                            "ProductId": productId,
-                            "Year": year,
-                            "JanBudget": janBudget,
-                            "FebBudget": feb,
-                            "MarchBudget": mar,
-                            "AprilBudget": apr,
-                            "MayBudget": may,
-                            "JunBudget": jun,
-                            "JulyBudget": july,
-                            "AugBudget": aug,
-                            "SepBudget": sep,
-                            "OctBudget": oct,
-                            "NovBudget": nov,
-                            "DecBudget": dec
-                        }
-                        budgets.push(budget);
+                        setTimeout(function () {
+                            $("#lblSuccsess").hide();
+                        }, 10000);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(errorThrown);
                     }
                 });
-                submitapi(budgets);
-            });
-
-
-
-
-            var query = window.location.search;
-            if (query != undefined && query != "") {
-                var searchQuery = query.split('&');
-                var queryArray = searchQuery[0].split('=');
-                if (queryArray[0].indexOf("productId") != -1) {
-                    if (queryArray[1] != "0") {
-                        $("#ddlProduct").val(queryArray[1]);
-                    }
-
-                }
-                if (searchQuery[1].indexOf("year") != -1) {
-                    var yearArray = searchQuery[1].split('=');
-                    if (yearArray[1] != "0") {
-                        $("#ddlYears").val(yearArray[1]);
-                    }
-                }
-
-                if (searchQuery[2].indexOf("clientId") != -1) {
-                    var clientIdArray = searchQuery[2].split('=');
-                    if (clientIdArray[1] != "0") {
-                        $("#ddlClient").val(clientIdArray[1]);
-                    }
-                }
-
             }
-            Total(0);
-        });
-    </script>
-}
+
+            function Total(index) {
+                janBudgetT = 0;
+                febT = 0;
+                marT = 0;
+                aprT = 0;
+                mayT = 0;
+                junT = 0;
+                julyT = 0
+                augT = 0;
+                sepT = 0;
+                octT = 0;
+                novT = 0;
+                decT = 0;
+                if (index == 2) {
+                    $('#tblbudgets > tbody  > tr').each(function () {
+                    if ($(this)[0].cells[0].childNodes[1] != undefined) {
+
+                        var janBudgetT1 =parseFloat(this.cells[6].children[0].value);
+                        var febT1 = parseFloat(this.cells[7].children[0].value);
+                        var marT1 = parseFloat(this.cells[8].children[0].value);
+                        var aprT1 = parseFloat(this.cells[9].children[0].value);
+                        var mayT1 = parseFloat(this.cells[10].children[0].value);
+                        var junT1 = parseFloat(this.cells[11].children[0].value);
+                        var julyT1= parseFloat(this.cells[12].children[0].value);
+                        var augT1 = parseFloat(this.cells[13].children[0].value);
+                        var sepT1 = parseFloat(this.cells[14].children[0].value);
+                        var octT1 = parseFloat(this.cells[15].children[0].value);
+                        var novT1 = parseFloat(this.cells[16].children[0].value);
+                        var decT1 = parseFloat(this.cells[17].children[0].value);
+
+                        var total = parseFloat(janBudgetT1) +
+                            parseFloat(febT1) +
+                            parseFloat(marT1) +
+                            parseFloat(aprT1) +
+                            parseFloat(mayT1) +
+                            parseFloat(junT1) +
+                            parseFloat(julyT1) +
+                            parseFloat(augT1) +
+                            parseFloat(sepT1) +
+                            parseFloat(octT1) +
+                            parseFloat(novT1) +
+                            parseFloat(decT1);
+                        total = parseFloat(total).toFixed(2);
+                        this.cells[18].children[0].innerText = total;
+                    }
+                });
+
+                }
+                
+                $('#tblbudgets > tbody  > tr').each(function () {
+                    if ($(this)[0].cells[0].childNodes[1] != undefined) {
+
+                        janBudgetT = janBudgetT + parseFloat(this.cells[6].children[0].value);
+                        febT = febT + parseFloat(this.cells[7].children[0].value);
+                        marT = marT + parseFloat(this.cells[8].children[0].value);
+                        aprT = aprT + parseFloat(this.cells[9].children[0].value);
+                        mayT = mayT + parseFloat(this.cells[10].children[0].value);
+                        junT = junT + parseFloat(this.cells[11].children[0].value);
+                        julyT = julyT + parseFloat(this.cells[12].children[0].value);
+                        augT = augT + parseFloat(this.cells[13].children[0].value);
+                        sepT = sepT + parseFloat(this.cells[14].children[0].value);
+                        octT = octT + parseFloat(this.cells[15].children[0].value);
+                        novT = novT + parseFloat(this.cells[16].children[0].value);
+                        decT = decT + parseFloat(this.cells[17].children[0].value);
+
+
+                    }
+                });
+                janBudgetT = parseFloat(janBudgetT).toFixed(2);
+                febT = parseFloat(febT).toFixed(2);
+                marT = parseFloat(marT).toFixed(2);
+                aprT = parseFloat(aprT).toFixed(2);
+                mayT = parseFloat(mayT).toFixed(2);
+                junT = parseFloat(junT).toFixed(2);
+                julyT = parseFloat(julyT).toFixed(2);
+                augT = parseFloat(augT).toFixed(2);
+                sepT = parseFloat(sepT).toFixed(2);
+                octT = parseFloat(octT).toFixed(2);
+                novT = parseFloat(novT).toFixed(2);
+                decT = parseFloat(decT).toFixed(2);
+
+                if (index != 0) {
+                    $('#tblbudgets tr:last').remove();
+                }
+                $('#tblbudgets tr:last').after("<tr style='font-weight:bold'><td style='text-align:right'></td>" +
+                    "<td style='text-align:right'></td>" +
+                    "<td style='text-align:right'></td>" +
+                    "<td style='text-align:right'></td>" +
+                    "<td style='text-align:right'></td>" +
+                    "<td style='text-align:right'>Total: </td>" +
+                    "<td style='text-align:right'>" + janBudgetT + "</td>" +
+                    "<td style='text-align:right'>" + febT + "</td>" +
+                    "<td style='text-align:right'>" + marT + "</td>" +
+                    "<td style='text-align:right'>" + aprT + "</td>" +
+                    "<td style='text-align:right'>" + mayT + "</td>" +
+                    "<td style='text-align:right'>" + junT + "</td>" +
+                    "<td style='text-align:right'>" + julyT + "</td>" +
+                    "<td style='text-align:right'>" + augT + "</td>" +
+                    "<td style='text-align:right'>" + sepT + "</td>" +
+                    "<td style='text-align:right'>" + octT + "</td>" +
+                    "<td style='text-align:right'>" + novT + "</td>" +
+                    "<td style='text-align:right'>" + decT + "</td>" +
+                    "<td style='text-align:right'></td>" +
+                    "<td style='text-align:right'></td></tr>");
+            }
+            $(document).ready(function () {
+
+                var host = window.location.origin;
+                var apiPath = host + "/Policy";
+                var isProd = true;
+                if (isProd) {
+                    host = window.location.origin;
+                    apiPath = host + "/IBS/Policy";
+                }
+                $.ajax({
+                    type: "POST",
+                    url: apiPath + "/GetDivisions",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        var ddTypes = $("#ddldivisions");
+                        $(ddTypes).empty();
+                        $(ddTypes).append($("<option></option>").val("0").html("-- All --"))
+                        for (var i = 0; i < data.length; i++) {
+                            $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                        }
+                        var query = window.location.search;
+                        if (query != undefined && query != "") {
+                            var searchQuery = query.split('&');
+                            if (searchQuery[4].indexOf("divId") != -1) {
+                                var clientIdArray = searchQuery[4].split('=');
+                                if (clientIdArray[1] != "0") {
+                                    $("#ddldivisions").val(clientIdArray[1]);
+                                }
+                            }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                });
+
+                $("#lblSuccsess").hide();
+
+
+                $("[id*=anchPrefill]").click(function () {
+
+                    var janBudget = this.parentElement.parentElement.cells[6].children[0].value;
+                    this.parentElement.parentElement.cells[6].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[7].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[8].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[9].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[10].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[11].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[12].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[13].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[14].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[15].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[16].children[0].value = janBudget;
+                    this.parentElement.parentElement.cells[17].children[0].value = janBudget;
+
+                    var total = parseFloat(janBudget).toFixed(2) * 12;
+                    total = parseFloat(total).toFixed(2);
+                    this.parentElement.parentElement.cells[18].children[0].innerText = total;
+                    // $("#lblTotal").text(total);
+                    Total(1);
+                });
+                $("#btnTotals").click(function () {
+                    Total(2);
+                });
+                $("#btnSubmit").click(function () {
+                    var budgets = [];
+                    $('#tblbudgets > tbody  > tr').each(function () {
+                        if ($(this)[0].cells[0].childNodes[1] != undefined) {
+                            var ClientId = $(this)[0].cells[0].children[1].value;
+                            var policyNo = $(this)[0].cells[1].children[1].value;
+                            var policyId = $(this)[0].cells[1].children[2].value;
+                            var year = $(this)[0].cells[1].children[3].value;
+
+
+                            var coverageId = $(this)[0].cells[2].children[1].value;
+                            var productId = $(this)[0].cells[2].children[2].value;
+                            var carrierId = $(this)[0].cells[4].children[1].value;
+
+                            var janBudget = this.cells[6].children[0].value;
+                            var feb = this.cells[7].children[0].value;
+                            var mar = this.cells[8].children[0].value;
+                            var apr = this.cells[9].children[0].value;
+                            var may = this.cells[10].children[0].value;
+                            var jun = this.cells[11].children[0].value;
+                            var july = this.cells[12].children[0].value;
+                            var aug = this.cells[13].children[0].value;
+                            var sep = this.cells[14].children[0].value;
+                            var oct = this.cells[15].children[0].value;
+                            var nov = this.cells[16].children[0].value;
+                            var dec = this.cells[17].children[0].value;
+
+                            var budget = {
+                                "ClientId": ClientId,
+                                "CarrierId": carrierId,
+                                "PolicyId": policyId,
+                                "CoverageId": coverageId,
+                                "ProductId": productId,
+                                "Year": year,
+                                "JanBudget": janBudget,
+                                "FebBudget": feb,
+                                "MarchBudget": mar,
+                                "AprilBudget": apr,
+                                "MayBudget": may,
+                                "JunBudget": jun,
+                                "JulyBudget": july,
+                                "AugBudget": aug,
+                                "SepBudget": sep,
+                                "OctBudget": oct,
+                                "NovBudget": nov,
+                                "DecBudget": dec
+                            }
+                            budgets.push(budget);
+                        }
+                    });
+                    submitapi(budgets);
+                });
+
+                var query = window.location.search;
+                if (query != undefined && query != "") {
+                    var searchQuery = query.split('&');
+                    var queryArray = searchQuery[0].split('=');
+                    if (queryArray[0].indexOf("productId") != -1) {
+                        if (queryArray[1] != "0") {
+                            $("#ddlProduct").val(queryArray[1]);
+                        }
+
+                    }
+                    if (searchQuery[1].indexOf("year") != -1) {
+                        var yearArray = searchQuery[1].split('=');
+                        if (yearArray[1] != "0") {
+                            $("#ddlYears").val(yearArray[1]);
+                        }
+                    }
+
+                    if (searchQuery[2].indexOf("clientId") != -1) {
+                        var clientIdArray = searchQuery[2].split('=');
+                        if (clientIdArray[1] != "0") {
+                            $("#ddlClient").val(clientIdArray[1]);
+                        }
+                    }
+                    if (searchQuery[5].indexOf("divId") != -1) {
+                        var clientIdArray = searchQuery[5].split('=');
+                        if (clientIdArray[1] != "0") {
+                            $("#ddldivisions").val(clientIdArray[1]);
+                        }
+                    }
+                }
+                Total(0);
+            });
+            $("#tblbudgets").tablesorter({ sortList: [[0, 0], [2, 1]] });
+        </script>
+    }
