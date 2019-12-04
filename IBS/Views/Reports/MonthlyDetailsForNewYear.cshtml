@@ -1,0 +1,1518 @@
+﻿@model IBS.Controllers.SearchFiltrsResult
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row col-md-12">
+    <h2>
+       New Year Monthly Details
+    </h2>
+    <hr />
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Year:</label><span class="hash-redcolor">*</span>
+        <select id="ddlYear" class="ibs-input ibs-border">
+            <option value="0">Select</option>
+            <option value="2020">2020</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Till Month:</label><span class="hash-redcolor">*</span>
+        <select id="ddlMonth" class="ibs-input ibs-border">
+            <option value="0">Select</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+    </div>
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>Coverages:</label><br />
+        <select class="form-control ddlcoverages" multiple="multiple"></select>
+    </div>
+    <div class="col-md-6">
+        <label>Product Type:</label><br />
+        <select class="form-control ddlproducts" multiple="multiple"></select>
+    </div>
+</div>
+<div class="row col-md-12 form-group">
+    <div class="col-md-6">
+        <label>GIT:</label><br />
+        <select class="form-control ddlGit" multiple="multiple">
+            <option value="0">All</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Divisions:</label><br />
+        <select class="form-control ddldivisions" multiple="multiple"></select>
+    </div>
+</div>
+<div class="col-md-12 form-group">
+    <div class="col-md-4">
+        <input id="btnSearch" type="submit" value="View Report" class="" />
+    </div>
+    <div class="col-md-4" style="text-align:right">
+        <i class="fa fa-save" title="Save as Excel" id="btn_excel" aria-hidden="true" style="font-size:35px;"></i>
+    </div>
+    <div class="col-md-4" style="text-align:right">
+        <i href="javascript:void(0)" title="Print" class="fa fa-print" aria-hidden="true" style="font-size:35px;" id="iPrint"></i>
+    </div>
+</div>
+<div id="divData">
+    <table id="tblData" class="table table-bordered table-hover responsive">
+        <thead class="thead-dark" style="font-size:small">
+        </thead>
+        <tbody style="font-size:small"></tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    function print() {
+
+        var divData = document.getElementById('divData');
+        var htmlToPrint = '' + '<style type="text/css">' +
+            'table, table tr th, table tr td {' +
+            'border: solid 0.5px #aaa999' +
+            '}' +
+            'table {' +
+            'border - collapse: collapse;' +
+            'border-spacing: 0;' +
+            '}' +
+            '</style>'
+        htmlToPrint += divData.outerHTML;
+        var printWindow = window.open(""/*'', '', 'height=400,width=400'*/);
+        printWindow.document.write('<html><head><h2>Monthly Details</h2>');
+        printWindow.document.write('</head><br/><br/><body>');
+        var details = getHeader();
+        var header = "<font style='font-size:10px;'>" + details + "</font>";
+        printWindow.document.write(header);
+        printWindow.document.write('<br/><br/>');
+        printWindow.document.write(htmlToPrint);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+    $("#btn_excel").click(function (e) {
+        var divisions = $.map($(".ddldivisions option:selected"), function (val, i) { return $(val).text() });
+        var gits = $.map($(".ddlGit option:selected"), function (val, i) { return $(val).text() });
+        var headerHTML = "<table>"
+            + "<tr><td colspan='3'><h2>Monthly Details</h2></td></tr> "
+            + "<tr><td>Year:</td><td align='left'>" + $("#ddlYear").val() + "</td></tr>"
+            + "<tr><td>Month:</td><td align='left'>" + $("#ddlMonth").val() + "</td></tr>"
+            + "<tr><td>Division:</td><td align='left'>" + divisions.join() + "</td></tr>"
+            + "<tr><td>GIT:</td><td align='left'>" + gits.join() + "</td></tr>"
+            + "</table><br/><br/>";
+        var htmlBody = "";
+        htmlBody += headerHTML;
+        htmlBody += $('div[id$=divData]').html();      // to construct body
+        tableToExcel(htmlBody, "MonthlyDetailsFile")
+    });
+    function getHeader() {
+        var divisions = $.map($(".ddldivisions option:selected"), function (val, i) { return $(val).text() });
+        var gits = $.map($(".ddlGit option:selected"), function (val, i) { return $(val).text() });
+        return "Year: " + $("#ddlYear").val() + "| Month: " + $("#ddlMonth").val() + "| Divisions: " + divisions.join() + " | " + "GIT: " + gits.join();;
+    }
+
+    var tableToExcel = (function () {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+        return function (htmlData, name) {
+            //table = $('div[id$=divData]');
+            var ctx = { worksheet: name || 'Worksheet', table: htmlData }
+            //window.location.href = uri + base64(format(template, ctx))
+            var link = document.createElement("a");
+            link.download = "MonthlyDetailsReport_" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls";
+            link.href = uri + base64(format(template, ctx));
+            link.click();
+            link.remove();
+        }
+    })()
+    $(".ddlcoverages").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddldivisions").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddlGit").select2({
+        maximumSelectionLength: 1000
+    });
+    $(".ddlproducts").select2({
+        maximumSelectionLength: 1000
+    });
+    function isEpmtyFill(value) {
+        return value == 0 ? "-" : value.toString();
+    }
+    $(document).ready(function () {
+        $("#iPrint").click(function () {
+            print();
+        });
+        var host = window.location.origin;
+        var apiPath = host + "/Reports";
+        var isProd = true;
+        if (isProd) {
+            host = window.location.origin;
+            apiPath = host + "/IBS/Reports";
+        }
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetCoverages",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var smDate = $(".ddlcoverages");
+                $(smDate).empty();
+                $(smDate).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetCFProducts",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var smDate = $(".ddlproducts");
+                $(smDate).empty();
+                $(smDate).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(smDate).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: apiPath + "/GetDivisions",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var ddTypes = $(".ddldivisions");
+                $(ddTypes).empty();
+                $(ddTypes).append($("<option></option>").val("0").html("All"))
+                for (var i = 0; i < data.length; i++) {
+                    $(ddTypes).append($("<option></option>").val(data[i].Id).html(data[i].Name));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        function GetMonth(value) {
+            switch (value) {
+                case 0:
+                    return "Jan";
+                case 1:
+                    return "Feb";
+                case 2:
+                    return "Mar";
+                case 3:
+                    return "Apr";
+                case 4:
+                    return "May";
+                case 5:
+                    return "Jun";
+                case 6:
+                    return "Jul";
+                case 7:
+                    return "Aug";
+                case 8:
+                    return "Sep";
+                case 9:
+                    return "Oct";
+                case 10:
+                    return "Nov";
+                case 11:
+                    return "Dec";
+            }
+        }
+        function GetMonthY(value) {
+            switch (value) {
+                case 0:
+                    return "Jan YTD";
+                case 1:
+                    return "Feb YTD";
+                case 2:
+                    return "Mar YTD";
+                case 3:
+                    return "Apr YTD";
+                case 4:
+                    return "May YTD";
+                case 5:
+                    return "Jun YTD";
+                case 6:
+                    return "Jul YTD";
+                case 7:
+                    return "Aug YTD";
+                case 8:
+                    return "Sep YTD";
+                case 9:
+                    return "Oct YTD";
+                case 10:
+                    return "Nov YTD";
+                case 11:
+                    return "Dec YTD";
+            }
+        }
+
+
+        $("#btnSearch").click(function () {
+            var ddlYear = $("#ddlYear").val();
+            if (ddlYear == "0") {
+                alert("please select year");
+                return;
+            }
+            var ddlMonth = $("#ddlMonth").val();
+            if (ddlMonth == "0") {
+                alert("please select Month");
+                return;
+            }
+            var ddlcoverages = $(".ddlcoverages option:selected");
+            var coverages = [];
+            for (var i = 0; i < ddlcoverages.length; i++) {
+                if (ddlcoverages[i].value != "0")
+                    coverages.push(ddlcoverages[i].value);
+            }
+            var ddlproducts = $(".ddlproducts option:selected");
+            var products = [];
+            for (var i = 0; i < ddlproducts.length; i++) {
+                if (ddlproducts[i].value != "0")
+                    products.push(ddlproducts[i].value);
+            }
+            var ddldivisions = $(".ddldivisions option:selected");
+            var divisions = [];
+            for (var i = 0; i < ddldivisions.length; i++) {
+                if (ddldivisions[i].value != "0")
+                    divisions.push(ddldivisions[i].value);
+            }
+            var ddlGit = $(".ddlGit option:selected");
+            var git = [];
+            for (var i = 0; i < ddlGit.length; i++) {
+                if (ddlGit[i].value != "0")
+                    git.push(ddlGit[i].value);
+            }
+            var ddlMonth = $("#ddlMonth").val();
+
+            var data = {
+                "Year": ddlYear,
+                "Month": ddlMonth,
+                "Coverages": coverages,
+                "Products": products,
+                "Divisions": divisions,
+                "git": git
+            };
+
+            $.ajax({
+                type: "POST",
+                url: apiPath + "/MonthlyDetailsForNewYear",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    var selectedMonth = $("#ddlMonth").val();
+                    var selectedMonthIndex = $("#ddlMonth").val() - 1;
+
+                    $("#tblData thead").empty();
+                    $("#tblData tbody").empty();
+
+                    var header = "";
+                    header =
+                        "<tr>" +
+                        "<th rowspan='2'>Coverage</th>" +
+                        "<th rowspan='2'>Product</th>" +
+                        "<th rowspan='2'>Partner</th>" +
+                        "<th rowspan='2'>Client</th>" +
+                        "<th rowspan='2'>Policy #</th>";
+
+                    for (var i = 0; i < data.DisplayTillMonth; i++) {
+                        if (selectedMonthIndex == i) {
+                            header +=
+                                "<th colspan='3'>" + GetMonth(i) + "</th>";
+                        }
+                        else {
+                            header +=
+                                "<th>" + GetMonth(i) + "</th>";
+                        }
+                    }
+                    for (var i = 0; i < data.DisplayTillMonth; i++) {
+                        if (selectedMonthIndex == i) {
+                            header +=
+                                "<th colspan='3'>" + GetMonthY(i) + "</th>";
+                        }
+                        else {
+                            header +=
+                                "<th>" + GetMonthY(i) + "</th>";
+                        }
+                    }
+
+                    header +=
+                        "<th rowspan='2'>Budget Total</th>" +
+                        "</tr>";
+                    $("#tblData thead").append(header
+                    );
+                    var header1 = "";
+                    header1 =
+                        "<tr>";
+                    for (var i = 0; i < data.DisplayTillMonth * 2; i++) {
+                        if ((selectedMonthIndex == i) || (selectedMonthIndex * 2 == i - 1)) {
+                            header1 +=
+                                "<th>Act</th>" +
+                                "<th>Bud</th>" +
+                                "<th>VAR F/(U)</th>";
+                        }
+                        else {
+                            header1 +=
+                                "<th>Act</th>";
+                        }
+                    }
+
+                    header1 +=
+                        "</tr>";
+                    $("#tblData thead").append(header1
+                    );
+
+                    var coverage = "";
+                    var JAT = 0;
+                    var JBT = 0;
+                    var JBF = 0;
+
+                    var FAT = 0;
+                    var FBT = 0;
+                    var FBF = 0;
+
+                    var MAT = 0;
+                    var MBT = 0;
+                    var MBF = 0;
+
+                    var AAT = 0;
+                    var ABT = 0;
+                    var ABF = 0;
+
+                    var MAAT = 0;
+                    var MABT = 0;
+                    var MABF = 0;
+
+                    var JMAAT = 0;
+                    var JMABT = 0;
+                    var JMABF = 0;
+
+
+                    var JJMAAT = 0;
+                    var JJMABT = 0;
+                    var JJMABF = 0;
+
+                    var AJJMAAT = 0;
+                    var AJJMABT = 0;
+                    var AJJMABF = 0;
+
+                    var SAT = 0;
+                    var SBT = 0;
+                    var SBF = 0;
+
+                    var OAT = 0;
+                    var OBT = 0;
+                    var OBF = 0;
+
+                    var NAT = 0;
+                    var NBT = 0;
+                    var NBF = 0;
+
+                    var DAT = 0;
+                    var DBT = 0;
+                    var DBF = 0;
+
+                    var JAYT = 0;
+                    var JBYT = 0;
+                    var JBYF = 0;
+
+                    var FAYT = 0;
+                    var FBYT = 0;
+                    var FBYF = 0;
+
+                    var MAYT = 0;
+                    var MBYT = 0;
+                    var MBYF = 0;
+
+                    var AAYT = 0;
+                    var ABYT = 0;
+                    var ABYF = 0;
+
+                    var MAAYT = 0;
+                    var MABYT = 0;
+                    var MABYF = 0;
+
+                    var JMAAYT = 0;
+                    var JMABYT = 0;
+                    var JMABYF = 0;
+
+                    var JJMAAYT = 0;
+                    var JJMABYT = 0;
+                    var JJMABYF = 0;
+
+                    var AJJMAAYT = 0;
+                    var AJJMABYT = 0;
+                    var AJJMABYF = 0;
+
+                    var SAYT = 0;
+                    var SBYT = 0;
+                    var SBYF = 0;
+
+                    var OAYT = 0;
+                    var OBYT = 0;
+                    var OBYF = 0;
+
+                    var NAYT = 0;
+                    var NBYT = 0;
+                    var NBYF = 0;
+
+                    var DAYT = 0;
+                    var DBYT = 0;
+                    var DBYF = 0;
+
+                    var TotalG = 0;
+                    var TotalGT = 0;
+
+                    var body1 = "";
+                    for (var i = 0; i < data.MonthSummaryResult.length; i++) {//clients
+                        var d = data.MonthSummaryResult[i];
+
+                        if (coverage != "" && coverage != d.CoverageName) {
+
+                            body1 =
+                                "<tr class='lbl - grid' style='background-color:lightsteelblue;font-weight:bold;text-align:right;'>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td>Total:</td>";
+
+                            for (var i1 = 0; i1 < data.DisplayTillMonth; i1++) {
+                                if (i1 == 0) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAT).toFixed(2)) + "</td>";
+                                    }
+                                }
+                                if (i1 == 1) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAT).toFixed(2)) + "</td>"
+                                    }
+
+                                }
+                                if (i1 == 2) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAT).toFixed(2)) + "</td>"
+
+                                    }
+                                }
+                                if (i1 == 3) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i1 == 4) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i1 == 5) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i1 == 6) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i1 == 7) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAT).toFixed(2)) + "</td>"
+
+                                    }
+                                }
+                                if (i1 == 8) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i1 == 9) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i1 == 10) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i1 == 11) {
+                                    if (selectedMonthIndex == i1) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                            }
+                            for (var i2 = 0; i2 < data.DisplayTillMonth; i2++) {
+                                if (i2 == 0) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+
+                                if (i2 == 1) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 2) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 3) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 4) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 5) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 6) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 7) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 8) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 9) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 10) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i2 == 11) {
+                                    if (selectedMonthIndex == i2) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                            }
+
+                            body1 += "<td>" + parseFloat(TotalGT).toFixed(2) + "</td>" +
+                                "</tr>";
+
+                            $("#tblData tbody").append(
+                                body1
+                            );
+
+                            JAT = 0;
+                            JBT = 0;
+                            JBF = 0;
+
+                            FAT = 0;
+                            FBT = 0;
+                            FBF = 0;
+
+                            MAT = 0;
+                            MBT = 0;
+                            MBF = 0;
+
+                            AAT = 0;
+                            ABT = 0;
+                            ABF = 0;
+
+                            MAAT = 0;
+                            MABT = 0;
+                            MABF = 0;
+
+                            JMAAT = 0;
+                            JMABT = 0;
+                            JMABF = 0;
+
+
+                            JJMAAT = 0;
+                            JJMABT = 0;
+                            JJMABF = 0;
+
+                            AJJMAAT = 0;
+                            AJJMABT = 0;
+                            AJJMABF = 0;
+
+                            SAT = 0;
+                            SBT = 0;
+                            SBF = 0;
+
+                            OAT = 0;
+                            OBT = 0;
+                            OBF = 0;
+
+                            NAT = 0;
+                            NBT = 0;
+                            NBF = 0;
+
+                            DAT = 0;
+                            DBT = 0;
+                            DBF = 0;
+
+                            JAYT = 0;
+                            JBYT = 0;
+                            JBYF = 0;
+
+                            FAYT = 0;
+                            FBYT = 0;
+                            FBYF = 0;
+
+                            MAYT = 0;
+                            MBYT = 0;
+                            MBYF = 0;
+
+                            AAYT = 0;
+                            ABYT = 0;
+                            ABYF = 0;
+
+                            MAAYT = 0;
+                            MABYT = 0;
+                            MABYF = 0;
+
+                            JMAAYT = 0;
+                            JMABYT = 0;
+                            JMABYF = 0;
+
+                            JJMAAYT = 0;
+                            JJMABYT = 0;
+                            JJMABYF = 0;
+
+                            AJJMAAYT = 0;
+                            AJJMABYT = 0;
+                            AJJMABYF = 0;
+
+                            SAYT = 0;
+                            SBYT = 0;
+                            SBYF = 0;
+
+                            OAYT = 0;
+                            OBYT = 0;
+                            OBYF = 0;
+
+                            NAYT = 0;
+                            NBYT = 0;
+                            NBYF = 0;
+
+                            DAYT = 0;
+                            DBYT = 0;
+                            DBYF = 0;
+
+                            TotalG = 0;
+                            TotalGT = 0;
+                        }
+                        coverage = d.CoverageName;
+                        JAT = parseFloat(JAT) + parseFloat(d.JanA);
+                        JBT = parseFloat(JBT) + parseFloat(d.JanB);
+                        JBF = parseFloat(JBF) + parseFloat(d.JanF);
+
+                        FAT = parseFloat(FAT) + parseFloat(d.FebA);
+                        FBT = parseFloat(FBT) + parseFloat(d.FebB);
+                        FBF = parseFloat(FBF) + parseFloat(d.FebF);
+
+                        MAT = parseFloat(MAT) + parseFloat(d.MarA);
+                        MBT = parseFloat(MBT) + parseFloat(d.MarB);
+                        MBF = parseFloat(MBF) + parseFloat(d.MarF);
+
+                        AAT = parseFloat(AAT) + parseFloat(d.AprA);
+                        ABT = parseFloat(ABT) + parseFloat(d.AprB);
+                        ABF = parseFloat(ABF) + parseFloat(d.AprF);
+
+                        MAAT = parseFloat(MAAT) + parseFloat(d.MayA);
+                        MABT = parseFloat(MABT) + parseFloat(d.MayB);
+                        MABF = parseFloat(MABF) + parseFloat(d.MayF);
+
+                        JMAAT = parseFloat(JMAAT) + parseFloat(d.JunA);
+                        JMAAT = parseFloat(JMAAT) + parseFloat(d.JunB);
+                        JMABF = parseFloat(JMABF) + parseFloat(d.JunF);
+
+                        JJMAAT = parseFloat(JJMAAT) + parseFloat(d.JulA);
+                        JJMABT = parseFloat(JJMABT) + parseFloat(d.JulB);
+                        JJMABF = parseFloat(JJMABF) + parseFloat(d.JulF);
+
+                        AJJMAAT = parseFloat(AJJMAAT) + parseFloat(d.AugA);
+                        AJJMABT = parseFloat(AJJMABT) + parseFloat(d.AugB);
+                        AJJMABF = parseFloat(AJJMABF) + parseFloat(d.AugF);
+
+                        SAT = parseFloat(SAT) + parseFloat(d.SepA);
+                        SBT = parseFloat(SBT) + parseFloat(d.SepB);
+                        SBF = parseFloat(SBF) + parseFloat(d.SepF);
+
+                        OAT = parseFloat(OAT) + parseFloat(d.OctA);
+                        OBT = parseFloat(OBT) + parseFloat(d.OctB);
+                        OBF = parseFloat(OBF) + parseFloat(d.OctF);
+
+                        NAT = parseFloat(NAT) + parseFloat(d.NovA);
+                        NBT = parseFloat(NBT) + parseFloat(d.NovB);
+                        NBF = parseFloat(NBF) + parseFloat(d.NovF);
+
+                        DAT = parseFloat(DAT) + parseFloat(d.DecA);
+                        DBT = parseFloat(DBT) + parseFloat(d.DecB);
+                        DBF = parseFloat(DBF) + parseFloat(d.DecF);
+
+                        JAYT = parseFloat(JAYT) + parseFloat(d.JanYA);
+                        JBYT = parseFloat(JBYT) + parseFloat(d.JanYB);
+                        JBYF = parseFloat(JBYF) + parseFloat(d.JanYF);
+
+                        FAYT = parseFloat(FAYT) + parseFloat(d.FebYA);
+                        FBYT = parseFloat(FBYT) + parseFloat(d.FebYB);
+                        FBYF = parseFloat(FBYF) + parseFloat(d.FebYF);
+
+                        MAYT = parseFloat(MAYT) + parseFloat(d.MarYA);
+                        MBYT = parseFloat(MBYT) + parseFloat(d.MarYB);
+                        MBYF = parseFloat(MBYF) + parseFloat(d.MarYF);
+
+                        AAYT = parseFloat(AAYT) + parseFloat(d.AprYA);
+                        AAYT = parseFloat(AAYT) + parseFloat(d.AprYB);
+                        AAYT = parseFloat(AAYT) + parseFloat(d.AprYF);
+
+                        MAAYT = parseFloat(MAAYT) + parseFloat(d.MayYA);
+                        MABYT = parseFloat(MABYT) + parseFloat(d.MayYB);
+                        MABYF = parseFloat(MABYF) + parseFloat(d.MayYF);
+
+                        JMAAYT = parseFloat(JMAAYT) + parseFloat(d.JunYA);
+                        JMABYT = parseFloat(JMABYT) + parseFloat(d.JunYB);
+                        JMABYF = parseFloat(JMABYF) + parseFloat(d.JunYF);
+
+                        JJMAAYT = parseFloat(JJMAAYT) + parseFloat(d.JulYA);
+                        JJMABYT = parseFloat(JJMABYT) + parseFloat(d.JulYB);
+                        JJMABYF = parseFloat(JJMABYF) + parseFloat(d.JulYF);
+
+                        AJJMAAYT = parseFloat(AJJMAAYT) + parseFloat(d.AugYA);
+                        AJJMABYT = parseFloat(AJJMABYT) + parseFloat(d.AugYB);
+                        AJJMABYF = parseFloat(AJJMABYF) + parseFloat(d.AugYF);
+
+                        SAYT = parseFloat(SAYT) + parseFloat(d.SepYA);
+                        SAYT = parseFloat(SAYT) + parseFloat(d.SepYB);
+                        SBYF = parseFloat(SBYF) + parseFloat(d.SepYF);
+
+                        OAYT = parseFloat(OAYT) + parseFloat(d.OctYA);
+                        OBYT = parseFloat(OBYT) + parseFloat(d.OctYB);
+                        OBYF = parseFloat(OBYF) + parseFloat(d.OctYF);
+
+                        NAYT = parseFloat(NAYT) + parseFloat(d.NovYA);
+                        NBYT = parseFloat(NBYT) + parseFloat(d.NovYB);
+                        NBYF = parseFloat(NBYF) + parseFloat(d.NovYF);
+
+                        DAYT = parseFloat(DAYT) + parseFloat(d.DecYA);
+                        DBYT = parseFloat(DBYT) + parseFloat(d.DecYB);
+                        DBYF = parseFloat(DBYF) + parseFloat(d.DecYF);
+
+                        body1 = "";
+                        for (var i3 = 0; i3 < data.DisplayTillMonth; i3++) {
+
+                            if (i3 == 0) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 1) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 2) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 3) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 4) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 5) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 6) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulYF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 7) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 8) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 9) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 10) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovA).toFixed(2)) + "</td>"
+                                }
+                            }
+                            if (i3 == 11) {
+                                if (selectedMonthIndex == i3) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecF).toFixed(2)) + "</td>"
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecA).toFixed(2)) + "</td>"
+                                }
+                            }
+                        }
+                        for (var i4 = 0; i4 < data.DisplayTillMonth; i4++) {
+                            if (i4 == 0) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JanYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.JanYB);
+                            }
+
+                            if (i4 == 1) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.FebYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.FebYB);
+                            }
+                            if (i4 == 2) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MarYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.MarYB);
+                            }
+                            if (i4 == 3) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AprYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.AprYB);
+                            }
+                            if (i4 == 4) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.MayYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.MayYB);
+                            }
+                            if (i4 == 5) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JunYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.JunYB);
+                            }
+                            if (i4 == 6) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.JulYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.JulYB);
+                            }
+                            if (i4 == 7) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.AugYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.AugYB);
+                            }
+                            if (i4 == 8) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.SepYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.SepYB);
+                            }
+                            if (i4 == 9) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.OctYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.OctYB);
+                            }
+                            if (i4 == 10) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.NovYA).toFixed(2)) + "</td>"
+                                }
+                                TotalG = parseFloat(TotalG) + parseFloat(d.NovYB);
+                            }
+                            if (i4 == 11) {
+                                if (selectedMonthIndex == i4) {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecYA).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecYB).toFixed(2)) + "</td>" +
+                                        "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecYF).toFixed(2)) + "</td>";
+                                }
+                                else {
+                                    body1 += "<td style='text-align:right;font-weight:lighter'>" + isEpmtyFill(parseFloat(d.DecYA).toFixed(2)) + "</td>"
+                                }
+
+                                TotalG = parseFloat(TotalG) + parseFloat(d.DecYB);
+                            }
+                        }
+
+                        TotalGT += TotalG;
+                        body1 += "<td style='text-align:right;font-weight:bold'>" + parseFloat(TotalG).toFixed(2) + "</td>" +
+                            "</tr>";
+
+                        $("#tblData tbody").append(
+                            "<tr class='lbl - grid'>" +
+                            "<td>" + d.CoverageName + "</td>" +
+                            "<td>" + d.ProductType + "</td>" +
+                            "<td>" + d.CarrierName + "</td>" +
+                            "<td>" + d.ClientName + "</td>" +
+                            "<td>" + d.PolicyNumber + "</td>" +
+                            body1
+                        );
+
+
+                        if (i == data.MonthSummaryResult.length - 1) {
+
+                            body1 =
+                                "<tr class='lbl - grid' style='background-color:lightsteelblue;font-weight:bold;text-align:right;'>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td>Total:</td>";
+
+                            for (var i6 = 0; i6 < data.DisplayTillMonth; i6++) {
+                                if (i6 == 0) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+
+                                if (i6 == 1) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 2) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 3) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 4) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 5) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 6) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 7) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 8) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 9) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 10) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i6 == 11) {
+                                    if (selectedMonthIndex == i6) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAT).toFixed(2)) + "</td>"
+                                    }
+                                }
+
+                            }
+                            for (var i5 = 0; i5 < data.DisplayTillMonth; i5++) {
+                                if (i5 == 0) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+
+                                if (i5 == 1) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(FBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(FAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 2) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 3) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(ABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 4) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(MABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(MAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 5) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JMABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JMAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 6) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(JJMABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(JJMAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 7) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(AJJMABYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(AJJMAAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 8) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(SBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(SAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 9) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(OBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(OAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 10) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(NBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(NAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+                                if (i5 == 11) {
+                                    if (selectedMonthIndex == i5) {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBYT).toFixed(2)) + "</td>" +
+                                            "<td>" + isEpmtyFill(parseFloat(DBYF).toFixed(2)) + "</td>"
+                                    }
+                                    else {
+                                        body1 += "<td>" + isEpmtyFill(parseFloat(DAYT).toFixed(2)) + "</td>"
+                                    }
+                                }
+
+                            }
+
+
+                            body1 += "<td style='text-align:right;font-weight:bold'>" + parseFloat(TotalGT).toFixed(2) + "</td>" +
+                                "</tr>";
+
+                            $("#tblData tbody").append(
+                                body1
+                            );
+                        }
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        });
+
+    });
+</script>
