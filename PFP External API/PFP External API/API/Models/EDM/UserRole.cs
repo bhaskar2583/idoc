@@ -21,6 +21,5 @@ namespace API.Models.EDM
         public Nullable<System.DateTime> URS_CreatedOn { get; set; }
         public string URS_UpdatedBy { get; set; }
         public Nullable<System.DateTime> URS_UpdatedOn { get; set; }
-        public bool? URS_Active { get; set; }
     }
 }
