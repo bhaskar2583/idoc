@@ -10,7 +10,7 @@ namespace API.Models.DAL
     public class ManageUsers
     {
         private PFPEntities db = new PFPEntities();
-
+        private readonly ManageUserRoles _manageUserRoles = new ManageUserRoles();
         public List<UserVM> GetUserMasters()
         {
             var userList = new List<UserVM>();
@@ -65,10 +65,22 @@ namespace API.Models.DAL
         {
             try
             {
-                db.Users.Add(userMaster);
-                await db.SaveChangesAsync();
-
-                
+                var userDetils = db.Users.FirstOrDefault(user => user.USR_Id == userMaster.USR_Id);
+                //user not exisit it will create new user
+                if (userDetils == null)
+                {
+                    db.Users.Add(userMaster);
+                    await db.SaveChangesAsync();
+                    return;
+                }
+                //user inactive will activate user
+                if (userDetils.USR_Active==false)
+                {
+                    userDetils.USR_Active = true;
+                    db.Entry(userDetils).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -92,6 +104,8 @@ namespace API.Models.DAL
                 userMaster.USR_Active = false;
                 db.Entry(userMaster).State = EntityState.Modified;
                 await db.SaveChangesAsync();
+
+                await _manageUserRoles.ManageActivateUserRole(userMaster, false);
             }
             catch (Exception)
             {

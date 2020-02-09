@@ -22,9 +22,12 @@
                 RoleId = x.URS_RoleId,
                 RoleName = this.GetRolesMaster(x.URS_RoleId).Name,
                 UserName = this.GetUserById(x.URS_UserId).USR_FirstName + ' ' + this.GetUserById(x.URS_UserId).USR_LastName,
-                OrganizationName = this.GetUserById(x.URS_UserId).USR_OrganizationName
+                OrganizationName = this.GetUserById(x.URS_UserId).USR_OrganizationName,
+                IsActive=x.URS_Active
             }).ToList();
-            return userRolesList.Where(w => !string.IsNullOrEmpty(w.RoleName) && !string.IsNullOrEmpty(w.UserName)).ToList();
+            return userRolesList.Where(w => !string.IsNullOrEmpty(w.RoleName) 
+            && !string.IsNullOrEmpty(w.UserName)
+            && w.IsActive==true).ToList();
 
         }
 
@@ -63,8 +66,20 @@
         {
             try
             {
-                db.UserRoles.Add(userRole);
+                var useRoles = db.UserRoles.FirstOrDefault(ur => ur.URS_Id == userRole.URS_Id
+                && ur.URS_RoleId==userRole.URS_RoleId);
+
+                if (useRoles == null)
+                {
+                    db.UserRoles.Add(userRole);
+                    await db.SaveChangesAsync();
+                    return;
+                }
+
+                useRoles.URS_Active = true;
+                db.Entry(useRoles).State = EntityState.Modified;
                 await db.SaveChangesAsync();
+
             }
             catch (Exception ex)
             {
@@ -86,7 +101,23 @@
                 throw ex;
             }
         }
-
+        public async Task ManageActivateUserRole(User user,bool activateRole)
+        {
+            try
+            {
+                var userRolesMaster = db.UserRoles.Where(ur=>ur.URS_Id== user.USR_Id);
+                await userRolesMaster.ForEachAsync(ur =>
+                 {
+                     ur.URS_Active = false;
+                 });
+                db.Entry(userRolesMaster).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public bool IsUserRoleExists(int id)
         {
             return db.UserRoles.Count(e => e.URS_Id == id) > 0;
