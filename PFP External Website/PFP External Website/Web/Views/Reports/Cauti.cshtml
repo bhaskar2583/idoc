@@ -1,0 +1,149 @@
+﻿
+<h4 style="background-color: #f9f9f9;padding: 7px;">CAUTI rate per 1,000 catheter-days</h4>
+<div style="width: 75%; margin-top: 20px;">
+    <div class="chartjs-size-monitor">
+        <div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+    </div>
+    <canvas id="chart1" style="display: block; width: 1024px; height: 500px;" width="1000" height="500" class="chartjs-render-monitor"></canvas>
+    
+    
+    <div style="overflow:auto;">
+        <table id="CautiDataTable" border="1" style="width:100%;"></table>
+
+    </div>
+
+</div>
+
+<script>
+    var myCauti;
+    function loadChartForCauti() {
+
+        var startDate = $("#FromYears").val();
+        var endDate = $("#ToYears").val();
+        var orgId = $('#USR_OrganizationId').val();
+
+        if (orgId != '' && startDate != '' && endDate != '') {
+
+            var paramsdata = { 'orgId': orgId, 'fromYear': startDate, 'toYear': endDate };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetCautiData", "Reports")',
+                contentType: "application/json; charset=utf-8",
+                data: paramsdata,
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    var result = data;
+                    if (myCauti) {
+                        myCauti.destroy();
+                    }
+                    var ctx = document.getElementById('chart1').getContext('2d');
+                    myCauti = new Chart(ctx, {
+                        type: 'line',
+                        data: result,
+                        options: {
+                            responsive: true,
+                            bezierCurve: false,
+                            tension: 0,
+                            title: {
+                                display: true,
+                                text: 'CAUTI RATE ',
+                                fontSize: 14
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    fontSize: 14
+                                }
+                            },
+                            tooltips: {
+                                mode: 'point',
+
+                            },
+                            datasets: {
+                                lineTension: 0
+
+                            },
+                            line: {
+                                tension: 0
+                            },
+
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Year and Month',
+                                        fontSize: 14
+                                    },
+
+                                    ticks: {
+                                        fontSize: 14
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Cauti rate per 1,000 catheter-days',
+                                        fontSize: 14
+                                    },
+                                    ticks: {
+                                        fontSize: 14,
+                                        min: 0
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                },
+                error: function () {
+                    alert("data loading failed");
+                }
+            });
+        }
+    } 
+
+    $(document).ready(function () {
+        loadChartForCauti();
+        loadGridForCauti();
+
+        $("#ToYears").change(function () {
+            loadChartForCauti();
+            loadGridForCauti();
+        });
+
+        $("#FromYears").change(function () {
+            loadChartForCauti();
+            loadGridForCauti();
+        });
+    });
+
+    function loadGridForCauti() {
+
+        var startDate = $("#FromYears").val();
+        var endDate = $("#ToYears").val();
+        var orgId = $('#USR_OrganizationId').val();
+
+        if (orgId != '' && startDate != '' && endDate != '') {
+
+            var paramsdata = { 'orgId': orgId, 'fromYear': startDate, 'toYear': endDate };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetCautiGridData", "Reports")',
+                contentType: "application/json; charset=utf-8",
+                data: paramsdata,
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    var result = data;
+                    buildHtmlTable($("#CautiDataTable"), data);
+                },
+                error: function () {
+                    alert("data loading failed");
+                }
+            });
+        }
+    }
+</script>

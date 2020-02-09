@@ -1,0 +1,153 @@
+﻿@model PagedList.IPagedList<Web.Models.UserModel>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "User Management";
+}
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h2>User Management</h2>
+
+<p style="font-size:110%;">
+    <span style="float:left;">
+        <button class="btn btn-primary" onclick="location.href='@Url.Action("Create", "User")';return false;">Create New</button>
+    </span>
+    @using (Ajax.BeginForm("GetUsers", new AjaxOptions { UpdateTargetId = "searchSpan" }))
+    {
+    <span style="float:right;" id="searchSpan">
+        Keyword search by <input type="checkbox" name="FirstNameCheckbox" checked="@ViewBag.firstNameSearch" /> First Name 
+        <input type="checkbox" name="LastNameCheckbox" checked="@ViewBag.lastNameSearch" /> Last Name 
+        <input type="checkbox" name="EmailCheckbox" checked="@ViewBag.emailSearch" /> Email 
+        <input type="checkbox" name="OrganizationNameCheckBox" checked="@ViewBag.organizationNameSearch" /> Organization Name
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @style = "display:inline-block;width:225px;" })
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </span>
+    }
+</p>
+<br /><br />
+<table class="table" >
+    <tr>
+        <th>
+            @Html.ActionLink("First Name", "GetUsers", new { sortOrder = ViewBag.FirstNameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Last Name", "GetUsers", new { sortOrder = ViewBag.LastNameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Email", "GetUsers", new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Phone", "GetUsers", new { sortOrder = ViewBag.PhoneSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Organization Name", "GetUsers", new { sortOrder = ViewBag.OrganizationNameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Edit Users @*@Html.ActionLink(" Edit ", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })*@
+        </th>
+        <th>
+            Delete @*@Html.ActionLink("Delete", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })*@
+        </th>
+        <th>
+            Edit Roles  @*@Html.ActionLink("EditRoles", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })*@
+        </th>
+        <th>
+            Reset Password 
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.USR_FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USR_LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USR_Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USR_Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USR_OrganizationName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditUser", new { id = item.USR_Id })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "User", new { id = item.USR_Id, email = item.USR_Email }, new { onclick = "return confirm('Are you sure ?')" })
+            </td>
+            <td>
+                @Html.ActionLink("Edit Roles", "Index", "userroles/Index/" + item.USR_Id)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => item.USR_OKTAID)
+                <span class="btn-group">
+                    <a class="btn btn-danger open-ResetDialog" id="@item.USR_OKTAID|@item.USR_FirstName|@item.USR_LastName" data-toggle="modal" data-target="#confirm-reset">
+                        Reset Password
+                    </a>
+                </span>
+            </td>
+        </tr>
+    }
+
+    <tr style="background-color:#f9f9f9;width:100%;">
+        <td colspan="3">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</td>
+        <td colspan="5">
+            @Html.PagedListPager(Model, page => Url.Action("GetUsers",
+new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </td>
+    </tr>
+
+
+</table> 
+
+<div class="modal fade" id="confirm-reset" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong>Password Reset Confirmation</strong></h4>
+                <h4><span id="user-name"></span></h4>
+            </div>
+            <div id="modal-text" class="modal-body">
+                <input id="userid" type="hidden" value="">
+                <span id="modal-myvalue"></span>
+                <h5>Are you sure you want to reset the password?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <a id="btn-reset" class="btn btn-danger btn-ok">Reset</a>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#btn-reset').on('click', function (e) {
+        var id = $("#userid").val()
+        var postUrl = './ReActivateUser?id=' + id
+
+        $.post(postUrl).then(function () {
+            window.location.href = "./GetUsers"
+        });
+    });
+
+    $(document).on("click", ".open-ResetDialog", function () {
+        var str = $(this).attr('id')
+        var arr = str.split("|")
+        var id = arr[0]
+        var name = "(" + arr[1] + " " + arr[2] + ")"
+
+        $("#userid").val(id)
+        $("#user-name").html(name)
+
+    });
+</script>

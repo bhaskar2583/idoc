@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelsStoreContainer" CdmEntityContainer="PFPEntities">
+    <EntitySetMapping Name="AnalysisPeriodMasters">
+      <EntityTypeMapping TypeName="Models.AnalysisPeriodMaster">
+        <MappingFragment StoreEntitySet="AnalysisPeriodMaster">
+          <ScalarProperty Name="APM_Id" ColumnName="APM_Id" />
+          <ScalarProperty Name="APM_Period" ColumnName="APM_Period" />
+          <ScalarProperty Name="APM_Active" ColumnName="APM_Active" />
+          <ScalarProperty Name="APM_CreatedBy" ColumnName="APM_CreatedBy" />
+          <ScalarProperty Name="APM_CreatedOn" ColumnName="APM_CreatedOn" />
+          <ScalarProperty Name="APM_UpdatedBy" ColumnName="APM_UpdatedBy" />
+          <ScalarProperty Name="APM_UpdatedOn" ColumnName="APM_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CalendarMasters">
+      <EntityTypeMapping TypeName="Models.CalendarMaster">
+        <MappingFragment StoreEntitySet="CalendarMaster">
+          <ScalarProperty Name="CAL_Id" ColumnName="CAL_Id" />
+          <ScalarProperty Name="CAL_Year" ColumnName="CAL_Year" />
+          <ScalarProperty Name="CAL_Month" ColumnName="CAL_Month" />
+          <ScalarProperty Name="CAL_MonthText" ColumnName="CAL_MonthText" />
+          <ScalarProperty Name="CAL_Active" ColumnName="CAL_Active" />
+          <ScalarProperty Name="CAL_OrderBy" ColumnName="CAL_OrderBy" />
+          <ScalarProperty Name="CAL_CreatedBy" ColumnName="CAL_CreatedBy" />
+          <ScalarProperty Name="CAL_CreatedOn" ColumnName="CAL_CreatedOn" />
+          <ScalarProperty Name="CAL_UpdatedBy" ColumnName="CAL_UpdatedBy" />
+          <ScalarProperty Name="CAL_UpdatedOn" ColumnName="CAL_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EventMeasureMasters">
+      <EntityTypeMapping TypeName="Models.EventMeasureMaster">
+        <MappingFragment StoreEntitySet="EventMeasureMaster">
+          <ScalarProperty Name="EMM_Id" ColumnName="EMM_Id" />
+          <ScalarProperty Name="EMM_MEM_Id" ColumnName="EMM_MEM_Id" />
+          <ScalarProperty Name="EMM_EVM_Id" ColumnName="EMM_EVM_Id" />
+          <ScalarProperty Name="EMM_TimePeriod" ColumnName="EMM_TimePeriod" />
+          <ScalarProperty Name="EMM_Active" ColumnName="EMM_Active" />
+          <ScalarProperty Name="EMM_DisplayInApp" ColumnName="EMM_DisplayInApp" />
+          <ScalarProperty Name="EMM_CreatedBy" ColumnName="EMM_CreatedBy" />
+          <ScalarProperty Name="EMM_CreatedOn" ColumnName="EMM_CreatedOn" />
+          <ScalarProperty Name="EMM_UpdatedBy" ColumnName="EMM_UpdatedBy" />
+          <ScalarProperty Name="EMM_UpdatedOn" ColumnName="EMM_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EventTypeMasters">
+      <EntityTypeMapping TypeName="Models.EventTypeMaster">
+        <MappingFragment StoreEntitySet="EventTypeMaster">
+          <ScalarProperty Name="EVM_Id" ColumnName="EVM_Id" />
+          <ScalarProperty Name="EVM_EventType" ColumnName="EVM_EventType" />
+          <ScalarProperty Name="EVM_Active" ColumnName="EVM_Active" />
+          <ScalarProperty Name="EVM_CreatedBy" ColumnName="EVM_CreatedBy" />
+          <ScalarProperty Name="EVM_CreatedOn" ColumnName="EVM_CreatedOn" />
+          <ScalarProperty Name="EVM_UpdatedBy" ColumnName="EVM_UpdatedBy" />
+          <ScalarProperty Name="EVM_UpdatedOn" ColumnName="EVM_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hospitals">
+      <EntityTypeMapping TypeName="Models.Hospital">
+        <MappingFragment StoreEntitySet="Hospitals">
+          <ScalarProperty Name="HOS_Id" ColumnName="HOS_Id" />
+          <ScalarProperty Name="HOS_PFI" ColumnName="HOS_PFI" />
+          <ScalarProperty Name="HOS_Unique_Id" ColumnName="HOS_Unique_Id" />
+          <ScalarProperty Name="HOS_HospitalName" ColumnName="HOS_HospitalName" />
+          <ScalarProperty Name="HOS_Parent_Id" ColumnName="HOS_Parent_Id" />
+          <ScalarProperty Name="HOS_Active" ColumnName="HOS_Active" />
+          <ScalarProperty Name="HOS_CreatedBy" ColumnName="HOS_CreatedBy" />
+          <ScalarProperty Name="HOS_CreatedOn" ColumnName="HOS_CreatedOn" />
+          <ScalarProperty Name="HOS_UpdatedBy" ColumnName="HOS_UpdatedBy" />
+          <ScalarProperty Name="HOS_UpdatedOn" ColumnName="HOS_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MeasureMasters">
+      <EntityTypeMapping TypeName="Models.MeasureMaster">
+        <MappingFragment StoreEntitySet="MeasureMaster">
+          <ScalarProperty Name="MEM_Id" ColumnName="MEM_Id" />
+          <ScalarProperty Name="MEM_Measure" ColumnName="MEM_Measure" />
+          <ScalarProperty Name="MEM_Multiplier" ColumnName="MEM_Multiplier" />
+          <ScalarProperty Name="MEM_Active" ColumnName="MEM_Active" />
+          <ScalarProperty Name="MEM_CreatedBy" ColumnName="MEM_CreatedBy" />
+          <ScalarProperty Name="MEM_CreatedOn" ColumnName="MEM_CreatedOn" />
+          <ScalarProperty Name="MEM_UpdatedBy" ColumnName="MEM_UpdatedBy" />
+          <ScalarProperty Name="MEM_UpdatedOn" ColumnName="MEM_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NYSPFPDatas">
+      <EntityTypeMapping TypeName="Models.NYSPFPData">
+        <MappingFragment StoreEntitySet="NYSPFPData">
+          <ScalarProperty Name="NPD_Id" ColumnName="NPD_Id" />
+          <ScalarProperty Name="NPD_HOS_Id" ColumnName="NPD_HOS_Id" />
+          <ScalarProperty Name="NPD_Cal_Id" ColumnName="NPD_Cal_Id" />
+          <ScalarProperty Name="NPD_EMM_Id" ColumnName="NPD_EMM_Id" />
+          <ScalarProperty Name="NPD_Numerator" ColumnName="NPD_Numerator" />
+          <ScalarProperty Name="NPD_Denominator" ColumnName="NPD_Denominator" />
+          <ScalarProperty Name="NPD_Measurement" ColumnName="NPD_Measurement" />
+          <ScalarProperty Name="NPD_APM_Id" ColumnName="NPD_APM_Id" />
+          <ScalarProperty Name="NPD_SourceType" ColumnName="NPD_SourceType" />
+          <ScalarProperty Name="NPD_CreatedBy" ColumnName="NPD_CreatedBy" />
+          <ScalarProperty Name="NPD_CreatedOn" ColumnName="NPD_CreatedOn" />
+          <ScalarProperty Name="NPD_UpdatedBy" ColumnName="NPD_UpdatedBy" />
+          <ScalarProperty Name="NPD_UpdatedOn" ColumnName="NPD_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RolesMasters">
+      <EntityTypeMapping TypeName="Models.RolesMaster">
+        <MappingFragment StoreEntitySet="RolesMaster">
+          <ScalarProperty Name="ROM_Id" ColumnName="ROM_Id" />
+          <ScalarProperty Name="ROM_Name" ColumnName="ROM_Name" />
+          <ScalarProperty Name="ROM_Description" ColumnName="ROM_Description" />
+          <ScalarProperty Name="ROM_Active" ColumnName="ROM_Active" />
+          <ScalarProperty Name="ROM_CreatedBy" ColumnName="ROM_CreatedBy" />
+          <ScalarProperty Name="ROM_CreatedOn" ColumnName="ROM_CreatedOn" />
+          <ScalarProperty Name="ROM_UpdatedBy" ColumnName="ROM_UpdatedBy" />
+          <ScalarProperty Name="ROM_UpdatedOn" ColumnName="ROM_UpdatedOn" />
+          <ScalarProperty Name="ROM_IsDeleted" ColumnName="ROM_IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRoles">
+      <EntityTypeMapping TypeName="Models.UserRole">
+        <MappingFragment StoreEntitySet="UserRoles">
+          <ScalarProperty Name="URS_Id" ColumnName="URS_Id" />
+          <ScalarProperty Name="URS_UserId" ColumnName="URS_UserId" />
+          <ScalarProperty Name="URS_RoleId" ColumnName="URS_RoleId" />
+          <ScalarProperty Name="URS_CreatedBy" ColumnName="URS_CreatedBy" />
+          <ScalarProperty Name="URS_CreatedOn" ColumnName="URS_CreatedOn" />
+          <ScalarProperty Name="URS_UpdatedBy" ColumnName="URS_UpdatedBy" />
+          <ScalarProperty Name="URS_UpdatedOn" ColumnName="URS_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="Models.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="USR_Id" ColumnName="USR_Id" />
+          <ScalarProperty Name="USR_FirstName" ColumnName="USR_FirstName" />
+          <ScalarProperty Name="USR_LastName" ColumnName="USR_LastName" />
+          <ScalarProperty Name="USR_Email" ColumnName="USR_Email" />
+          <ScalarProperty Name="USR_Phone" ColumnName="USR_Phone" />
+          <ScalarProperty Name="USR_OrganizationName" ColumnName="USR_OrganizationName" />
+          <ScalarProperty Name="USR_Active" ColumnName="USR_Active" />
+          <ScalarProperty Name="USR_CreatedBy" ColumnName="USR_CreatedBy" />
+          <ScalarProperty Name="USR_CreatedOn" ColumnName="USR_CreatedOn" />
+          <ScalarProperty Name="USR_UpdatedBy" ColumnName="USR_UpdatedBy" />
+          <ScalarProperty Name="USR_UpdatedOn" ColumnName="USR_UpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

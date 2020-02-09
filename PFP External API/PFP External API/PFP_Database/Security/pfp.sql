@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [pfp]
+    AUTHORIZATION [dbo];
+

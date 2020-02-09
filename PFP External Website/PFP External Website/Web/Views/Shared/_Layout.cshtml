@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>@ViewBag.Title - PFP</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")    
+</head>
+<body style="background-color:#f9f9f9;">
+    <div class="navbar hanys_inverse navbar-fixed-top" style="padding-top:69px; border-radius: 0px;">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="width:100%;">
+                    <li class="ind menuHead">@Html.ActionLink(" Home ", "Index", "Home")</li>
+                    <li class="ind menuHead">@Html.ActionLink(" Measures ", "Index", "Measures")</li>
+                    <li class="ind menuHead">@Html.ActionLink(" Reports ", "Index", "Reports")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="navbar hanys_inverse navbar-fixed-top">
+        <div class="container">
+            <a href="#" title="HANYS - Always There for Healthcare" rel="noreferrer" style="background-color: #008265;cursor: default;">
+                @Html.Partial("Logo")
+            </a>
+            <div class="navbar-header" style="float:right;">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @if (Context.User.Identity.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav navbar-right" style="margin-right:13px;">
+                        <li>
+                            <a onclick="document.getElementById('logout_form').submit();" style="cursor: pointer; color:#fff;">Log out</a>
+                        </li>
+                    </ul>
+                    @Html.Action("IsSuperAdminUser", "Base")
+                    <ul class="nav navbar-nav navbar-right" style="margin-right:13px;">
+                        <li>
+                            <p class="navbar-text" style=" color: white;">Hello, <b>@Context.User.Identity.Name</b></p>
+                        </li>
+                    </ul>
+                    <form action="@Url.Action("Logout", "Account")" method="post" id="logout_form"></form>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" style="background-color:#ffffff;">
+        @RenderBody() <br /><br /><br /><br /><br /><br /><br /><br /><br />
+    </div>
+    <footer style="position: fixed; bottom: 0; width: 100%">
+
+        <div class="container hanys_footer">
+            <div class="wrap center">
+                <div class="hanys_socials">
+                    <a target="_blank" onclick="_gaq.push(['_trackPageview', 'https://twitter.com/hanyscomm']);" href="https://twitter.com/hanyscomm" rel="noreferrer"><img src="~/Content/Images/twitter.png" alt="Twitter"></a>
+                    <a target="_blank" onclick="_gaq.push(['_trackPageview', 'https://www.linkedin.com/company/hanys']);" href="https://www.linkedin.com/company/hanys" rel="noreferrer"><img src="~/Content/Images/linkedin.png" alt="LinkedIn"></a>
+                    <a target="_blank" onclick="_gaq.push(['_trackPageview', 'http://www.facebook.com/pages/Healthcare-Association-of-New-York-State/15286367777']);" href="http://www.facebook.com/pages/Healthcare-Association-of-New-York-State/15286367777" rel="noreferrer"><img src="~/Content/Images/facebook.png" alt="Facebook"></a>
+                </div>
+                <p>&copy; @DateTime.Now.Year Healthcare Association of New York State and its subsidiaries. One Empire Drive, Rensselaer, NY 12144</p>
+                <p>All Rights Reserved. By using this website, you agree to <a href="https://www.hanys.org/terms_of_use.cfm" target="_blank" rel="noreferrer">HANYS Terms of Use</a>.</p>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)        
+</body>
+</html>

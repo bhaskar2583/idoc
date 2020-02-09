@@ -1,0 +1,16 @@
+﻿CREATE TABLE [dbo].[HIIN_Measures_Jan2020] (
+    [MEASURE]          VARCHAR(999) NOT NULL,
+    [EVENT_TYPE]       VARCHAR(100)  NOT NULL,
+    [ORGID]            INT   NULL,
+    [YEAR]             INT   NOT NULL,
+    [MONTH]            INT   NOT NULL,
+    [NUMERATOR]        DECIMAL(18, 9)   NULL,
+    [DENOMINATOR]      DECIMAL(18, 9)   NULL,
+    [MEASUREMENT]      DECIMAL(18, 9)   NULL,
+    [MULTIPLIER]       INT   NULL,
+    [HOSPITAL_NAME]    VARCHAR(999) NOT NULL,
+    [ANALYSIS_PERIOD]  VARCHAR(150)  NULL,
+    [TIME_PERIOD_TYPE] VARCHAR(50)  NULL,
+    [HOSP_ID_TYPE]     VARCHAR(50)  NULL
+);
+

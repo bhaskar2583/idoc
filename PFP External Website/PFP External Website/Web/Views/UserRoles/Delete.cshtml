@@ -1,0 +1,19 @@
+﻿@model Web.Models.UserRole
+
+@{
+    Layout = "";
+}
+
+<h2>Delete User Role</h2>
+@using (Html.BeginForm("Delete", "UserRoles", FormMethod.Post, new { id = "popupForm" }))
+{
+
+    <div class="form-group">
+        <label>Are you sure, you want to delete ?</label>
+        <p>@Model.UserName</p> - <p>@Model.RoleName</p>
+    </div>
+
+    <div>
+        <input type="submit" value="Ok" />
+    </div>
+}

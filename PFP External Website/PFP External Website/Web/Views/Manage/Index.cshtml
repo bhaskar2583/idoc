@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Administration";
+}
+
+<h2>Administration</h2>
+
+@if (@ViewBag.IsSuperAdminUser)
+{
+    <ul>
+        <li>@Html.ActionLink(" User Management ", "GetUsers", "User")</li>
+        <li>@Html.ActionLink(" Role Management ", "Index", "Roles")</li>
+        <li>@Html.ActionLink(" User's Roles Management ", "Index", "UserRoles")</li>
+    </ul>
+}
+else
+{
+    <br />
+    <h4>No permission! Please contact HANYS admin.</h4>
+}

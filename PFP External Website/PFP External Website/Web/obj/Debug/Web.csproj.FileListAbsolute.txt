@@ -1,0 +1,338 @@
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Web.dll.config
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Web.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Web.pdb
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Win32.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\netstandard.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.AppContext.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Collections.Concurrent.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Collections.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Collections.NonGeneric.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Collections.Specialized.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.ComponentModel.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.ComponentModel.EventBasedAsync.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.ComponentModel.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.ComponentModel.TypeConverter.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Console.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Data.Common.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.Contracts.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.Debug.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.FileVersionInfo.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.Process.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.StackTrace.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.TextWriterTraceListener.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.Tools.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.TraceSource.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Diagnostics.Tracing.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Drawing.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Dynamic.Runtime.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Globalization.Calendars.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Globalization.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Globalization.Extensions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.Compression.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.Compression.ZipFile.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.FileSystem.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.FileSystem.DriveInfo.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.FileSystem.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.FileSystem.Watcher.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.IsolatedStorage.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.MemoryMappedFiles.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.Pipes.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IO.UnmanagedMemoryStream.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Linq.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Linq.Expressions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Linq.Parallel.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Linq.Queryable.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Http.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.NameResolution.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.NetworkInformation.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Ping.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Requests.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Security.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Sockets.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.WebHeaderCollection.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.WebSockets.Client.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.WebSockets.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.ObjectModel.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Reflection.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Reflection.Extensions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Reflection.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Resources.Reader.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Resources.ResourceManager.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Resources.Writer.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.CompilerServices.VisualC.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.Extensions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.Handles.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.InteropServices.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.Numerics.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.Serialization.Formatters.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.Serialization.Json.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.Serialization.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Runtime.Serialization.Xml.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.Claims.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.Cryptography.Algorithms.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.Cryptography.Csp.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.Cryptography.Encoding.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.Cryptography.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.Cryptography.X509Certificates.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.Principal.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Security.SecureString.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Text.Encoding.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Text.Encoding.Extensions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Text.RegularExpressions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Threading.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Threading.Overlapped.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Threading.Tasks.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Threading.Tasks.Parallel.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Threading.Thread.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Threading.ThreadPool.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Threading.Timer.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.ValueTuple.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Xml.ReaderWriter.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Xml.XDocument.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Xml.XmlDocument.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Xml.XmlSerializer.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Xml.XPath.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Xml.XPath.XDocument.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Antlr3.Runtime.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\IdentityModel.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Logging.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.Jwt.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.OpenIdConnect.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Newtonsoft.Json.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Okta.AspNet.Abstractions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Okta.AspNet.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Owin.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\PagedList.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\PagedList.Mvc.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Http.Extensions.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Http.Formatting.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Net.Http.Primitives.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Text.Encodings.Web.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Helpers.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Mvc.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Optimization.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Razor.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.WebPages.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\WebGrease.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\IdentityModel.pdb
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\IdentityModel.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.JsonWebTokens.pdb
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Logging.pdb
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Logging.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Tokens.pdb
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.Jwt.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Microsoft.Owin.Security.OpenIdConnect.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Newtonsoft.Json.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\PagedList.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\PagedList.Mvc.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IdentityModel.Tokens.Jwt.pdb
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Text.Encodings.Web.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Helpers.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Mvc.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Razor.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.WebPages.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\System.Web.Optimization.xml
+C:\Users\kmanam\source\repos\PFP External Website\Web\bin\Antlr3.Runtime.pdb
+C:\Users\kmanam\source\repos\PFP External Website\Web\obj\Debug\Web.csprojAssemblyReference.cache
+C:\Users\kmanam\source\repos\PFP External Website\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
+C:\Users\kmanam\source\repos\PFP External Website\Web\obj\Debug\Web.csproj.CopyComplete
+C:\Users\kmanam\source\repos\PFP External Website\Web\obj\Debug\Web.dll
+C:\Users\kmanam\source\repos\PFP External Website\Web\obj\Debug\Web.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Web.dll.config
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Web.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Web.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Win32.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\netstandard.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.AppContext.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Collections.Concurrent.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Collections.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Collections.NonGeneric.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Collections.Specialized.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.ComponentModel.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.ComponentModel.EventBasedAsync.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.ComponentModel.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.ComponentModel.TypeConverter.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Console.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Data.Common.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.Contracts.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.Debug.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.FileVersionInfo.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.Process.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.StackTrace.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.TextWriterTraceListener.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.Tools.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.TraceSource.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Diagnostics.Tracing.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Drawing.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Dynamic.Runtime.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Globalization.Calendars.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Globalization.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Globalization.Extensions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.Compression.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.Compression.ZipFile.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.FileSystem.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.FileSystem.DriveInfo.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.FileSystem.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.FileSystem.Watcher.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.IsolatedStorage.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.MemoryMappedFiles.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.Pipes.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IO.UnmanagedMemoryStream.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Linq.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Linq.Expressions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Linq.Parallel.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Linq.Queryable.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Http.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.NameResolution.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.NetworkInformation.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Ping.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Requests.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Security.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Sockets.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.WebHeaderCollection.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.WebSockets.Client.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.WebSockets.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.ObjectModel.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Reflection.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Reflection.Extensions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Reflection.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Resources.Reader.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Resources.ResourceManager.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Resources.Writer.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.CompilerServices.VisualC.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.Extensions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.Handles.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.InteropServices.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.Numerics.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.Serialization.Formatters.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.Serialization.Json.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.Serialization.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Runtime.Serialization.Xml.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.Claims.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.Cryptography.Algorithms.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.Cryptography.Csp.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.Cryptography.Encoding.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.Cryptography.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.Cryptography.X509Certificates.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.Principal.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Security.SecureString.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Text.Encoding.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Text.Encoding.Extensions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Text.RegularExpressions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Threading.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Threading.Overlapped.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Threading.Tasks.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Threading.Tasks.Parallel.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Threading.Thread.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Threading.ThreadPool.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Threading.Timer.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.ValueTuple.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Xml.ReaderWriter.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Xml.XDocument.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Xml.XmlDocument.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Xml.XmlSerializer.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Xml.XPath.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Xml.XPath.XDocument.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Antlr3.Runtime.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\IdentityModel.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Logging.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.Jwt.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.OpenIdConnect.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Newtonsoft.Json.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Okta.AspNet.Abstractions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Okta.AspNet.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Owin.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\PagedList.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\PagedList.Mvc.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Http.Extensions.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Http.Formatting.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Net.Http.Primitives.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Text.Encodings.Web.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Helpers.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Mvc.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Optimization.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Razor.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.WebPages.Deployment.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.WebPages.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.WebPages.Razor.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\WebGrease.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\IdentityModel.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\IdentityModel.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.JsonWebTokens.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Logging.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Logging.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Tokens.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.Jwt.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Microsoft.Owin.Security.OpenIdConnect.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Newtonsoft.Json.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\PagedList.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\PagedList.Mvc.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IdentityModel.Tokens.Jwt.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Text.Encodings.Web.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Helpers.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Mvc.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Razor.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.WebPages.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.WebPages.Deployment.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.WebPages.Razor.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\System.Web.Optimization.xml
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\bin\Antlr3.Runtime.pdb
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\obj\Debug\Web.csprojAssemblyReference.cache
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\obj\Debug\Web.csproj.CopyComplete
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\obj\Debug\Web.dll
+C:\Stash\work\Krishna\2020\PFP External Website\PFP External Website\Web\obj\Debug\Web.pdb

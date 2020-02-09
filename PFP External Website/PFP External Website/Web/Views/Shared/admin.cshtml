@@ -1,0 +1,6 @@
+﻿@if (@ViewBag.IsSuperAdminUser)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink(" Admin ", "Index", "Manage")</li>
+    </ul>
+}

@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<Web.Models.Roles>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Roles Management</h2>
+
+<p style="font-size:110%;">
+    <span style="float:left;">
+        <button class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Roles")';return false;">Create New</button>
+    </span>
+    @using (Html.BeginForm("Index", "Roles", FormMethod.Get))
+    {
+        <span style="float:right;">
+            Keyword Search by @Html.CheckBox("SearchRoleName", (bool)ViewBag.RoleNameFilter, new { @class = "form-check-input", @style = "min-width:24px;" })Role Name   @Html.CheckBox("SearchDescription", (bool)ViewBag.DescriptionFilter, new { @class = "form-check-input", @style = "min-width:24px;" })Description: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @style = "display:inline-block;width:225px;" })
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </span>
+    }
+</p>
+<br /><br />
+<table class="table table-striped">
+    <tr style="background-color:#f9f9f9">
+        <th>
+            @Html.ActionLink("Role Name", "Index", new { SortOrder = ViewBag.NameSortParm, CurrentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Description", "Index", new { SortOrder = ViewBag.DescriptionSortParm, CurrentFilter = ViewBag.CurrentFilter })
+        </th>
+        @*<th>
+            @Html.ActionLink("Users count by role", "Index", new { SortOrder = ViewBag.UserCountSortParm, CurrentFilter = ViewBag.CurrentFilter })
+        </th>*@
+        <th>
+            @Html.ActionLink("Active", "Index", new { SortOrder = ViewBag.ActiveTextSortParm, CurrentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th style="text-align:center;color:#337ab7;" colspan="3">
+            Action links &#128393; &#128449; x
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.UserCount)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ActiveText)
+            </td>
+            <td style="text-align:center;">@Html.ActionLink("Edit", "Edit", new { id = item.Id })</td>
+            <td style="text-align:center;">@Html.ActionLink("Details", "Details", new { id = item.Id })</td>
+            <td style="text-align:center;">@Html.ActionLink("Delete", "Delete", new { id = item.Id })</td>
+        </tr>
+    }
+
+    <tr style="background-color:#f9f9f9;width:100%;">
+        <td colspan="3">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</td>
+        <td colspan="5">
+            @Html.PagedListPager(Model, Page => Url.Action("Index", new { Page, SortOrder = ViewBag.CurrentSort, CurrentFilter = ViewBag.CurrentFilter }))
+        </td>
+    </tr>
+</table>

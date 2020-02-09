@@ -1,0 +1,43 @@
+﻿@model Web.Models.UserRole
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Roles</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <h4>Assign New Role</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h3 style="color:red;">@ViewBag.RoleExistMessage</h3>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Users, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.DropDownListFor(modelItem => modelItem.UserID, new SelectList(Model.Users, "USR_Id", "USR_UserName", 0), new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Roles, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RoleID, new SelectList(Model.Roles, "Id", "Name", 0), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Roles, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-default" onclick="location.href='@Url.Action("Index", "Roles")';return false;">Back to List</button>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

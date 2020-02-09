@@ -1,0 +1,121 @@
+﻿@model Web.Models.UserRole
+
+@{
+    ViewBag.Title = "Edit UserRoles";
+}
+
+<h2>Edit UserRoles</h2>
+
+<div class="form-horizontal">
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" id="hdnUserRoleId" name="hdnUserRoleId" value="@Model.Id" />
+            <input type="hidden" id="hdnUserId" name="hdnUserId" value="@Model.UserID" />
+            <label>User</label>
+            <select class="form-control" id="drpUsers" name="drpUsers"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" id="hdnRoleId" name="hdnRoleId" value="@Model.RoleID" />
+            <label>Role</label>
+            <select class="form-control" id="drpRoles" name="drpRoles"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a class="popup btn btn-primary" onclick="Update()" style="margin-bottom:20px; margin-top:20px;">Update</a>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to UserRoles", "Index")
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        LoadRoles();
+        LoadUsers();
+    });
+
+    function LoadRoles() {
+        $.ajax({
+            type: "GET",
+            url: "/UserRoles/GetRoles",
+            data: "{}",
+            success: function (data) {
+                debugger;
+                var result = JSON.parse(data);
+                var s = '<option value="0">Please Select a Role</option>';
+                for (var i = 0; i < result.Roles.length; i++) {
+                    s += '<option value="' + result.Roles[i].Id + '"';
+                    if ($("#hdnRoleId").val() == result.Roles[i].Id)
+                        s += ' selected="selected"';
+                    s += '">' + result.Roles[i].Name + '</option>';
+                }
+                $("#drpRoles").html(s);
+            }
+        });
+    }
+
+    function LoadUsers() {
+        $.ajax({
+            type: "GET",
+            url: "/UserRoles/GetUsers",
+            data: "{}",
+            success: function (data) {
+
+                var result = JSON.parse(data);
+                var s = '<option value="0">Please Select a User</option>';
+                for (var i = 0; i < result.Users.length; i++) {
+                    s += '<option value="' + result.Users[i].USR_Id + '"';
+                    if ($("#hdnUserId").val() == result.Users[i].USR_Id)
+                        s += ' selected="selected" ';
+                    s += '">' + result.Users[i].USR_FirstName + '</option>';
+                }
+                $("#drpUsers").html(s);
+            }
+        });
+    }
+
+    function Update() {
+        var validationMessage = ''
+        if ($("#drpUsers").val() == 0 && $("#drpRoles").val() == 0) { validationMessage = 'Please select User and Role' }
+        else if ($("#drpRoles").val() == 0) { validationMessage = 'Please select Role' }
+        else if ($("#drpUsers").val() == 0) { validationMessage = 'Please select User' }
+
+        if (validationMessage != '') { alert(validationMessage); return; }
+        var newUserRole = {
+            Id: $("#hdnUserRoleId").val(),
+            UserID: $("#drpUsers").val(),
+            RoleID: $("#drpRoles").val(),
+            UserName: $("#drpUsers option:selected").text(),
+            RoleName: $("#drpRoles option:selected").text()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/UserRoles/save/",
+            data: JSON.stringify({ userRole: newUserRole }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data.status) {
+                    alert(data.message);
+                    window.location.href = '/UserRoles/Index/';
+                }
+                else { alert(data.message); }
+            }
+
+        })
+    };
+
+</script>

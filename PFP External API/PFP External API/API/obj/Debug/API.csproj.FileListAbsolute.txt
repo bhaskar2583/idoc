@@ -1,0 +1,46 @@
+C:\Users\kmanam\source\repos\PFP External API\API\bin\API.dll.config
+C:\Users\kmanam\source\repos\PFP External API\API\bin\API.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\API.pdb
+C:\Users\kmanam\source\repos\PFP External API\API\bin\EntityFramework.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\EntityFramework.SqlServer.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\Newtonsoft.Json.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Net.Http.Formatting.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Web.Cors.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Web.Http.Cors.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Web.Http.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Web.Http.WebHost.dll
+C:\Users\kmanam\source\repos\PFP External API\API\bin\EntityFramework.xml
+C:\Users\kmanam\source\repos\PFP External API\API\bin\EntityFramework.SqlServer.xml
+C:\Users\kmanam\source\repos\PFP External API\API\bin\Newtonsoft.Json.xml
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Net.Http.Formatting.xml
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Web.Http.xml
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Web.Http.Cors.xml
+C:\Users\kmanam\source\repos\PFP External API\API\bin\System.Web.Http.WebHost.xml
+C:\Users\kmanam\source\repos\PFP External API\API\obj\Debug\API.csprojAssemblyReference.cache
+C:\Users\kmanam\source\repos\PFP External API\API\obj\Debug\API.csproj.CoreCompileInputs.cache
+C:\Users\kmanam\source\repos\PFP External API\API\obj\Debug\API.csproj.CopyComplete
+C:\Users\kmanam\source\repos\PFP External API\API\obj\Debug\API.dll
+C:\Users\kmanam\source\repos\PFP External API\API\obj\Debug\API.pdb
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\API.dll.config
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\API.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\API.pdb
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\EntityFramework.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\EntityFramework.SqlServer.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\Newtonsoft.Json.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Net.Http.Formatting.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Web.Cors.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Web.Http.Cors.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Web.Http.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Web.Http.WebHost.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\EntityFramework.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\EntityFramework.SqlServer.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\Newtonsoft.Json.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Net.Http.Formatting.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Web.Http.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Web.Http.Cors.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\bin\System.Web.Http.WebHost.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\obj\Debug\API.csprojAssemblyReference.cache
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\obj\Debug\API.csproj.CoreCompileInputs.cache
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\obj\Debug\API.csproj.CopyComplete
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\obj\Debug\API.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\API\obj\Debug\API.pdb

@@ -1,0 +1,20 @@
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\bin\Debug\PFP_Database.dacpac
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\bin\Debug\PFP_Database.dll
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\bin\Debug\PFP_Database.pdb
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\obj\Debug\PFP_Database.sqlprojAssemblyReference.cache
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\obj\Debug\Model.xml
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\obj\Debug\refactor.xml
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\obj\Debug\postdeploy.sql
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\obj\Debug\predeploy.sql
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\obj\Debug\PFP_Database.dll
+C:\Users\kmanam\source\repos\PFP External API\PFP_Database\obj\Debug\PFP_Database.pdb
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\bin\Debug\PFP_Database.dacpac
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\bin\Debug\PFP_Database.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\bin\Debug\PFP_Database.pdb
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\obj\Debug\PFP_Database.sqlprojAssemblyReference.cache
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\obj\Debug\Model.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\obj\Debug\refactor.xml
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\obj\Debug\postdeploy.sql
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\obj\Debug\predeploy.sql
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\obj\Debug\PFP_Database.dll
+C:\Stash\work\Krishna\2020\PFP External API\PFP External API\PFP_Database\obj\Debug\PFP_Database.pdb

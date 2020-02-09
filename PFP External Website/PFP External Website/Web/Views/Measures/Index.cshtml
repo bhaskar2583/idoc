@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Web.Models.MeasuresEventTypes>
+
+@{
+    ViewBag.Title = "Measures";
+}
+<h2>@ViewBag.Title</h2>
+<p style="font-size:110%;">
+    <span style="float:left;">
+        <button class="btn btn-primary" onclick="location.href='@Url.Action("Update", "Measures")';return false;">Update</button>
+    </span>
+</p>
+<br /><br />
+<table class="table table-striped">
+    <tr>
+        <th>
+            <a href="#">@Html.DisplayNameFor(model => model.EventType)</a>
+        </th>
+        <th>
+            <a href="#">@Html.DisplayNameFor(model => model.Measure)</a>
+        </th>
+        <th>
+            <a href="#">@Html.DisplayNameFor(model => model.TimePeriodType)</a>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Measure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimePeriodType)
+            </td>
+        </tr>
+    }
+
+</table>

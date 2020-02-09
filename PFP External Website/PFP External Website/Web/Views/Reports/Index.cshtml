@@ -1,0 +1,390 @@
+﻿@model Web.Models.UserModel
+@{
+    ViewBag.Title = "Reports";
+}
+
+<h2>Reports</h2>
+
+<script src="~/Scripts/Chart.min.js"></script>
+<link href="~/Content/Reports.css" rel="stylesheet" />
+
+<table style="margin-left:10px;">
+    <tr>
+        <td width="109px"><b>Select Report</b></td>
+        <td>
+            <input id="hdnChartType" type="hidden" value="1" />
+            <div id="tabsGroup" class="btn-group" role="group" aria-label="Pfp Reports" style="padding:10px;">
+                <button type="button" class="btn btn-default" style="color:green;" onclick="ChangeData(1, 'CAUTI');">CAUTI</button>
+                <button type="button" class="btn btn-default" style="color:green;" onclick="ChangeData(2, 'ADE');">ADE</button>
+                <button type="button" class="btn btn-default" style="color:green;" onclick="ChangeData(3, 'Prevalence rate of facility-acquired Pressure Injuries of stage 2 or higher per Patients');">Pressure Injuries</button>
+                <button type="button" class="btn btn-default" style="color:green;" onclick="ChangeData(4, 'ReadMissions')">ReadMissions</button>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<table style="margin-left:10px;">
+    <tr>
+        <td><b>Hospital Name&nbsp;&nbsp;</b></td>
+        <td>
+            <div class="form-group" style="width:125%">
+
+                @Html.HiddenFor(model => model.USR_OrganizationId)
+                @Html.HiddenFor(model => model.USR_IsAdmin)
+                <div class="col-md-10">
+
+                    @Html.TextBoxFor(model => model.USR_OrganizationName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </td>
+
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td><b>FromYear</b>&nbsp;&nbsp;&nbsp;</td>
+        <td>@Html.DropDownList("FromYears", ViewBag.Years as IEnumerable<SelectListItem>, "", new { @class = "form-control custom-select" })</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td><b>ToYear</b>&nbsp;&nbsp;&nbsp;</td>
+        <td id="range">@Html.DropDownList("ToYears", ViewBag.Years as IEnumerable<SelectListItem>, "", new { @class = "form-control custom-select" })</td>
+    </tr>
+</table>
+
+
+<div id="Cauti">
+    <h4 style="background-color: #f9f9f9;padding: 7px;" id="chartheader">CAUTI rate per 1,000 catheter-days</h4>
+    <div style="width: 100%; margin-top: 20px;">
+        <div class="chartjs-size-monitor">
+            <div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+        </div>
+        <canvas id="chart1" style="display: block; width: 1000px; height: 500px;" width="1000" height="500" class="chartjs-render-monitor"></canvas>
+
+
+        <div style="overflow:auto; width: 100%;">
+            <table id="CautiDataTable" border="1" style="width:100%;"></table>
+        </div>
+    </div>
+</div>
+
+<link href="~/Content/jquery-ui.css"
+      rel="stylesheet"
+      type="text/css" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+@*Load Hospitals*@
+<script type="text/javascript">
+
+
+
+    function LoadHospitals() {
+
+        $("#USR_OrganizationName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("Hospitals", "Reports")',
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.HospitalName, Id: item.Id };
+                        }));
+
+                    }
+                })
+            },
+            select: function (even, ui) {
+                $('#USR_OrganizationId').val(ui.item.Id);
+                $('#USR_OrganizationName').val(ui.item.HospitalName);
+
+                loadChartData();
+                loadGridData();
+            },
+            change: function (even, ui) {
+                $('#USR_OrganizationId').val(ui.item.Id);
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+
+        if ($('#USR_IsAdmin').val() == 'False') {
+            var paramsdata = { 'prefix': '' };
+            $.ajax({
+                type: "GET",
+                url:'@Url.Action("Hospitals", "Reports")',
+                contentType: "application/json; charset=utf-8",
+                data: paramsdata,
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    //debugger;
+                    //var result = JSON.parse(data);
+                    if (data.length > 0) {
+                        $('#USR_OrganizationId').val(data[0].Id);
+                        $('#USR_OrganizationName').val(data[0].HospitalName);
+                        $('#USR_OrganizationName').attr("disabled", "disabled");
+                    }
+                    else {
+                        $("#USR_OrganizationName").removeAttr("disabled");
+                    }
+                },
+                error: function () {
+                    alert("data loading failed");
+                }
+            });
+        }
+    }
+
+</script>
+
+@*load Chart *@
+<script type="text/javascript">
+    var myCauti;
+    function loadChartData()
+    {
+        var startDate = $("#FromYears").val();
+        var endDate = $("#ToYears").val();
+        var orgId = $('#USR_OrganizationId').val();
+        var chartType = $('#hdnChartType').val();
+
+        if (orgId != '' && startDate != '' && endDate != '') {
+
+            var paramsdata = { 'orgId': orgId, 'fromYear': startDate, 'toYear': endDate, 'type': chartType };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetChartData", "Reports")',
+                contentType: "application/json; charset=utf-8",
+                data: paramsdata,
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    var result = data;
+                    if (myCauti) {
+                        myCauti.destroy();
+                    }
+                    var ctx = document.getElementById('chart1').getContext('2d');
+                    myCauti = new Chart(ctx, {
+                        type: 'line',
+                        data: result,
+                        options: {
+                            //responsive: true,
+                            //maintainAspectRatio: false,
+                            bezierCurve: false,
+                            tension: 0,
+                            title: {
+                                display: true,
+                                text: '  ',
+                                fontSize: 14
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    fontSize: 14
+                                }
+                            },
+                            tooltips: {
+                                mode: 'point',
+
+                            },
+                            datasets: {
+                                lineTension: 0
+
+                            },
+                            line: {
+                                tension: 0
+                            },
+
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ' Month ',
+                                        fontSize: 14
+                                    },
+
+                                    ticks: {
+                                        fontSize: 14
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Rate',
+                                        fontSize: 14
+                                    },
+                                    ticks: {
+                                        fontSize: 14,
+                                        min: 0
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                },
+                error: function () {
+                    alert("data loading failed");
+                }
+            });
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadHospitals();
+        loadChartData();
+        loadGridData();
+
+        $("#ToYears").change(function () {
+            ValidateEndDate();
+            loadChartData();
+            loadGridData();
+        });
+
+        $("#FromYears").change(function () {
+            ValidateEndDate();
+            loadChartData();
+            loadGridData();
+        });
+
+        $("#USR_OrganizationName").trigger('keypress');
+        $("#USR_OrganizationName").trigger('keyedown');
+
+        $("#USR_OrganizationName").change(function () {
+            //debugger;
+        });
+    });
+
+
+    function ValidateEndDate() {
+        var startDate = $("#FromYears").val();
+        var endDate = $("#ToYears").val();
+        if (startDate != '' && endDate != '') {
+            if (startDate > endDate) {
+                $("#ToYears").val('');
+                alert("Start date should not be greater than end date");
+            }
+        }
+        return false;
+    }
+
+    function ChangeData(type, txt) {
+        $('#hdnChartType').val(type);
+        $('#chartheader').text(txt);
+
+        loadChartData();
+        loadGridData();
+    }
+</script>
+
+@*load Grid*@
+<script type="text/javascript">
+
+    function loadGridData() {
+        $("#CautiDataTable").empty();
+        var startDate = $("#FromYears").val();
+        var endDate = $("#ToYears").val();
+        var orgId = $('#USR_OrganizationId').val();
+        var reportType = $('#hdnChartType').val();
+
+        if (orgId != '' && startDate != '' && endDate != '') {
+
+            var paramsdata = { 'orgId': orgId, 'fromYear': startDate, 'toYear': endDate, 'type': reportType };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetGridData", "Reports")',
+                contentType: "application/json; charset=utf-8",
+                data: paramsdata,
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    var result = data;
+                    buildHtmlTable($("#CautiDataTable"), data);
+                },
+                error: function () {
+                    alert("data loading failed");
+                }
+            });
+        }
+    }
+
+
+    // Builds the HTML Table out of myList.
+    function buildHtmlTable(selector, data) {
+
+        var columns = addAllColumnHeaders(data, selector);
+
+        var numrow$ = $('<tr/>');
+        numrow$.append($('<td/>').html('NUMERATOR'));
+        for (var i = 0; i < data.length; i++) {
+
+            var cellValue = data[i]['NUMERATOR'].toFixed(2);
+            if (cellValue == null) cellValue = "";
+            numrow$.append($('<td/>').html(cellValue));
+        }
+        $(selector).append(numrow$);
+
+        var numrow$ = $('<tr/>');
+        numrow$.append($('<td/>').html('DENOMINATOR'));
+        for (var i = 0; i < data.length; i++) {
+
+            var cellValue = data[i]['DENOMINATOR'].toFixed(2);
+            if (cellValue == null) cellValue = "";
+            numrow$.append($('<td/>').html(cellValue));
+        }
+        $(selector).append(numrow$);
+
+        var row$ = $('<tr/>');
+        row$.append($('<td/>').html('HOSPRATE'));
+        for (var i = 0; i < data.length; i++) {
+            var cellValue = data[i]['HOSPRATE'].toFixed(2);
+            if (cellValue == null) cellValue = "";
+            row$.append($('<td/>').html(cellValue));
+        }
+        $(selector).append(row$);
+
+        var row$ = $('<tr/>');
+        row$.append($('<td/>').html('PFPRATE'));
+        for (var i = 0; i < data.length; i++) {
+            var cellValue = data[i]['PFPRATE'].toFixed(2);
+            if (cellValue == null) cellValue = "";
+            row$.append($('<td/>').html(cellValue));
+        }
+        $(selector).append(row$);
+
+        var row$ = $('<tr/>');
+        row$.append($('<td/>').html('HOSCOUNT'));
+        for (var i = 0; i < data.length; i++) {
+            var cellValue = data[i]['HOSCOUNT'];
+            if (cellValue == null) cellValue = "";
+            row$.append($('<td/>').html(cellValue));
+        }
+        $(selector).append(row$);
+    }
+
+    // Adds a header row to the table and returns the set of columns.
+    // Need to do union of keys from all records as some records may not contain
+    // all records.
+    function addAllColumnHeaders(myList, selector) {
+
+        var columnSet = [];
+        var headerTr$ = $('<tr/>');
+
+        columnSet.push('');
+        headerTr$.append($('<th/>').html(''));
+
+        for (var i = 0; i < myList.length; i++) {
+            var rowHash = myList[i];
+            columnSet.push(rowHash.MONTHTEXT + ' ' + rowHash.Year);
+            headerTr$.append($('<th/>').html(rowHash.MONTHTEXT + ' ' + rowHash.Year));
+        }
+        $(selector).append(headerTr$);
+
+        return columnSet;
+    }
+</script>

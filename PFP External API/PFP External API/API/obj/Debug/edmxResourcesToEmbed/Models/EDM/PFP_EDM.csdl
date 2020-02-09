@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AnalysisPeriodMaster">
+    <Key>
+      <PropertyRef Name="APM_Id" />
+    </Key>
+    <Property Name="APM_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="APM_Period" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="APM_Active" Type="Boolean" Nullable="false" />
+    <Property Name="APM_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="APM_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="APM_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="APM_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="NYSPFPDatas" Relationship="Self.FK_NYSPFPData_AnalysisPeriodMaster" FromRole="AnalysisPeriodMaster" ToRole="NYSPFPData" />
+  </EntityType>
+  <EntityType Name="CalendarMaster">
+    <Key>
+      <PropertyRef Name="CAL_Id" />
+    </Key>
+    <Property Name="CAL_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CAL_Year" Type="Int32" Nullable="false" />
+    <Property Name="CAL_Month" Type="Int32" Nullable="false" />
+    <Property Name="CAL_MonthText" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CAL_Active" Type="Boolean" Nullable="false" />
+    <Property Name="CAL_OrderBy" Type="Int32" Nullable="false" />
+    <Property Name="CAL_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CAL_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CAL_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CAL_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="NYSPFPDatas" Relationship="Self.FK_NYSPFPData_CalendarMaster" FromRole="CalendarMaster" ToRole="NYSPFPData" />
+  </EntityType>
+  <EntityType Name="EventMeasureMaster">
+    <Key>
+      <PropertyRef Name="EMM_Id" />
+    </Key>
+    <Property Name="EMM_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EMM_MEM_Id" Type="Int32" Nullable="false" />
+    <Property Name="EMM_EVM_Id" Type="Int32" Nullable="false" />
+    <Property Name="EMM_TimePeriod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EMM_Active" Type="Boolean" Nullable="false" />
+    <Property Name="EMM_DisplayInApp" Type="Boolean" Nullable="false" />
+    <Property Name="EMM_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EMM_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EMM_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EMM_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="EventTypeMaster" Relationship="Self.FK_EventMeasureMaster_EventTypeMaster" FromRole="EventMeasureMaster" ToRole="EventTypeMaster" />
+    <NavigationProperty Name="MeasureMaster" Relationship="Self.FK_EventMeasureMaster_MeasureMaster" FromRole="EventMeasureMaster" ToRole="MeasureMaster" />
+    <NavigationProperty Name="NYSPFPDatas" Relationship="Self.FK_NYSPFPData_EventMeasureMaster" FromRole="EventMeasureMaster" ToRole="NYSPFPData" />
+  </EntityType>
+  <EntityType Name="EventTypeMaster">
+    <Key>
+      <PropertyRef Name="EVM_Id" />
+    </Key>
+    <Property Name="EVM_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EVM_EventType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EVM_Active" Type="Boolean" Nullable="false" />
+    <Property Name="EVM_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EVM_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EVM_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EVM_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="EventMeasureMasters" Relationship="Self.FK_EventMeasureMaster_EventTypeMaster" FromRole="EventTypeMaster" ToRole="EventMeasureMaster" />
+  </EntityType>
+  <EntityType Name="Hospital">
+    <Key>
+      <PropertyRef Name="HOS_Id" />
+    </Key>
+    <Property Name="HOS_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="HOS_PFI" Type="Int32" />
+    <Property Name="HOS_Unique_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HOS_HospitalName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HOS_Parent_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HOS_Active" Type="Boolean" Nullable="false" />
+    <Property Name="HOS_CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HOS_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="HOS_UpdatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HOS_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="NYSPFPDatas" Relationship="Self.FK_NYSPFPData_Hospitals" FromRole="Hospitals" ToRole="NYSPFPData" />
+  </EntityType>
+  <EntityType Name="MeasureMaster">
+    <Key>
+      <PropertyRef Name="MEM_Id" />
+    </Key>
+    <Property Name="MEM_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MEM_Measure" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MEM_Multiplier" Type="Int32" Nullable="false" />
+    <Property Name="MEM_Active" Type="Boolean" Nullable="false" />
+    <Property Name="MEM_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MEM_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="MEM_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MEM_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="EventMeasureMasters" Relationship="Self.FK_EventMeasureMaster_MeasureMaster" FromRole="MeasureMaster" ToRole="EventMeasureMaster" />
+  </EntityType>
+  <EntityType Name="NYSPFPData">
+    <Key>
+      <PropertyRef Name="NPD_Id" />
+    </Key>
+    <Property Name="NPD_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NPD_HOS_Id" Type="Int32" Nullable="false" />
+    <Property Name="NPD_Cal_Id" Type="Int32" Nullable="false" />
+    <Property Name="NPD_EMM_Id" Type="Int32" Nullable="false" />
+    <Property Name="NPD_Numerator" Type="Decimal" Precision="18" Scale="9" Nullable="false" />
+    <Property Name="NPD_Denominator" Type="Decimal" Precision="18" Scale="9" Nullable="false" />
+    <Property Name="NPD_Measurement" Type="Decimal" Precision="18" Scale="9" Nullable="false" />
+    <Property Name="NPD_APM_Id" Type="Int32" />
+    <Property Name="NPD_SourceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NPD_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NPD_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="NPD_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NPD_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="AnalysisPeriodMaster" Relationship="Self.FK_NYSPFPData_AnalysisPeriodMaster" FromRole="NYSPFPData" ToRole="AnalysisPeriodMaster" />
+    <NavigationProperty Name="CalendarMaster" Relationship="Self.FK_NYSPFPData_CalendarMaster" FromRole="NYSPFPData" ToRole="CalendarMaster" />
+    <NavigationProperty Name="EventMeasureMaster" Relationship="Self.FK_NYSPFPData_EventMeasureMaster" FromRole="NYSPFPData" ToRole="EventMeasureMaster" />
+    <NavigationProperty Name="Hospital" Relationship="Self.FK_NYSPFPData_Hospitals" FromRole="NYSPFPData" ToRole="Hospitals" />
+  </EntityType>
+  <EntityType Name="RolesMaster">
+    <Key>
+      <PropertyRef Name="ROM_Id" />
+    </Key>
+    <Property Name="ROM_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ROM_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ROM_Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ROM_Active" Type="Boolean" Nullable="false" />
+    <Property Name="ROM_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ROM_CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ROM_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ROM_UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ROM_IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="URS_Id" />
+    </Key>
+    <Property Name="URS_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="URS_UserId" Type="Int32" Nullable="false" />
+    <Property Name="URS_RoleId" Type="Int32" Nullable="false" />
+    <Property Name="URS_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="URS_CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="URS_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="URS_UpdatedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="USR_Id" />
+    </Key>
+    <Property Name="USR_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="USR_FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="USR_LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="USR_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="USR_Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="USR_OrganizationName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="USR_Active" Type="Boolean" />
+    <Property Name="USR_CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="USR_CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="USR_UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="USR_UpdatedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK_NYSPFPData_AnalysisPeriodMaster">
+    <End Role="AnalysisPeriodMaster" Type="Self.AnalysisPeriodMaster" Multiplicity="0..1" />
+    <End Role="NYSPFPData" Type="Self.NYSPFPData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AnalysisPeriodMaster">
+        <PropertyRef Name="APM_Id" />
+      </Principal>
+      <Dependent Role="NYSPFPData">
+        <PropertyRef Name="NPD_APM_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NYSPFPData_CalendarMaster">
+    <End Role="CalendarMaster" Type="Self.CalendarMaster" Multiplicity="1" />
+    <End Role="NYSPFPData" Type="Self.NYSPFPData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CalendarMaster">
+        <PropertyRef Name="CAL_Id" />
+      </Principal>
+      <Dependent Role="NYSPFPData">
+        <PropertyRef Name="NPD_Cal_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventMeasureMaster_EventTypeMaster">
+    <End Role="EventTypeMaster" Type="Self.EventTypeMaster" Multiplicity="1" />
+    <End Role="EventMeasureMaster" Type="Self.EventMeasureMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventTypeMaster">
+        <PropertyRef Name="EVM_Id" />
+      </Principal>
+      <Dependent Role="EventMeasureMaster">
+        <PropertyRef Name="EMM_EVM_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventMeasureMaster_MeasureMaster">
+    <End Role="MeasureMaster" Type="Self.MeasureMaster" Multiplicity="1" />
+    <End Role="EventMeasureMaster" Type="Self.EventMeasureMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MeasureMaster">
+        <PropertyRef Name="MEM_Id" />
+      </Principal>
+      <Dependent Role="EventMeasureMaster">
+        <PropertyRef Name="EMM_MEM_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NYSPFPData_EventMeasureMaster">
+    <End Role="EventMeasureMaster" Type="Self.EventMeasureMaster" Multiplicity="1" />
+    <End Role="NYSPFPData" Type="Self.NYSPFPData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventMeasureMaster">
+        <PropertyRef Name="EMM_Id" />
+      </Principal>
+      <Dependent Role="NYSPFPData">
+        <PropertyRef Name="NPD_EMM_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NYSPFPData_Hospitals">
+    <End Role="Hospitals" Type="Self.Hospital" Multiplicity="1" />
+    <End Role="NYSPFPData" Type="Self.NYSPFPData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospitals">
+        <PropertyRef Name="HOS_Id" />
+      </Principal>
+      <Dependent Role="NYSPFPData">
+        <PropertyRef Name="NPD_HOS_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PFPEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AnalysisPeriodMasters" EntityType="Self.AnalysisPeriodMaster" />
+    <EntitySet Name="CalendarMasters" EntityType="Self.CalendarMaster" />
+    <EntitySet Name="EventMeasureMasters" EntityType="Self.EventMeasureMaster" />
+    <EntitySet Name="EventTypeMasters" EntityType="Self.EventTypeMaster" />
+    <EntitySet Name="Hospitals" EntityType="Self.Hospital" />
+    <EntitySet Name="MeasureMasters" EntityType="Self.MeasureMaster" />
+    <EntitySet Name="NYSPFPDatas" EntityType="Self.NYSPFPData" />
+    <EntitySet Name="RolesMasters" EntityType="Self.RolesMaster" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_NYSPFPData_AnalysisPeriodMaster" Association="Self.FK_NYSPFPData_AnalysisPeriodMaster">
+      <End Role="AnalysisPeriodMaster" EntitySet="AnalysisPeriodMasters" />
+      <End Role="NYSPFPData" EntitySet="NYSPFPDatas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NYSPFPData_CalendarMaster" Association="Self.FK_NYSPFPData_CalendarMaster">
+      <End Role="CalendarMaster" EntitySet="CalendarMasters" />
+      <End Role="NYSPFPData" EntitySet="NYSPFPDatas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventMeasureMaster_EventTypeMaster" Association="Self.FK_EventMeasureMaster_EventTypeMaster">
+      <End Role="EventTypeMaster" EntitySet="EventTypeMasters" />
+      <End Role="EventMeasureMaster" EntitySet="EventMeasureMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventMeasureMaster_MeasureMaster" Association="Self.FK_EventMeasureMaster_MeasureMaster">
+      <End Role="MeasureMaster" EntitySet="MeasureMasters" />
+      <End Role="EventMeasureMaster" EntitySet="EventMeasureMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NYSPFPData_EventMeasureMaster" Association="Self.FK_NYSPFPData_EventMeasureMaster">
+      <End Role="EventMeasureMaster" EntitySet="EventMeasureMasters" />
+      <End Role="NYSPFPData" EntitySet="NYSPFPDatas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NYSPFPData_Hospitals" Association="Self.FK_NYSPFPData_Hospitals">
+      <End Role="Hospitals" EntitySet="Hospitals" />
+      <End Role="NYSPFPData" EntitySet="NYSPFPDatas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

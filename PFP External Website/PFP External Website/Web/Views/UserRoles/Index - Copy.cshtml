@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/Scripts/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/Scripts/jquery-ui.min.css" />
+    <style>
+
+        span.field-validation-error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div style="width:90%; margin:0 auto" class="tablecontainer">
+        <div>
+            <input type="hidden" id="hdnUserID" name="hdnUserID" value="@ViewBag.Id" />
+            <input type="hidden" id="hdnURL" name="hdnURL" value="@Url.Action("delete", "UserRoles")" />
+            <div class="form-group">
+                <label>User</label>
+                <select class="form-control" id="drpUsers" name="drpUsers"></select>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select class="form-control" id="drpRoles" name="drpRoles"></select>
+                <a class="popup btn btn-primary" onclick="Save()" style="margin-bottom:20px; margin-top:20px;">Save</a>
+                <a class="popup btn btn-primary" onclick="Clear()" style="margin-bottom:20px; margin-top:20px;">Clear</a>
+                <a class="popup btn btn-primary" onclick="location.href='@Url.Action("GetUsers", "User")'">Back to UsersList</a>
+            </div>
+
+            <table id="myDatatable">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>OrganizationName</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+    </div>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script>
+        var GlobalTable;
+        $(document).ready(function () {
+            LoadUserRoles();
+            LoadRoles();
+            LoadUsers();
+        })
+
+        function LoadUserRoles() {
+
+            var url ='@Url.Action("delete", "UserRoles")';
+
+            var oTable = $('#myDatatable').DataTable({
+                destroy: true,
+                retrieve: true,
+                "ajax": {
+                    "url": '@Url.Action("GetUserRoles", "UserRoles")',
+                    "type": "get",
+                    "datatype": "json",
+                    "data": { 'Id': $("#hdnUserID").val() },
+                },
+                "columns": [
+                    { "data": "UserName", "autoWidth": true },
+                    { "data": "RoleName", "autoWidth": true },
+                    { "data": "OrganizationName", "autoWidth": true },
+                    {
+                        
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return "<a class='popup' onclick= 'Delete(" + data + ")'>Delete</a>";
+                        }
+                    }
+                ]
+            });
+
+            GlobalTable = oTable;
+        }
+
+
+        function LoadRoles() {
+            $.ajax({
+                type: "GET",
+                "url": '@Url.Action("GetRoles", "UserRoles")',
+                data: "{}",
+                success: function (data) {
+                        var result = JSON.parse(data);
+                        var s = '<option value="0">Please Select a Role</option>';
+                        for (var i = 0; i < result.Roles.length; i++) {
+                            s += '<option value="' + result.Roles[i].Id;
+                            s += '">' + result.Roles[i].Name + '</option>';
+                        }
+                    $("#drpRoles").html(s);
+                    }
+                });
+            }
+
+            function LoadUsers() {
+            $.ajax({
+                type: "GET",
+                "url": '@Url.Action("GetUsers", "UserRoles")',
+                data: "{}",
+                success: function (data) {
+                        var result = JSON.parse(data);
+                        var s = '<option value="0">Please Select a User</option>';
+                        for (var i = 0; i < result.Users.length; i++) {
+                            if ($("#hdnUserID").val() == null || $("#hdnUserID").val() == undefined || $("#hdnUserID").val() == '') {
+
+                            s += '<option value="' + result.Users[i].USR_Id;
+                            if (result.Users[i].USR_LastName == null || result.Users[i].USR_LastName == undefined)
+                                s += '">' + result.Users[i].USR_FirstName + '</option>';
+                            else
+                                s += '">' + result.Users[i].USR_FirstName + ' ' + result.Users[i].USR_LastName + '</option>';
+                        }
+                        else if ($("#hdnUserID").val() == result.Users[i].USR_Id) {
+                            s += '<option value="' + result.Users[i].USR_Id;
+                            if (result.Users[i].USR_LastName == null || result.Users[i].USR_LastName == undefined)
+                                s += '" selected="selected">' + result.Users[i].USR_FirstName + '</option>';
+                            else
+                                s += '" selected="selected">' + result.Users[i].USR_FirstName + ' ' + result.Users[i].USR_LastName + '</option>';
+                        }
+                    }
+                    $("#drpUsers").html(s);
+                }
+            });
+        }
+
+        function Delete(id) {
+            var r = confirm("Are you sure, you want to delete ?");
+            if (r == true) {
+
+                $.ajax({
+                    type: "POST",
+                    "url": '@Url.Action("Delete", "UserRoles")',
+                    data: { 'id': id },
+                    success: function (data) {
+
+                        LoadUserRoles();
+                        if (GlobalTable != null & GlobalTable != undefined)
+                            GlobalTable.ajax.reload();;
+                    }
+                });
+            }
+        }
+
+    </script>
+
+
+    @*Save and update*@
+    <script type="text/javascript">
+        function Save() {
+
+            var validationMessage = ''
+            if ($("#drpUsers").val() == 0 && $("#drpRoles").val() == 0) { validationMessage = 'Please select User and Role' }
+            else if ($("#drpRoles").val() == 0) { validationMessage = 'Please select Role' }
+            else if ($("#drpUsers").val() == 0) { validationMessage = 'Please select User' }
+
+            if (validationMessage != '') { alert(validationMessage); return; }
+
+            var newUserRole = {
+                Id: 0,
+                UserID: $("#drpUsers").val(),
+                RoleID: $("#drpRoles").val(),
+                UserName: $("#drpUsers option:selected").text(),
+                RoleName: $("#drpRoles option:selected").text(),
+                OrganizationName: $("#drpUsers option:selected").text()
+            };
+
+            $.ajax({
+                type: "POST",
+                "url": '@Url.Action("save", "UserRoles")',
+                data: JSON.stringify({ userRole: newUserRole }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status) {
+                        LoadUserRoles();
+
+                        Clear();
+                        alert(data.message);
+
+                        if (GlobalTable != null & GlobalTable != undefined)
+                            GlobalTable.ajax.reload();
+
+                    }
+                    else { alert(data.message); }
+                }
+
+            })
+        };
+
+        function Clear() {
+
+            if ($("#hdnUserID").val() == null || $("#hdnUserID").val() == undefined || $("#hdnUserID").val() == '') {
+                $('#drpUsers').val(0);
+            }
+            $('#drpRoles').val(0);
+        }
+    </script>
+</body>
+</html>

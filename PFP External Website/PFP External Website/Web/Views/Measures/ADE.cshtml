@@ -1,0 +1,157 @@
+﻿@model Web.Models.MeasuresData
+@{
+    ViewBag.Title = "ADE";
+}
+<div>
+    <h2 style="float:left;">ADE</h2><span style="float:right;font-size:14px;"><span style="color:red;font-weight:bold;">*</span>&nbsp;All data is immediately saved upon entry.</span>
+</div>
+<br /><br /><br />
+
+@using (Html.BeginForm())
+{
+    <table style="margin-left:10px;">
+        <tr><td><b>Hospital Name&nbsp;&nbsp;&nbsp;</b></td><td>@Html.DropDownList("Hospitals", ViewBag.Hospitals as SelectList, new { @class = "form-control custom-select" })</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><b>From Year</b>&nbsp;&nbsp;&nbsp;</td><td>@Html.DropDownList("FromYear", ViewBag.FromYear as SelectList, "", new { @class = "form-control custom-select" })</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><b>To Year</b>&nbsp;&nbsp;&nbsp;</td><td>@Html.DropDownList("ToYear", ViewBag.ToYear as SelectList, "", new { @class = "form-control custom-select" })</td></tr>
+    </table>
+    <br />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Measure, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Measure, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Measure, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrgId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OrgId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OrgId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TimePeriodType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TimePeriodType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TimePeriodType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EventType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EventType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="card">
+        <ul class="list-group list-group-flush">
+
+            <li class="list-group-item" style="padding:0;">
+                <table id="KaTable" class="table kamal-table">
+                    <tr style="font-size:91%;">
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.Measures[0].MeasuresMonthYearId)
+                            </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.Measures[0].MonthYear)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Measures[0].Numerator)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Measures[0].Denominator)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Measures[0].Multiplier)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Measures[0].Measurement)
+                        </th>
+
+
+
+                    </tr>
+
+
+                    @foreach (var item in Model.Measures.OrderBy(m => m.OrderBy))
+                    {
+                        <tr>
+                            @*<td>
+                                    @Html.DisplayFor(itemka => item.MeasuresMonthYearId, new { @htmlAttributes = new { @class = "form-control" } })
+                                </td>*@
+                            <td>
+                                @Html.DisplayFor(itemka => item.MonthYear, new { @htmlAttributes = new { @class = "form-control" } })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(itemka => item.Numerator, new { @htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td>
+                                @Html.EditorFor(itemka => item.Denominator, new { @htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(itemka => item.Multiplier, new { @htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(itemka => item.Measurement, new { @htmlAttributes = new { @class = "form-control" } })
+                            </td>
+
+
+
+                        </tr>
+                    }
+                    @{ if (Model.Measures.Count() == 0)
+                        {
+                            <tr><td colspan="13">No record found!</td></tr>
+                            <tr><td colspan="13" style="text-align:left;"><br /><b>Please select the Hospital name, From Year and To Year</b><br /><br /><td /></tr>
+                            <tr></tr>
+                        }
+                    }
+                </table>
+            </li>
+        </ul>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button class="btn btn-default" onclick="location.href='@Url.Action("Index", "Roles")';return false;">Back to List</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+<script>
+    $("#Hospitals").change(function () {
+        GetSecData();
+        return false;
+    });
+    $("#FromYear").change(function () {
+        GetSecData();
+        return false;
+    });
+    $("#ToYear").change(function () {
+        GetSecData();
+        return false;
+    });
+    var GetSecData = function () {
+        var url = '@Url.Action("ADE", "Measures")?&HosId=' + $('#Hospitals').val() + '&FromYear=' + $("#FromYear").val() + '&ToYear=' + $("#ToYear").val();
+        if (url) {
+            window.location = url;
+        }
+        return false;
+    }
+</script>

@@ -1,0 +1,6 @@
+﻿@using (Html.BeginForm())
+{
+    @Html.DropDownList("Hospitals", ViewBag.Hospitals as SelectList, "", new { @class = "form-control custom-select chosen-select" })
+    <script src="@Url.Content("~/Scripts/jquery-3.2.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")" type="text/javascript"></script>
+}
